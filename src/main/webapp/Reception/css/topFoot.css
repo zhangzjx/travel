@@ -1,0 +1,57 @@
+a:link {color: #000000;
+    text-transform:none;
+    /**清除下划线*/
+    text-decoration:none;}
+a:hover {color: #7cc815; text-decoration:none;}
+a:visited {text-decoration:none;}
+a:active {text-decoration:underline;}
+
+
+/******顶部********/
+.header-box{height: 110px;background-color: #003399;border-bottom: 1px  solid #e8ebf2;}
+.header-box span{color: #fff;}
+.header-top{max-width: 1200px; margin:0 auto;padding-top: 5px; position: relative; height: 50px;}
+.header-foot{max-width: 1200px; margin:0 auto; position: relative; height: 50px;}
+.logo{width: 500px;float: left}
+.login{width: 150px;float: left;color: #fff;padding-left: 500px}
+.login-btn{height: 30px;line-height: 30px;margin-top: 5px;float: left}
+.logo-img{width: 200px;height: 25px;text-align: right}
+.header-foot-item{width: 120px;height: 50px;float: left;}
+.foot-img{width: 30px;height: 30px;margin: 10px}
+/******主要内容******/
+
+
+/******底部***
+border: #1aa5fb solid 1px;
+***/
+.bottom-foot{
+    width: 1200px;
+    margin:70px auto 0;
+    border-top: #1aa5fb solid 1px;
+}
+.bottom{
+    width:100%;
+    text-align:center;
+    margin-top: 20px;
+    font-size: 8pt;
+}
+.bottom-main{
+    width: 8%;
+    height: 150px;
+    margin-left: 10%;
+    float: left;
+}
+.bottom-main-list{
+    width: 100%;
+    height: 23px;
+    cursor: pointer;
+}
+.foot{
+    width:100%;
+    text-align:center;
+    margin:220px auto 50px;
+    font-size: 8pt;
+}
+.foot ul li {float: left;list-style: none;text-align: center;}
+.foot ul{width: 60%;height:20px;margin: 0 20% 10px;}
+.foot li{width: 80px;cursor: pointer;}
