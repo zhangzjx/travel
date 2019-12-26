@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 500px; margin: 0">
+       <div id="container" style="height: 300px;width: 400px"></div>
+       <script type="text/javascript" src="js/echarts.js"></script>
+       <script type="text/javascript">
+           const dom = document.getElementById("container");
+           const myChart = echarts.init(dom);
+           const app = {};
+           option = null;
+           app.title = '坐标轴刻度与标签对齐';
+
+           option = {
+               color: ['#3398DB'],
+               tooltip : {
+                   trigger: 'axis',
+                   axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                       type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                   }
+               },
+               grid: {
+                   left: '3%',
+                   right: '4%',
+                   bottom: '3%',
+                   containLabel: true
+               },
+               yAxis : [
+                   {
+                       type : 'category',
+                       data : ['很差', '较差', '一般', '较好', '很棒', ],
+                       axisTick: {
+                           show: false,
+                           alignWithLabel: true
+                       },
+                       axisLine: {//取消显示坐标轴
+                           show: false
+                       }
+                   }
+               ],
+               xAxis : [
+                   {
+                       show: false,//取消显示坐标轴,坐标轴刻度,坐标值(如果是y轴,默认的网格线也会取消显示)
+                       type : 'value'
+                   }
+               ],
+               series : [
+                   {
+                       name:'直接访问',
+                       type:'bar',
+                       barWidth: '60%',
+                       data:[10, 52, 200, 334, 390,]
+                   }
+               ]
+           };
+           ;
+           if (option && typeof option === "object") {
+               myChart.setOption(option, true);
+           }
+       </script>
+   </body>
+</html>
