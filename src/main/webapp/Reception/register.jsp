@@ -4,39 +4,40 @@
 <head>
     <title>会员注册</title>
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="css/register.css">
     <script src="js/jquery-3.4.1.min.js"></script>
+
     <style type="text/css">
 
+        form{height: 380px;border: solid 1px #d2d2d2;text-align:center;}
+        .register-left{width: 80%;height: 300px;margin-left:10%;text-align: left;}
+        ul li {list-style: none;}
+        .register-left li{width: 100%;height: 40px;line-height:40px;}
+        .register-go{width: 100%;height: 10px;margin-top: 30px;line-height:30px;}
+        .el-input{width: 80%;height: 35px;margin-top: 5px;border:#000 solid 1px;border-radius: 3px;}
 
     </style>
 </head>
 <body>
 
-<div style="margin: 0 20px;">
-    <div class="main-top"><span style="margin-left: 10px">注册</span></div>
+<div style="width:100%;">
+
     <form id="myForm" action="../UserServlet?action=register" method="post">
-        <div style="width: 100%; margin-top: 80px; height:300px;">
+        <div style="width: 100%; margin-top: 30px; height:350px;">
             <div class="register-left">
                 <ul>
                     <li>手机号:</li>
+                    <li><input type="text" id="phone" name="phone" placeholder="仅支持大陆手机号"  class="el-input"/></li>
                     <li>用户名:</li>
-                    <li>邮箱:</li>
-                    <li>登录密码:</li>
-                    <li>确认密码:</li>
-                </ul>
-            </div>
-            <div class="register-right">
-                <ul>
-                    <li><input type="text" id="phone" name="phone" class="el-input"/></li>
-                    <li><input type="text" id="username" name="username" class="el-input"/>
-                        <span id="msg">请输入昵称</span>
+                    <li><input type="text" id="username" name="username" placeholder="输入昵称"  class="el-input"/>
+                        <span id="msg">输入昵称</span>
                     </li>
-                    <li><input type="text" id="email" name="email" class="el-input"/></li>
-                    <li><input type="password" id="password" name="password" class="el-input"/></li>
-                    <li><input type="password" id="passwordTwo" name="passwordTwo" class="el-input"/></li>
+                    <li>邮箱:</li>
+                    <li><input type="text" id="email" name="email" placeholder="输入邮箱" class="el-input"/></li>
+                    <li>登录密码:</li>
+                    <li><input type="password" id="password" name="password" placeholder="不少于六位"  class="el-input"/></li>
                 </ul>
             </div>
+
         </div>
         <div class="register-go" >
             <input name="m1" type="checkbox" value="2" checked="">
@@ -66,9 +67,9 @@
                 data:{action:"validateName", user:$(this).val()},
                 success:function (data) {
                     if(data=="true"){
-                        $("#msg").html("恭喜你，用户名可用！");
+                        $("#msg").html("可使用！");
                     }else{
-                        $("#msg").html("用户名已存在");
+                        $("#msg").html("已存在");
                         $("#username").focus();
                     }
                     //alert(data);
