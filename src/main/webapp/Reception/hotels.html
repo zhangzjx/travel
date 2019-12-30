@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>t</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/topFoot.css">
+    <link rel="stylesheet" type="text/css" href="css/hotels.css">
+
+</head>
+<body>
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+        <!--
+        <ul class="app-header">
+          <li class="app-header-menuicon">
+             <i class="layui-icon layui-icon-more-vertical"></i>
+          </li>
+        </ul>
+        -->
+        <h1 class="logo">
+            <a href=""><img src="img/logo.png" class="logo-img"></a>
+        </h1>
+        <div class="login"  style="visibility: visible">
+            <input type="button" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <!--
+        <ul class="layui-nav header-down-nav">
+          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
+          <li class="layui-nav-item"><a href="case.html">案例</a></li>
+          <li class="layui-nav-item"><a href="service.html">服务</a></li>
+          <li class="layui-nav-item"><a href="about.html">关于</a></li>
+        </ul>-->
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href=""><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href=""><img src="img/index-2.png" class="foot-img"><span>机票</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href=""><img src="img/index-3.png" class="foot-img"><span>租车</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href=""><img src="img/index-4.png" class="foot-img"><span>观光和活动</span></a>
+        </div>
+    </div>
+
+</div>
+<!-- end-header -->
+<!-- top -->
+<div class="top">
+    <div class="top-content">
+        <div class="title">
+            <a href="#">亚洲</a><span>&nbsp;></span>
+            <a href="#">中国 </a><span>&nbsp;></span>
+            <a href="#">四川省</a><span>&nbsp;></span>
+            <a href="#">成都</a><span>&nbsp;></span>
+            <a href="#">成都景点</a>
+        </div>
+        <div class="hotels-title">
+            <h1><strong>酒店和住宿</strong></h1>
+        </div>
+        <div class="top-date">
+            <div class="date-item">
+                <img src="img/hotel-calendar.png" class="img">
+                <input type="text" id="start" class="el-input" >
+            </div>
+            <div class="date-item">
+                <img src="img/hotel-calendar.png" class="img">
+                <input type="text" id="end" class="el-input" >
+
+            </div>
+            <div class="date-item">
+                <img src="img/hotel-people.png" class="img">
+                <input type="text" id="people"  class="el-input" >
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end-top -->
+<!-- content -->
+<div class="content">
+    <!--主要内容-->
+    <div class="hotels-main">
+
+        <div class="hotels-left">
+            <div class="left-list-1">
+                <img src="img/view-1.png" class="left-img">
+                <input type="button" class="view-btn layui-btn layui-btn-primary" value="查看地图" title="查看地图"/>
+            </div>
+
+            <div class="left-list-2">
+                <p><h2>设施服务</h2></p>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">免费Wifi</span><span class="span-right">54</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">免费Wifi</span><span class="span-right">54</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">含早餐</span><span class="span-right">54</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">游泳池</span><span class="span-right">54</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">免费停车</span><span class="span-right">54</span>
+                </div>
+
+            </div>
+            <div class="left-list-2">
+                <p><h2>您的预算</h2></p>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">0元 - 388元</span><span class="span-right">54</span>
+                </div>
+
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">388元 - 776元</span><span class="span-right">226</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">776元 - 1,160元</span><span class="span-right"> 209</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">1,160元 - 1,550元</span><span class="span-right"> 98</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">1,550元 +</span><span class="span-right">141</span>
+                </div>
+            </div>
+            <div class="left-list-2">
+                <p><h2>酒店星级</h2></p>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">5 星级</span></span><span class="span-right">103</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">4 星级</span><span class="span-right">141</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">3 星级</span><span class="span-right">141</span>
+               </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">2 星级</span><span class="span-right">141</span>
+               </div>
+            </div>
+
+
+        </div>
+        <div class="hotels-right">
+            <div class="right-top">
+                <div class="top-left">
+                </div>
+                <div class="top-right">
+                    <span style="font-size: 11pt">排序方式：</span>
+                    <select id="sKey" name="sKey" class="el-select">
+                        <option value="gid">价格升序</option>
+                        <option value="goods_name">价格降序</option>
+                        <option value="Categories_two">超值排序</option>
+                    </select>
+                </div>
+            </div>
+            <div class="right-content">
+                <img src="img/j-1.jpg" class="right-img">
+                <div class="right-item-top">
+                    <h2><b>北京金隅八达岭智选假日酒店</b></h2>
+                </div>
+                <div class="right-item" style="border-right: #d4d4d4 solid 1px">
+                    <h2><b>￥620</b></h2>
+                    <input type="button" class="el-button layui-btn layui-btn-warm" value="查看优惠">
+
+                </div>
+                <div class="right-item-2">
+                    <div class="f" style="height: 50px;"></div> <span>429 条点评</span>
+                    <p>北京市符合筛选条件的超值酒店中排名第 1</p>
+                    <div class="m">
+                        <ul>
+                            <li><img src="img/hotel-wifi.png">免费Wifi</li>
+                            <li><img src="img/hotel-restaurant.png">餐厅</li>
+                            <li><img src="img/hotel-parking.png">免费停车</li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+            <div class="right-content">
+                <img src="img/j-1.jpg" class="right-img">
+                <div class="right-item-top">
+                    <h2><b>北京金隅八达岭智选假日酒店</b></h2>
+                </div>
+                <div class="right-item" style="border-right: #d4d4d4 solid 1px">
+                    <h2><b>￥620</b></h2>
+                    <input type="button" class="el-button layui-btn layui-btn-warm" value="查看优惠">
+
+                </div>
+                <div class="right-item-2">
+                    <div class="f" style="height: 50px;"></div> <span>429 条点评</span>
+                    <p>北京市符合筛选条件的超值酒店中排名第 2</p>
+                    <div class="m">
+                        <ul>
+                            <li><img src="img/hotel-wifi.png">免费Wifi</li>
+                            <li><img src="img/hotel-restaurant.png">餐厅</li>
+                            <li><img src="img/hotel-parking.png">免费停车</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- end-content -->
+
+</body>
+<script type="text/javascript" src="../res/layui/layui.all.js"></script>
+
+
+<script>
+    //评分
+    layui.use('rate', function(){
+        var rate = layui.rate;
+        //渲染
+        var ins1 = rate.render({
+            elem: '.f' , //绑定元素
+            value: 5,
+            half:true,
+            readonly:true,
+        });
+    });
+    // 时间格式化
+    const myDate = new Date();
+    //const minDate = myDate.toLocaleDateString();
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth()+1;
+    let day =  myDate.getDate();
+    const nowDate = year+"-"+month+ "-"+day;
+    const endDate = year+"-"+month+ "-"+(day+1);//新日期
+
+    layui.use('laydate', function(){
+        const laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start', //指定元素
+            trigger: 'click',
+            value: nowDate ,//必须遵循format参数设定的格式
+            min: nowDate ,
+        });
+    });
+
+    layui.use('laydate', function(){
+        const laydate = layui.laydate;
+        //执行一个laydate实例
+
+        laydate.render({
+            elem: '#end', //指定元素
+            trigger: 'click',
+            format: 'yyyy-MM-dd',
+            value: endDate ,//必须遵循format参数设定的格式
+            min: endDate, // 限定可选日期为当前系统时间
+            calendar: true,
+            btns: ['clear', 'confirm']
+        });
+    });
+
+
+
+    /**
+    var currentDate = formatDate(new Date());
+    layui.use(['form','laydate'], function () {
+        const laydate = layui.laydate;
+        laydate.render({
+            elem: '#end'
+            , type: 'datetime'
+            , range: ' 到 '
+            , trigger: 'click'
+            , format: 'yyyy-MM-dd'
+            , theme: '#85ab00'
+            , min: currentDate // 限定可选日期为当前系统时间
+            , btns: ['clear', 'confirm']
+            , done: function (value, date) {
+
+            }
+            , change: function (value, date) {
+                // 选择时间，时间改变时
+                console.log('你选择的日期是：' + value + '<br><br>获得的对象是' + JSON.stringify(date))
+
+            }
+        });
+    });
+     */
+</script>
+</html>

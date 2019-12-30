@@ -1,0 +1,66 @@
+/*********酒店和住宿***********/
+/*********主要内容*******/
+/***顶部***/
+body{background-color: #EEEEEE}
+.top{width: 100%;height:auto;padding:10px 0;background-color: #fff;}
+.top-content{width: 1200px;margin: 0 auto;}
+.top-content .title{ color: #333333; padding:10px 0;}
+.hotels-title{ text-align:center;color: #333333; padding:10px 0;}
+.top-date{width: 1000px;height: 70px;padding:0 100px;}
+.date-item{width: 310px;height: 50px;margin: 10px;float:left;}
+.date-item .img{width: 20px;height: 20px;position:absolute;margin:15px;float:left;}
+.el-input{width: 240px;height: 40px;border: #d4d4d4 solid 1px;padding-left:40px;border-radius:3px;float:left;margin: 5px;}
+/******/
+.content{width: 1200px;margin: 0 auto;}
+.hotels-main{width: 1200px;min-height: 800px;margin: 30px auto 0;border: darkblue solid 1px;}
+/***左侧***/
+.hotels-left{width: 240px;height: auto;padding:30px;background-color: #fff;float: left;}
+.left-list-1{width: 240px;height: 150px;padding-bottom:30px;border-bottom: #d4d4d4 solid 1px}
+.left-img{width: 240px;height: 150px;}
+.view-btn{width:100px;height: 30px;line-height: 30px;position:absolute;margin: 60px 0 0 -170px;}
+.view-btn:hover{border: #00CC00 solid 1px}
+.left-list-2{width: 220px;height: 220px;margin: 30px 0 0 0;cursor: pointer;padding-bottom:10px;border-bottom: #d4d4d4 solid 1px}
+/***圆***/
+.circle-content{width:190px;margin:10px 0 0 5px;float: left;border: #fff solid 1px;}
+.circle-content:hover {text-decoration:underline;}
+.circle-content span{float: left}
+.span-left{width: 140px;height: 20px;}
+.span-right{width: 50px;height: 20px;text-align:right;}
+/* 复选框 */
+input[type="checkbox"] {
+    -webkit-appearance: none; /*清除复选框默认样式*/
+    border: 1px solid #627BF6;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-top: 10px;
+    margin-right: 0 !important;
+    border-radius: 3px;
+}
+input[type="checkbox"]:checked {
+    /* background-position: -48px 0; */
+    background: #627BF6 url(../img/hotel-check.png) ; /*复选框的背景图*/
+    background-size: contain;
+}
+
+/***右侧***/
+.hotels-right{width: 870px;height: auto;margin:0 0 0 30px;float: left;}
+.right-top{width: 870px;height: 40px;}
+.top-left{width: 300px;height: 40px;float: left;line-height: 40px}
+.top-right{width:200px;height: 40px;float: left;margin-left: 350px;line-height: 40px}
+.el-select{width: 100px;height: 40px;font-size: 10pt;margin-top: 10px;}
+
+.right-content{width: 870px;height:260px;margin-top:20px;background-color: #fff;}
+.right-content:hover{box-shadow: #666 0px 0px 10px;}
+.right-item-top{width: 500px;height: 50px;margin:10px 0 0 10px;line-height:50px;float: left;}
+.right-item{width: 220px;height: 180px;margin-left:10px;float: left;}
+.right-item-2{width: 300px;height: 180px;margin-left:10px;float: left;}
+.el-button{width: 160px;margin: 10px 30px}
+.right-img{width: 260px;height: 260px;margin:0;border-radius:3px;;float: left}
+.right-item h2{text-align: center;margin-top: 50px}
+.right-item-2 span{height: 30px;line-height: 30px;}
+.right-item-2 p{margin: 3px 0 10px 0}
+.m ul li{list-style-type: none;cursor: pointer;}
+.m li{width: 200px;height: 20px;margin:5px 0 ;}
+.m img{width: 20px;height: 20px;margin-right: 5px}

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>餐厅</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/topFoot.css">
+    <link rel="stylesheet" type="text/css" href="css/restaurants.css">
+
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+        <!--
+        <ul class="app-header">
+          <li class="app-header-menuicon">
+             <i class="layui-icon layui-icon-more-vertical"></i>
+          </li>
+        </ul>
+        -->
+        <h1 class="logo">
+            <a href=""><img src="img/logo.png" class="logo-img"></a>
+        </h1>
+        <div class="login"  style="visibility: visible">
+            <input type="button" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <!--
+        <ul class="layui-nav header-down-nav">
+          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
+          <li class="layui-nav-item"><a href="case.html">案例</a></li>
+          <li class="layui-nav-item"><a href="service.html">服务</a></li>
+          <li class="layui-nav-item"><a href="about.html">关于</a></li>
+        </ul>-->
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href=""><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href=""><img src="img/index-2.png" class="foot-img"><span>机票</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href=""><img src="img/index-3.png" class="foot-img"><span>租车</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href=""><img src="img/index-4.png" class="foot-img"><span>观光和活动</span></a>
+        </div>
+    </div>
+
+</div>
+<!-- end-header -->
+<!-- top -->
+<div class="top">
+    <div class="top-content">
+        <div class="title">
+            <a href="#">亚洲</a><span>&nbsp;></span>
+            <a href="#">中国 </a><span>&nbsp;></span>
+            <a href="#">北京市</a><span>&nbsp;></span>
+            <a href="#">北京美食</a>
+        </div>
+        <div class="restaurants-title">
+            <h1><strong>北京美食 Beijing</strong></h1>
+        </div>
+
+    </div>
+</div>
+
+<!-- end-top -->
+
+<!-- content -->
+<div class="content">
+    <!--主要内容-->
+    <div class="restaurants-main">
+
+        <div class="restaurants-left">
+            <div class="left-list-1">
+                <img src="img/view-1.png" class="left-img">
+                <input type="button" class="view-btn layui-btn layui-btn-primary" value="查看地图" title="查看地图"/>
+            </div>
+
+            <div class="left-list-2">
+                <p><h2>类型</h2></p>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">餐厅</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">快餐小吃</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">甜点</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">咖啡与茶</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">酒吧与酒馆</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">特色美食市场</span>
+                </div>
+
+
+            </div>
+            <div class="left-list-2">
+                <p><h2>菜系及菜肴</h2></p>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">中餐</span>
+                </div>
+
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">亚洲料理</span>
+                </div>
+
+            </div>
+            <div class="left-list-2">
+                <p><h2>餐时</h2></p>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">早餐</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">早午餐</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">午餐</span>
+                </div>
+                <input type="checkbox">
+                <div class="circle-content">
+                    <span class="span-left">晚餐</span>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="restaurants-right">
+
+            <div class="right-content">
+                <div class="right-top">
+                    <div class="top-left">
+                        <h2><strong>按菜系浏览</strong></h2>
+                    </div>
+                    <div class="top-right">
+                        <a href="#" ><span style="font-size: 11pt">查看更多</span></a>
+                    </div>
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">中餐</span>
+                    <img src="img/j-1.jpg" class="top-img">
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">咖啡馆</span>
+                    <img src="img/j-1.jpg" class="top-img">
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">印度菜</span>
+                    <img src="img/j-1.jpg" class="top-img">
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">美式烹饪</span>
+                    <img src="img/j-1.jpg" class="top-img" style="margin-right: 0">
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">日式料理</span>
+                    <img src="img/j-1.jpg" class="top-img">
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">意餐</span>
+                    <img src="img/j-1.jpg" class="top-img">
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">披萨</span>
+                    <img src="img/j-1.jpg" class="top-img">
+                </div>
+                <div class="top-imgs">
+                    <span class="img-name">牛排馆</span>
+                    <img src="img/j-1.jpg" class="top-img" style="margin-right: 0">
+                </div>
+            </div>
+
+            <div class="right-content">
+                <div class="right-top">
+                    <div class="top-left">
+                        <h2><strong>高档餐饮</strong></h2>
+                    </div>
+                    <div class="top-right">
+                        <a href="#" ><span style="font-size: 11pt">查看更多</span></a>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-LeLac.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="right-top">
+                    <div class="top-left">
+                        <h2><strong>中档价位</strong></h2>
+                    </div>
+                    <div class="top-right">
+                        <a href="#" ><span style="font-size: 11pt">查看更多</span></a>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-LeLac.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="right-top">
+                    <div class="top-left">
+                        <h2><strong>平价美食</strong></h2>
+                    </div>
+                    <div class="top-right">
+                        <a href="#" ><span style="font-size: 11pt">查看更多</span></a>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-LeLac.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="right-top">
+                    <div class="top-left">
+                        <h2><strong>酒吧与酒馆</strong></h2>
+                    </div>
+                    <div class="top-right">
+                        <a href="#" ><span style="font-size: 11pt">查看更多</span></a>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-LeLac.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+                <div class="right-item">
+                    <img src="img/res-Woobar.jpg" class="right-img">
+                    <p><a href="#">Le Lac</a></p>
+                    <p><a href="#">
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        <span class="layui-badge-dot layui-bg-blue"></span>
+                        2038条点评</a>
+                    </p>
+                    <p>法餐</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- end-content -->
+</body>
+</html>
