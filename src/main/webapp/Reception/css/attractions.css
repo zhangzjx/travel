@@ -28,16 +28,19 @@
 .right-item p{margin-top: 3px}
 
 
-/*********景点详情***********/
-/*********主要内容*******/
-.content{width: 1200px;margin: 0 auto;}
-.content .title{ color: #333333;background-color: #fff; padding:10px 0 30px;}
-.review-main{width: 1200px;min-height: 1200px;border: darkblue solid 1px;}
-.review-title{ color: #333333; padding:10px 0;background-color: #fff; border-bottom: #d4d4d4 solid 1px}
-.title-inf{width: 800px;height: 30px;}
+/*********单个景点详情***********/
+/***顶部***/
+.top{width: 100%;height:auto;padding:10px 0;background-color: #fff;}
+.top-content{width: 1200px;margin: 0 auto;}
+.top-content .title{ color: #333333; padding:10px 0;}
+.review-title{ color: #333333; padding:10px 0;background-color: #fff; }
+.title-inf{width: 900px;height: 30px;}
 .title-inf ul li{list-style: none}
 .title-inf li{width: auto;height: 30px;line-height:30px;float: left;}
 .line{width: 1px;height: 20px;background-color: #d4d4d4;margin:5px 24px; }
+/*********主要内容*******/
+.content{width: 1200px;min-height: 800px;}
+.review-main{width: 1200px;min-height: 800px;margin: 30px auto 0;border: darkblue solid 1px;}
 /******点评精选及图片********/
 .review-evaluate{width: 1200px;height: 400px;}
 .evaluate-left{width: 340px;height: 400px;float: left;padding:0 20px;background-color: #fff;}

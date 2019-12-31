@@ -55,19 +55,16 @@
 
 </div>
 <!-- end-header -->
-
-<!-- content -->
-<div class="content">
-    <!---->
-    <div class="title">
-        <a href="#">亚洲</a><span>&nbsp;></span>
-        <a href="#">中国 </a><span>&nbsp;></span>
-        <a href="#">四川省</a><span>&nbsp;></span>
-        <a href="#">成都</a><span>&nbsp;></span>
-        <a href="#">成都景点</a>
-    </div>
-    <!--主要内容-->
-    <div class="review-main">
+<!-- top -->
+<div class="top">
+    <div class="top-content">
+        <div class="title">
+            <a href="#">亚洲</a><span>&nbsp;></span>
+            <a href="#">中国 </a><span>&nbsp;></span>
+            <a href="#">四川省</a><span>&nbsp;></span>
+            <a href="#">成都</a><span>&nbsp;></span>
+            <a href="#">成都景点</a>
+        </div>
         <!--标题-->
         <div class="review-title">
             <h1><strong>慕田峪长城<br>Mutianyu Great Wall</strong></h1>
@@ -95,6 +92,14 @@
                 </ul>
             </div>
         </div>
+
+    </div>
+</div>
+
+<!-- end-top -->
+<!-- content -->
+<div class="content">
+    <div class="review-main">
         <!--点评精选及图片-->
         <div class="review-evaluate">
             <div class="evaluate-left">
