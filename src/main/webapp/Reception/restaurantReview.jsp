@@ -6,6 +6,9 @@
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/restaurants.css">
+    <style type="text/css">
+
+    </style>
 
 </head>
 <body>
@@ -138,7 +141,8 @@
             </div>
             <div class="review-item">
                 <h3><b>位置和联系方式</b></h3>
-                <img src="img/view-1.png" class="left-img">
+
+                <img id="position" src="" onclick="re()">
                 <div style="margin-top: 10px">100027 中国 北京市 东城区五道营胡同2号(雍和宫桥往南150米路西)</div>
                 <div style="margin-top: 10px">网址</div>
                 <div style="margin-top: 10px">+86 10 8404 9191</div>
@@ -153,7 +157,7 @@
             </div>
             <div class="evaluation-center">
                 <div class="ev-c-item" style="width: 300px;">
-                     <h4><b>旅行者评分</b></h4>
+                    <h4><b>旅行者评分</b></h4>
                     <ul>
                         <li> <input type="checkbox"></li>
                         <li> <input type="checkbox"></li>
@@ -177,7 +181,7 @@
                     </ul>
                 </div>
                 <div class="ev-c-item">
-                  <h4><b>时节</b></h4>
+                    <h4><b>时节</b></h4>
                     <ul>
                         <li><input type="checkbox">3 月到 5 月</li>
                         <li><input type="checkbox">6 月到 8 月</li>
@@ -186,7 +190,7 @@
                     </ul>
                 </div>
                 <div class="ev-c-item">
-                   <h4><b>语言</b></h4>
+                    <h4><b>语言</b></h4>
                     <ul>
                         <li><input type="checkbox">所有语言</li>
                         <li><input type="checkbox">英语 (35)</li>
@@ -196,21 +200,39 @@
                 <hr>
                 <div class="ev-c-list">
                     <div class="left">
-
+                        <img src="img/res-LeLac.jpg" class="img">
+                        Trek25482625476
                     </div>
                     <div class="right">
-
+                        昨天点评
+                        <h3>约会的好出去</h3>
+                        <p>约会的好去处，美景，烛光，红酒，大餐... 这次提前几天预定了座位，景观非常的好，一览长安街的夜景，感觉像在空中餐厅，星光璀璨，美不胜收。
+                            餐厅环境讲究，服务员是一位非常帅气的外国小哥哥。领我们到预留号的位置。这家店的菜品非常的棒特别是烤澳洲菲力牛排，
+                            菲力牛排讲的是火候外焦里嫩，肉质鲜嫩，保持原汁原味，鲜嫩无比。 总的来说，环境好，口味地道，服务周到。
+                        </p>
+                        <p style="margin-top: 10px"><b>用餐日期：</b>2019年12月</p>
                     </div>
-                    Trek25482625476
-                    北京市
-                    1
-                    昨天点评 通过移动设备发表
-                    约会的好出去
-                    约会的好去处，美景，烛光，红酒，大餐... 这次提前几天预定了座位，景观非常的好，一览长安街的夜景，感觉像在空中餐厅，星光璀璨，美不胜收。 餐厅环境讲究，服务员是一位非常帅气的外国小哥哥。领我们到预留号的位置。这家店的菜品非常的棒特别是烤澳洲菲力牛排，菲力牛排讲的是火候外焦里嫩，肉质鲜嫩，保持原汁原味，鲜嫩无比。 总的来说，环境好，口味地道，服务周到。
 
-                    用餐日期：2019年12月
+
+
                 </div>
-
+                <hr>
+                <div class="ev-c-list">
+                    <div class="left">
+                        <img src="img/res-LeLac.jpg" class="img">
+                        Trek25482625476
+                    </div>
+                    <div class="right">
+                        昨天点评
+                        <h3>约会的好出去</h3>
+                        <p>约会的好去处，美景，烛光，红酒，大餐... 这次提前几天预定了座位，景观非常的好，一览长安街的夜景，感觉像在空中餐厅，星光璀璨，美不胜收。
+                            餐厅环境讲究，服务员是一位非常帅气的外国小哥哥。领我们到预留号的位置。这家店的菜品非常的棒特别是烤澳洲菲力牛排，
+                            菲力牛排讲的是火候外焦里嫩，肉质鲜嫩，保持原汁原味，鲜嫩无比。 总的来说，环境好，口味地道，服务周到。
+                        </p>
+                        <p style="margin-top: 10px"><b>用餐日期：</b>2019年12月</p>
+                    </div>
+                </div>
+                <hr>
 
             </div>
         </div>
@@ -247,6 +269,21 @@
 
         });
     };
+
+    const c = "116.028702, 40.363106";
+    document.getElementById("position").src = "http://api.map.baidu.com/staticimage/v2?ak=MXPc39yzvyV11CCIv4maBPmnPKdRMHC8&center="+c+"&width=340&height=150&zoom=11";
+    function re(){
+        layer.open({
+            type: 2,
+            title: '北京八达岭长城',
+            //maxmin: true,//最大化，最小化
+            //skin: 'layui-layer-lan',
+            shadeClose: true, //点击遮罩关闭层    
+            area : ['90%' , '90%'],
+            content:'bar.html'//弹框显示的url,对应的页面  
+        });
+    }
+
     //评分
     layui.use('rate', function(){
         const rate = layui.rate;

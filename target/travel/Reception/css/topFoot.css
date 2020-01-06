@@ -13,11 +13,11 @@ a:active {text-decoration:underline;}
 /******顶部********/
 .header-box{height: 110px;background-color: #003399;border-bottom: 1px  solid #e8ebf2;}
 .header-box span{color: #fff;}
-.header-top{max-width: 1200px; margin:0 auto;padding-top: 5px; position: relative; height: 50px;}
+.header-top{max-width: 1200px; margin:0 auto 0;padding-top: 15px; position: relative; height: 50px;}
 .header-foot{max-width: 1200px; margin:0 auto; position: relative; height: 50px;}
 .logo{width: 500px;float: left}
-.login{width: 150px;float: left;color: #fff;padding-left: 500px}
-.login-btn{height: 30px;line-height: 30px;margin-top: 5px;float: left}
+.login{width: 150px;float: left;color: #fff;padding-left: 540px}
+.login-btn{height: 30px;line-height: 30px;float: left}
 .logo-img{width: 200px;height: 25px;text-align: right}
 .header-foot-item{width: 120px;height: 50px;float: left;}
 .foot-img{width: 30px;height: 30px;margin: 10px}

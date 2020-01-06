@@ -88,9 +88,8 @@ input[type="checkbox"]:checked {
 .ev-c-item ul li{list-style-type: none;}
 .ev-c-item ul{margin-top: 10px}
 .ev-c-item li{height: 25px;line-height: 25px;font-size: 9pt;text-align:left;}
-.ev-c-list{width: 750px;height: 100px;padding:20px 0;}
-.ev-c-list .left{width: 750px;height: 100px;padding:20px 0;}
-.ev-c-list .right{width: 750px;height: 100px;padding:20px 0;}
-
-
-
+.ev-c-list{width: 750px;height: 200px;padding:10px 0 0 ;}
+.ev-c-list .left{width: 150px;height: 200px;padding:20px 0;float: left;text-align:center;font-size: 8pt}
+.ev-c-list .left .img{width: 60px;height: 60px;margin: 0 45px 20px;border-radius: 50%}
+.ev-c-list .right{width: 600px;height: 200px;padding:20px 0;float: left;}
+.ev-c-list .right h3{margin:5px 0;}

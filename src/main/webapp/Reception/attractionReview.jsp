@@ -198,7 +198,7 @@
             </div>
             <div class="review-item">
                 <h3><b>联系方式</b></h3>
-                <img src="img/view-1.png" class="left-img">
+                <img id="position" src="" onclick="re()">
                 <div style="margin-top: 10px">中国北京市东城区景山前街4号 100009</div>
                 <div style="margin-top: 10px">网址</div>
                 <div style="margin-top: 10px"> +86 10 8500 7422</div>
@@ -278,6 +278,20 @@
 <script type="text/javascript" src="js/topFoot.js"></script>
 
 <script type="text/javascript">
+    const c = "116.028702, 40.363106";
+    document.getElementById("position").src = "http://api.map.baidu.com/staticimage/v2?ak=MXPc39yzvyV11CCIv4maBPmnPKdRMHC8&center="+c+"&width=340&height=150&zoom=11";
+    function re(){
+        layer.open({
+            type: 2,
+            title: '北京八达岭长城',
+            //maxmin: true,//最大化，最小化
+            //skin: 'layui-layer-lan',
+            shadeClose: true, //点击遮罩关闭层    
+            area : ['90%' , '90%'],
+            content:'bar.html'//弹框显示的url,对应的页面  
+        });
+    }
+
 
     function goTime() {
 
