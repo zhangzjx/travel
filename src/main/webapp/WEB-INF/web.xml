@@ -4,4 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-</web-app>
+
+    <servlet>
+      <servlet-name>FpServlet</servlet-name>
+      <servlet-class>com.zhang.servlet.FpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>FpServlet</servlet-name>
+      <url-pattern>/FpServlet</url-pattern>
+    </servlet-mapping>
+
+  </web-app>
