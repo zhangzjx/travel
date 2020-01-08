@@ -17,7 +17,7 @@
   <body>
   <div style="width: 300px;margin: 100px 0 0 500px">
     <div id="u"></div>
-    <form  id="myForm" action="FpServlet?action=test1" method="post" >
+    <form  id="myForm" action="ExcelServlet?action=test1" method="post" >
 
       <ul>
         <li><span>订单编号</span></li>
@@ -51,7 +51,7 @@
   <script type="text/javascript">
 
     function go(){
-      document.location = "FpServlet?action=findAll";
+      document.location = "ExcelServlet?action=findAll";
     }
   </script>
 </html>

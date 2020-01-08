@@ -45,7 +45,7 @@
 
         <c:forEach var="record" items="${invoice.list}">
             <ul>
-                <li><span>${invoice.ddbh}</span></li>
+                <li><span>${record.ddbh}</span></li>
                 <li><span>${record.kplx}</span></li>
                 <li><span>${record.spmc}</span></li>
                 <li><span>${record.fptt}</span></li>
@@ -68,7 +68,7 @@
                 <c:when test="${invoice.currentPage==1 }">首页
                 </c:when>
                 <c:otherwise>
-                    <a href="<c:url value='/FpServlet?action=findAll&currentPage=${invoice.currentPage != 1 }'/>">首页</a>
+                    <a href="<c:url value='/ExcelServlet?action=findAll&currentPage=${invoice.currentPage != 1 }'/>">首页</a>
                 </c:otherwise>
             </c:choose>
             <!-- 上一页 -->
@@ -76,7 +76,7 @@
                 <c:when test="${invoice.currentPage==1 }">上一页
                 </c:when>
                 <c:otherwise>
-                    <a href="<c:url value='/FpServlet?action=findAll&currentPage=${invoice.currentPage-1 }'/>">上一页</a>
+                    <a href="<c:url value='/ExcelServlet?action=findAll&currentPage=${invoice.currentPage-1 }'/>">上一页</a>
                 </c:otherwise>
             </c:choose>
             <!-- 下一页 -->
@@ -84,7 +84,7 @@
                 <c:when test="${invoice.currentPage==invoice.totalPage }">下一页
                 </c:when>
                 <c:otherwise>
-                    <a href="<c:url value='/FpServlet?action=findAll&currentPage=${invoice.currentPage+1 }'/>">下一页</a>
+                    <a href="<c:url value='/ExcelServlet?action=findAll&currentPage=${invoice.currentPage+1 }'/>">下一页</a>
                 </c:otherwise>
             </c:choose>
             <!-- 尾页 -->
@@ -92,7 +92,7 @@
                 <c:when test="${invoice.currentPage == invoice.totalPage }">尾页
                 </c:when>
                 <c:otherwise>
-                    <a href="<c:url value='/FpServlet?action=findAll&currentPage=${invoice.totalPage }'/>">尾页</a>
+                    <a href="<c:url value='/ExcelServlet?action=findAll&currentPage=${invoice.totalPage }'/>">尾页</a>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -105,7 +105,7 @@
 <script type="text/javascript">
     //验证表单合法性
     function goExcel(){
-        document.location = "FpServlet?action=testExcel";
+        document.location = "ExcelServlet?action=testExcel";
     }
 </script>
 </html>
