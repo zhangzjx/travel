@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加酒店html</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+
+    <style type="text/css">
+        .w-e-text-container {
+            height: 120px !important; /*!important是重点，因为原div是行内样式设置的高度300px*/
+        }
+        form{
+            height: 650px;
+            border: solid 1px #d2d2d2;
+            text-align:center;
+        }
+        input,select{margin-top:2px;}
+        .main-top{
+            width: 100%;
+            height: 40px;
+            border: solid 1px #dddddd;
+            background-color: #d2d2d2;
+            line-height: 40px;
+            float: left;
+        }
+        #table_a{
+            width: 20%;
+            height: 245px;
+            text-align: right;
+            margin-left: 25%;
+            margin-right: 30px;
+            float: left;
+        }
+        #table_b{
+            width: 20%;
+            height: 245px;
+            text-align: left;
+            float: left;
+        }
+        .table_a_1{
+            width: 100%;
+            height: 35px;
+            line-height:40px;
+            margin-top: 5px;
+        }
+
+        .table_a_3{
+            width: 100%;
+            height: 30px;
+            margin-top: 5px;
+            line-height:30px;
+        }
+        .el-input{
+            width: 200px;
+            height: 30px;
+            line-height:30px;
+            margin-top: 5px;
+        }
+        .go-button{}
+
+    </style>
+</head>
+<body>
+<div style="margin: 0px 20px;">
+    <div class="main-top"><h2>添加酒店信息</h2></div>
+
+    <form  id="myForm" action="../AdminHotel?action=addHotel" method="post" >
+
+        <div style="width: 100%;height: 350px">
+            <div id="table_a">
+                <div class="table_a_1" >名称:</div>
+                <div class="table_a_1" >标签:</div>
+                <div class="table_a_1" >价格区间:</div>
+                <div class="table_a_1" >地址:</div>
+                <div class="table_a_1" >星级:</div>
+
+            </div>
+            <div id="table_b">
+                <input type="text" id="hotel_name" name="hotel_name" class="el-input"/>
+                <input type="text" id="hotel_price" name="hotel_price" class="el-input"/>
+                <input type="text" id="hotel_label" name="hotel_label" class="el-input"/>
+                <input type="text" id="hotel_address" name="hotel_address" class="el-input"/>
+                <select id="hotel_star" name="hotel_star" class="el-input">
+                    <option value="5">5</option>
+                    <option value="5">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                </select>
+
+            </div>
+        </div>
+        内容
+        <div id="div1" style="width: 55%; margin:0 auto; ">
+        </div>
+        <input type="hidden" name="content" id="editor_txt">
+        <div class="table_a_3" >
+            <input type="button" id="goTo" value="添加" class="go-button layui-btn" />
+        </div>
+
+    </form>
+</div>
+</body>
+<script type="text/javascript" src="../js/wangEditor.js"></script>
+<script type="text/javascript">
+    //定义方法
+    $(document).ready(function(){
+
+        $("#goTo").click(function(){
+            const name = $("#hotel_name").val();
+            const price = $("#hotel_price").val();
+            const label = $("#hotel_label").val();
+            const address = $("#hotel_address").val();
+            const star = $("#hotel_star").val();
+            //验证表单合法性
+            if( name==""|| name==null||price==""||price==null||
+                label==""||label==null||address=="" ||address==null
+                ||star==""||star==null){
+                alert("请填写完整内容");
+                $(this).next('input').focus();
+                return false;
+            }else {
+                //使用$.ajax()发送异步请求
+                $.ajax({
+                    //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
+                    url:"../../AdminHotelServlet" , // 请求路径
+                    type:"POST" , //请求方式
+                    //data: "username=jack&age=23",//请求参数
+                    data:{action:"addHotel",
+                        hotel_name:name,
+                        hotel_price:price,
+                        hotel_label:label,
+                        hotel_address:address,
+                        hotel_star:star
+                    },
+                    success:function (data) {
+                        alert("添加成功");
+                        location.reload();
+                        //alert(data);
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+
+                    dataType:"text"//设置接受到的响应数据的格式
+                });
+            }
+        });
+    });
+
+    const E = window.wangEditor;
+    const editor = new E('#div1');
+    const $editor_txt = $('#editor_txt');
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        $editor_txt.val(html)
+    };
+
+    editor.customConfig.menus=[
+        'head', // 标题
+        'bold', // 粗体 
+        'fontSize', // 字号
+        'fontName', // 字体
+        'italic', // 斜体
+        'underline', // 下划线 
+        'strikeThrough', // 删除线
+        //'foreColor', // 文字颜色
+        //'backColor', // 背景颜色
+        'link', // 插入链接 
+        'list', // 列表 
+        'justify', // 对齐方式
+        //'quote', // 引用
+        'emoticon', // 表情
+        'image', // 插入图片 
+        //'table', // 表格
+        'video', // 插入视频 
+        'code', // 插入代码 
+        'undo', // 撤销
+        'redo' // 重复
+    ]
+    editor.create()
+    // 初始化 textarea 的值
+    $editor_txt.val(editor.txt.html())
+
+</script>
+</html>

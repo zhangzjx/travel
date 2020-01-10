@@ -13,8 +13,8 @@ import java.util.Map;
 public class JdbcUtils {
 
 	private static String driver="com.mysql.cj.jdbc.Driver";
-	//北京时间东八区serverTimezone=GMT%2B8
-	private static String url="jdbc:mysql://localhost:3306/shop?&serverTimezone=GMT%2B8&useSSL=false";
+	/**北京时间东八区serverTimezone=GMT%2B8*/
+	private static String url="jdbc:mysql://localhost:3306/travel?&serverTimezone=GMT%2B8&useSSL=false";
 	private static String name="root";;
 	private static String password="zhangjiaxin";
 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+    <style type="text/css">
+        body{width: 1000px;margin: 0 auto}
+        .list{width: 300px;height: 300px;margin-top:20px;border: solid 1px}
+        .two{width: 50px;height: 50px;margin-top:20px;border: solid 1px}
+        th{border: solid 1px}
+        td{border: solid 1px}
+        ul{}
+        li{width: 50px}
+    </style>
+</head>
+<body>
+
+<table id="tab">
+    <tr>
+        <th>姓名</th>
+        <th>密码</th>
+        <th>性别</th>
+    </tr>
+</table>
+<input type="button" class="layui-btn" value="点击" id="go">
+
+</body>
+<script type="text/javascript">
+    //定义方法
+    $(document).ready(function(){
+
+        $("#go").click(function(){
+
+                //使用$.ajax()发送异步请求
+                $.ajax({
+                    //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
+                    url:"../../AdminHotelServlet" , // 请求路径
+                    type:"Get" , //请求方式
+                    dataType:"json",//设置接受到的响应数据的格式
+                    //data: "username=jack&age=23",//请求参数
+                    data:{action:"findAllHotel",
+                    },
+                    success:function (data) {
+                        //alert(data);
+                        showData(data);//我们仅做数据展示
+                        //location.reload();
+                        //alert(data);
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+                });
+
+        });
+
+        //展示数据
+        function showData(data) {
+/**
+             let html = "";
+             for(let i = 0; i < data.length; i++){    //遍历data数组
+                const ls = data[i];
+              //  html +="<span>测试："+ls.name+"</span>";
+                 html +=$('.two').html(ls.name);
+                $(".two").append(html);; //在html页面id=test的标签里显示html内容
+            }
+ */
+            let str = "";//定义用于拼接的字符串
+            for (let i = 0; i < data.length; i++) {
+                const ls = data[i];
+                //拼接表格的行和列
+                str = "<tr><td>" + ls.name + "</td><td>" + ls.price + "</td><td>" + ls.address + "</td></tr>";
+                //追加到table中
+                $("#tab").append(str);         }
+
+
+        }
+    });
+
+
+</script>
+</html>
