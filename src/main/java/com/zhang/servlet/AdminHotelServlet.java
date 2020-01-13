@@ -1,9 +1,11 @@
 package com.zhang.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zhang.dao.Page;
 import com.zhang.domain.Hotel;
 import com.zhang.service.AdminHotelService;
 import com.zhang.utils.DateUtils;
+import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -11,8 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +24,18 @@ import java.util.Map;
 @WebServlet(name = "AdminHotelServlet", urlPatterns="/AdminHotelServlet")
 public class AdminHotelServlet extends HttpServlet {
 
-        public static final String LOGIN = "login";
-        public static final String ADD_HOTEL = "addHotel";
-        public static final String FIND_ALL_HOTEL = "findAllHotel";
-        public static final String DEL_HOTEL = "delHotel";
-        public static final String VALIDATE_NAME = "validateName";
+    public static final String LOGIN = "login";
+    public static final String ADD_HOTEL = "addHotel";
+    public static final String FIND_ALL_HOTEL = "findAllHotel";
+    public static final String FIND_ALL_HOTEL_1 = "findAllHotel1";
+    public static final String DEL_HOTEL = "delHotel";
+    public static final String VALIDATE_NAME = "validateName";
+    public static final String FIND_LIST_HOTEL = "findListHotel";
+    public static final String FIND_JSON_HOTEL = "findJsonHotel";
+    public static final String SEARCH_GO = "searchGo";
 
 
-        private static final ServletRequest SESSION = null;
+    private static final ServletRequest SESSION = null;
         private AdminHotelService adminHotelService = new AdminHotelService();
 
         @Override
@@ -54,24 +59,15 @@ public class AdminHotelServlet extends HttpServlet {
                 addHotel(request,response);
             } else if(VALIDATE_NAME.equals(action)){
                 validateName(request, response);
-            } else if(FIND_ALL_HOTEL.equals(action)){
+            } else if(FIND_ALL_HOTEL.equals(action)||SEARCH_GO.equals(action)){
                 findAllHotel(request, response);
+            } else if(FIND_JSON_HOTEL.equals(action)){
+                findJsonHotel(request, response);
+            } else if(FIND_LIST_HOTEL.equals(action)){
+                findListHotel(request, response);
             }
         }
 
-        private void findAllHotel(HttpServletRequest request,
-                                  HttpServletResponse response) throws IOException {
-            System.out.println("执行");
-
-            List<Map<String,Object>> result= adminHotelService.findAllHotel();
-            //result.put("success", true);
-           // result.put("totalCount", "30");
-            //创建Jackson的核心对象  ObjectMapper
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(response.getWriter(),result);
-            mapper.writeValue(new FileWriter("F:\\IdeaProjects\\travel\\src\\main\\webapp\\Admin\\html\\b.json"),result);
-            //response.getWriter().print(result);
-        }
 
         private void addHotel(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
@@ -99,6 +95,72 @@ public class AdminHotelServlet extends HttpServlet {
             Boolean result = adminHotelService.addHotel(hotel);
             //返回添加成功的信息
             response.getWriter().print(result);
+        }
+
+        /**查询数据并分页
+         * 根据关键词查找数据并传递到另一个页面(搜索功能)
+         */
+        public void findAllHotel(HttpServletRequest request, HttpServletResponse response)
+                throws ServletException, IOException {
+            /**1.获取当前页码，如无当前页码默认为1
+             * 2.获取商品列表，调用Service的findAll方法
+             *   2.1调用Service层根据页码来获取Page对象
+             * 3.将获取的商品列表保存到request中
+             *   3.1将Page对象保存到request中
+             * 4.将请求转发到jsp页面
+             */
+            String skey = request.getParameter("sKey");
+            String svalue=request.getParameter("sValue");
+            String current = request.getParameter("currentPage");
+            System.out.println("跳转的页数"+current);
+            int currentPage = 1;
+            try{
+                currentPage = Integer.parseInt(current);
+            }catch(Exception e){
+                currentPage = 1;
+            }
+            Page page = adminHotelService.findAll(currentPage,skey,svalue);
+            /**request.setAttribute("myList",page);*/
+            System.out.println("结果为"+page.getList());
+            request.getSession().setAttribute("myList",page);
+            response.sendRedirect(request.getContextPath()+"/Admin/html/hotelList.jsp");
+            //request.getRequestDispatcher("/Admin/html/ts.jsp").forward(request, response);
+        }
+        /**生成json*/
+        private void findJsonHotel(HttpServletRequest request,
+                                  HttpServletResponse response) throws IOException {
+            List<Map<String,Object>> result= adminHotelService.findAllHotel();
+            //创建Jackson的核心对象  ObjectMapper
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getWriter(),result);
+            System.out.println(result);
+            //response.getWriter().print(result);
+        }
+
+        /**生成固定格式json*/
+        private void findListHotel(HttpServletRequest request,
+                                   HttpServletResponse response) throws IOException {
+
+            List<Map<String,Object>> res= adminHotelService.findAllHotel();
+
+            JSONObject result = new JSONObject();
+            result.put("code", 0);
+            result.put("msg", "");
+            result.put("count", 20);
+            result.element("data", res);
+            //创建Jackson的核心对象  ObjectMapper
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getWriter(),result);
+            //创建json文件
+            String filePath= "C:\\Users\\Administrator\\Desktop\\电子发票文档\\travel\\src\\main\\webapp\\Admin\\html\\hotel.json";
+            /**覆盖原文件*/
+            BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(filePath),"UTF-8"));
+            /**不覆盖原文件
+             BufferedWriter writer = new BufferedWriter (new OutputStreamWriter (new FileOutputStream (filePath,true),"UTF-8"));
+             */
+            mapper.writeValue(writer,result);
+            System.out.println(result);
+            //response.getWriter().print(result);
         }
 
         private void validateName(HttpServletRequest request,

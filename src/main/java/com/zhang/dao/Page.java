@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Page {
     /**每页要显示的条目数*/
-    private int pageSize=5;
+    private int pageSize=10;
     /**条目总数，从数据库中计算得SELECT COUNT(*) FROM category*/
     private int totalSize;
     /**当前页，默认为1，由页面传递*/

@@ -1,5 +1,8 @@
 package com.zhang.domain;
 
+/**
+ * @author Administrator
+ */
 public class Hotel {
     public int getId() {
         return id;

@@ -22,9 +22,34 @@ public class HotelDao {
         JdbcUtils.insert(sql, params);
         return hotel;
     }
-    /**查询所有酒店信息*/
+    /**查询所有酒店信息并分页*/
+    /**搜索结果总记录数*/
+    public static int findCountHotel(String skey, String svalue) {
+        StringBuilder sql=new StringBuilder("select count(*) from hotel");
+        if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+            //'%123%'
+            sql.append(" where "+skey+" like \"%"+svalue+"%\" ");
+        }
+        return ((Number) JdbcUtils.selectScalar(sql.toString(), (Object[]) null)).intValue();
+    }
+    /**开始记录的索引*/
+    /**开始记录的索引（搜索结果）skey代表哪一列，svalue是具体的值
+     /**select a.*,b.brand_name from goods a,goods_brand b where a.bid=b.id
+     * and a.gid like 100000001 limit 0,3 条件是a.bid=b。id和当a.gid=100000001时
+     * */
+    public static List<Map<String, Object>> findAllGoods(int startIndex, int pageSize,
+                                                         String skey,String svalue) {
+        StringBuilder sql=new StringBuilder("select h.* from" +
+                " hotel h");
+        if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+            sql.append("  where h."+skey+" like \"%"+svalue+"%\" limit ?,?");
+        }else{
+            sql.append(" limit ?,?");
+        }
+        return JdbcUtils.find(sql.toString(), startIndex, pageSize);
+    }
     public static List<Map<String, Object>> findAllHotel() {
-        String sql = "select id,name,price,lable,address,star,time from hotel";
+        String sql = "select * from hotel";
         return JdbcUtils.find(sql);
     }
     /**查找一条数据*/
