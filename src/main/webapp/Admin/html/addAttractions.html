@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加酒店信息</title>
+    <title>添加景点信息</title>
     <!-- 强制Chromium内核，作用于360浏览器、QQ浏览器等国产双核浏览器 -->
     <meta name="renderer" content="webkit"/>
     <!-- 如果有安装 Google Chrome Frame 插件则强制为Chromium内核，否则强制本机支持的最高版本IE内核，作用于IE浏览器 -->
@@ -23,26 +23,26 @@
 </head>
 <body>
 <div style="margin: 0px 20px;">
-    <div class="main-top"><h2>添加酒店信息</h2></div>
+    <div class="main-top"><h2>添加景点信息</h2></div>
     <form class="layui-form" id="myForm">
         <!--
         <input type="hidden" action="addAttractions">
         -->
         <div class="layui-form-item">
-            <label class="layui-form-label">酒店名称：</label>
+            <label class="layui-form-label">景点名称：</label>
             <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_name" name="hotel_name" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                <input type="text" id="attractions_name" name="attractions_name" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" placeholder="请输入标题" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">酒店标签：</label>
+            <label class="layui-form-label">景点标签：</label>
             <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_label" name="hotel_label" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" id="attractions_label" name="attractions_label" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">酒店价格：</label>
+                <label class="layui-form-label">门票价格：</label>
                 <div class="layui-input-inline" style="width: 100px;">
                     <input type="text" id="price_min" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
                 </div>
@@ -53,25 +53,36 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">酒店地址：</label>
+            <label class="layui-form-label">景点地址：</label>
             <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_address" name="hotel_address" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入" autocomplete="off" class="layui-input">
+                <input type="text" id="attractions_address" name="attractions_address" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
         </div>
-
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">酒店电话：</label>
-                <div class="layui-input-inline">
-                    <!--lay-verify="required|phone"-->
-                    <input type="tel" id="hotel_phone" name="hotel_phone"  autocomplete="off" class="layui-input">
+                <label class="layui-form-label">营业时间：</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="time_min" name="time_min" placeholder="7:00" lay-verify="time" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="time_max" name="time_max" placeholder="17:00" lay-verify="time" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">酒店星级：</label>
+            <div class="layui-inline">
+                <label class="layui-form-label">景区电话：</label>
+                <div class="layui-input-inline">
+                    <!--lay-verify="required|phone"-->
+                    <input type="tel" id="attractions_phone" name="attractions_phone"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">景点星级：</label>
             <div class="layui-input-inline">
-                <select id="hotel_star" name="hotel_star">
+                <select id="attractions_star" name="attractions_star">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -82,7 +93,7 @@
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">酒店简介：</label>
+            <label class="layui-form-label">景点简介：</label>
             <div class="layui-input-block" style="width: 600px;">
                 <textarea id="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
@@ -125,57 +136,12 @@
             });
             //监听提交
             form.on('submit(go)', function(data){
-                //使用$.ajax()发送异步请求
-                $.ajax({
-                    //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                    url:"../../AdminAttractionsServlet?action=addHotel\"" , // 请求路径
-                    type:"POST" , //请求方式
-                    data:$('#myForm').serialize(),// 序列化表单值
-                    success:function (data) {
-                        alert("添加成功");
-                        location.reload();
-                        //alert(data);
-                    },//响应成功后的回调函数
-                    error:function () {
-                        alert("出错啦...")
-                    },//表示如果请求响应出现错误，会执行的回调函数
-
-                    dataType:"text"//设置接受到的响应数据的格式
-                });
-
-                return false;
-            });
-        });
-        /**定义方法
-        $(document).ready(function(){
-
-            $("#goTo").click(function(){
-                const name = $("#hotel_name").val();
-                const price = $("#hotel_price").val();
-                const label = $("#hotel_label").val();
-                const address = $("#hotel_address").val();
-                const star = $("#hotel_star").val();
-                //验证表单合法性
-                if( name==""|| name==null||price==""||price==null||
-                    label==""||label==null||address=="" ||address==null
-                    ||star==""||star==null){
-                    alert("请填写完整内容");
-                    $(this).next('input').focus();
-                    return false;
-                }else {
                     //使用$.ajax()发送异步请求
                     $.ajax({
                         //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                        url:"../../AdminHotelServlet" , // 请求路径
+                        url:"../../AdminAttractionsServlet?action=addAttractions" , // 请求路径
                         type:"POST" , //请求方式
-                        //data: "username=jack&age=23",//请求参数
-                        data:{action:"addHotel",
-                            hotel_name:name,
-                            hotel_price:price,
-                            hotel_label:label,
-                            hotel_address:address,
-                            hotel_star:star
-                        },
+                        data:$('#myForm').serialize(),// 序列化表单值
                         success:function (data) {
                             alert("添加成功");
                             location.reload();
@@ -187,10 +153,12 @@
 
                         dataType:"text"//设置接受到的响应数据的格式
                     });
-                }
+
+                return false;
             });
         });
 
+        /**
          $("#goTo").click(function(){
                     const name = $("#attractions_name").val();
                     const label = $("#attractions_label").val();

@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="../../layui/css/layui.css">
     <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
     <style type="text/css">
-        .el-select{width: 100px;height: 35px;font-size: 10pt;margin-top: 10px;}
+        .el-select{width: 100px;height: 35px;font-size: 10pt;margin-top: 10px;
+            float: left;}
         .operating{width: 94.5%;height: 30px;margin: 10px 0;padding: 10px 30px;background-color:#f2f2f2}
         .table{width: 100%;}
-        .a-3{width: 100%;height: 40px;line-height:40px;text-align: center;font-family: 微软雅黑;font-size: 9pt;border-bottom: solid 1px #dddddd;border-left: solid 1px #dddddd;border-right: solid 1px #dddddd;float: left;}
+        .pagination{width: 100%;height: 40px;line-height:40px;text-align: center;font-family: 微软雅黑;font-size: 9pt;border-bottom: solid 1px #dddddd;border-left: solid 1px #dddddd;border-right: solid 1px #dddddd;float: left;}
         .el-input{width: 200px;height: 40px;margin-top: 10px;}
          #tit li{margin: 10px 0}
          #result li{margin: 10px 0}
@@ -46,19 +47,24 @@
 </head>
 <body style="margin: 0 20px 100px 0;">
 <div >
-    <form  action="<c:url value='/AdminAttractionsServlet?action=searchGo'/>" method="post">
-        <span style="font-size: 12pt">条件：</span>
-
-        <select id="sKey" name="sKey" class="el-select">
-            <option value=""></option>
-            <option value="SpName">景点名称</option>
-            <option value="SpStar">景点星级</option>
-            <option value="SpAddress">景点地址</option>
-        </select>
-        <span style="font-size: 12pt">输入搜索：</span>
-        <input type="text" id="sValue" name="sValue" class="el-input" placeholder="景点名称/景点地址">
-        <button class="layui-btn layui-btn-sm" lay-submit lay-filter="formSearch">搜索</button>
-
+    <!--搜索-->
+    <form class="layui-form" style="height:60px;" action="<c:url value='/AdminAttractionsServlet?action=searchGo'/>" method="post">
+        <div style="float:left;margin: 10px 30px 0 0">
+            <span style="font-size: 12pt">条件：</span>
+            <div class="layui-input-inline">
+                <select id="sKey" name="sKey">
+                    <option value=""></option>
+                    <option value="SpName">景点名称</option>
+                    <option value="SpStar">景点星级</option>
+                    <option value="SpAddress">景点地址</option>
+                </select>
+            </div>
+        </div>
+        <div style="float:left;">
+            <span style="font-size: 12pt">输入搜索：</span>
+            <input type="text" id="sValue" name="sValue" class="el-input" placeholder="景点名称/景点地址">
+            <button class="layui-btn layui-btn-sm" lay-submit lay-filter="formSearch">搜索</button>
+        </div>
 
     </form>
     <div class="operating">
@@ -105,7 +111,7 @@
                 <td title="${record.spPrice}">${record.spPrice}</td>
                 <td title="${record.spName}">${record.province}</td>
                 <td title="${record.spAddress}">${record.spAddress}</td>
-                <td title="${record.spName}">${record.star}</td>
+                <td title="${record.spStar}">${record.spStar}</td>
                 <td title="${record.spName}">${record.country}</td>
                 <td>
                     <div id="op">
@@ -131,7 +137,7 @@
 
     </table>
 
-    <div class="a-3">
+    <div class="pagination">
         <div style="width: 70%;text-align: left;margin-left: 20px;float: left">
             共找到${myList.totalSize}条记录，每页${myList.pageSize}条，共${myList.totalPage }页，当前第${myList.currentPage }页
         </div>
@@ -358,6 +364,10 @@
 </script>
 <script type="application/javascript">
     $(document).ready(function(){
+        layui.use(['form'], function() {
+            const form = layui.form
+                , layer = layui.layer;
+        });
         // 页面加载后任何需要执行的js特效
         //document.location = "../../AdminAttractionsServlet?action=findAllAttractions";
         $.post("${pageContext.request.contextPath}/AdminAttractionsServlet",{

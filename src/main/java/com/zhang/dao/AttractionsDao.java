@@ -15,14 +15,22 @@ public class AttractionsDao {
     /**添加景点信息
      * @return*/
     public Attractions addAttractions(Attractions attractions) {
-        String sql = "insert into hotel values(null,?,?,?,?,?,?)";
+        String sql = "insert into t_scenicspot values(null,?,?,?,?,?,?,?,?,null,null,?,null)";
         Object[] params ={
+                //占位
                 attractions.getAttractionsName(),
                 attractions.getAttractionsPrice(),
-                attractions.getAttractionsLabel(),
                 attractions.getAttractionsAddress(),
+                attractions.getAttractionsLabel(),
+
+                attractions.getAttractionsPhone(),
+                attractions.getTime(),
+                attractions.getAttractionsInf(),
                 attractions.getAttractionsStar(),
-                attractions.getStartTime(),
+                //占位
+                //占位
+                attractions.getEntryTime(),
+                //占位
         };
         JdbcUtils.insert(sql, params);
         return attractions;

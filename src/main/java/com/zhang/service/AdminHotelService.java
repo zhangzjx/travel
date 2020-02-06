@@ -2,7 +2,7 @@ package com.zhang.service;
 
 import com.zhang.dao.HotelDao;
 import com.zhang.dao.Page;
-import com.zhang.dao.User;
+import com.zhang.domain.User;
 import com.zhang.domain.Hotel;
 
 import java.util.List;

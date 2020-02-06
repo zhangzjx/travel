@@ -77,7 +77,8 @@ public class AdminHotelServlet extends HttpServlet {
             String label = request.getParameter("hotel_label");
             String address = request.getParameter("hotel_address");
             String star = request.getParameter("hotel_star");
-            //String content = request.getParameter("content");
+            String phone = request.getParameter("hotel_phone");
+            String content = request.getParameter("content");
             //String bid = request.getParameter("bid");
 
             System.out.println("获得的内容"+name+price+label+address+star);

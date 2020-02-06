@@ -2,8 +2,11 @@ package com.zhang.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.dao.Page;
+import com.zhang.domain.Attractions;
+import com.zhang.domain.Hotel;
 import com.zhang.service.AdminAttractionsService;
 import com.zhang.service.AdminHotelService;
+import com.zhang.utils.DateUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,16 +19,21 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Map;
 
+/**
+ * @author Administrator
+ */
 @WebServlet(name = "AdminAttractionsServlet", urlPatterns="/AdminAttractionsServlet")
 public class AdminAttractionsServlet extends HttpServlet {
-    
+
     public static final String ADD_ATTRACTIONS = "addAttractions";
     public static final String SEARCH_GO = "searchGo";
     public static final String DELETE_AT = "deleteAt";
     public static final String DEL_AT_MORE = "delAtMore";
     public static final String FIND_ONE_AT = "findOneAt";
+    public static final String FIND_ALL_ATTRACTIONS = "findAllAttractions";
 
     private AdminAttractionsService adminAttractionsService = new AdminAttractionsService();
+    @Override
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
         /**
@@ -39,7 +47,7 @@ public class AdminAttractionsServlet extends HttpServlet {
 
         if(ADD_ATTRACTIONS.equals(action)){
             addAttractions(request,response);
-        } else if("findAllAttractions".equals(action)||SEARCH_GO.equals(action)){
+        } else if(FIND_ALL_ATTRACTIONS.equals(action)||SEARCH_GO.equals(action)){
             findAllAttractions(request, response);
         } else if(DELETE_AT.equals(action)){
             deleteAt(request, response);
@@ -122,9 +130,39 @@ public class AdminAttractionsServlet extends HttpServlet {
         //request.getRequestDispatcher("/Admin/html/ts.jsp").forward(request, response);
     }
 
-    private void addAttractions(HttpServletRequest request, HttpServletResponse response) {
+    private void addAttractions(HttpServletRequest request,
+                                HttpServletResponse response) throws IOException {
+
+        String name = request.getParameter("attractions_name");
+        String price_min = request.getParameter("price_min");
+        String price_max = request.getParameter("price_max");
+        String time_start = request.getParameter("time_min");
+        String time_end = request.getParameter("time_max");
+        String time = time_start+"-"+time_end;
+        String label = request.getParameter("attractions_label");
+        String address = request.getParameter("attractions_address");
+        String phone= request.getParameter("attractions_phone");
+        String star = request.getParameter("attractions_star");
+        String content = request.getParameter("content");
+
+        Attractions attractions = new Attractions();
+        attractions.setAttractionsName(name);
+        attractions.setTime(time);
+        attractions.setAttractionsPrice(price_min);
+        attractions.setAttractionsLabel(label);
+        attractions.setAttractionsAddress(address);
+        attractions.setAttractionsStar(star);
+        attractions.setAttractionsInf(content);
+        attractions.setAttractionsPhone(phone);
+        attractions.setEntryTime(DateUtils.StrTime());
+        //4.调用Service中add方法添加一条新闻
+        Boolean result = adminAttractionsService.addAttractions(attractions);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+
     }
 
+    @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);

@@ -1,5 +1,10 @@
 package com.zhang.domain;
 
+import java.sql.Time;
+
+/**
+ * @author Administrator
+ */
 public class Attractions {
 
 
@@ -59,20 +64,12 @@ public class Attractions {
         this.attractionsInf = attractionsInf;
     }
 
-    public String getStartTime() {
-        return StartTime;
+    public String getTime() {
+        return time;
     }
 
-    public void setStartTime(String startTime) {
-        StartTime = startTime;
-    }
-
-    public String getEndTime() {
-        return EndTime;
-    }
-
-    public void setEndTime(String endTime) {
-        EndTime = endTime;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getAttractionsStar() {
@@ -81,6 +78,14 @@ public class Attractions {
 
     public void setAttractionsStar(String attractionsStar) {
         this.attractionsStar = attractionsStar;
+    }
+
+    public String getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(String entryTime) {
+        this.entryTime = entryTime;
     }
 
     @Override
@@ -93,9 +98,9 @@ public class Attractions {
                 ", attractionsAddress='" + attractionsAddress + '\'' +
                 ", attractionsPhone='" + attractionsPhone + '\'' +
                 ", attractionsInf='" + attractionsInf + '\'' +
-                ", StartTime='" + StartTime + '\'' +
-                ", EndTime='" + EndTime + '\'' +
+                ", time='" + time + '\'' +
                 ", attractionsStar='" + attractionsStar + '\'' +
+                ", entryTime='" + entryTime + '\'' +
                 '}';
     }
 
@@ -106,8 +111,8 @@ public class Attractions {
     private String attractionsAddress;
     private String attractionsPhone;
     private String attractionsInf;
-    private String StartTime;
-    private String EndTime;
+    private String time;
     private String attractionsStar;
+    private String entryTime;
 
 }

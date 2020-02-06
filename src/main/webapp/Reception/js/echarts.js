@@ -7455,7 +7455,7 @@ function findExistImage(newImageOrSrc) {
   }
 }
 /**
- * Caution: User should cache loaded images, but not just count on LRU.
+ * Caution: User.java should cache loaded images, but not just count on LRU.
  * Consider if required images more than LRU size, will dead loop occur?
  *
  * @param {string|HTMLImageElement|HTMLCanvasElement|Canvas} newImageOrSrc
@@ -20044,7 +20044,7 @@ function normalizeDimensionsDefine(dimensionsDefine) {
   return map(dimensionsDefine, function (item, index) {
     item = extend({}, isObject$1(item) ? item : {
       name: item
-    }); // User can set null in dimensions.
+    }); // User.java can set null in dimensions.
     // We dont auto specify name, othewise a given name may
     // cause it be refered unexpectedly.
 
@@ -20053,7 +20053,7 @@ function normalizeDimensionsDefine(dimensionsDefine) {
     } // Also consider number form like 2012.
 
 
-    item.name += ''; // User may also specify displayName.
+    item.name += ''; // User.java may also specify displayName.
     // displayName will always exists except user not
     // specified or dim name is not specified or detected.
     // (A auto generated dim name will not be used as
@@ -23240,7 +23240,7 @@ mixin(SeriesModel, colorPaletteMixin);
  */
 
 function autoSeriesName(seriesModel) {
-  // User specified name has higher priority, otherwise it may cause
+  // User.java specified name has higher priority, otherwise it may cause
   // series can not be queried unexpectedly.
   var name = seriesModel.name;
 
@@ -28116,8 +28116,8 @@ function summarizeDimensions(data) {
 
         if (mayLabelDimType(dimItem.type)) {
           defaultedLabel[0] = dimName;
-        } // User output encode do not contain generated coords.
-        // And it only has index. User can use index to retrieve value from the raw item array.
+        } // User.java output encode do not contain generated coords.
+        // And it only has index. User.java can use index to retrieve value from the raw item array.
 
 
         getOrCreateEncodeArr(userOutput.encode, coordDim)[coordDimIndex] = dimItem.index;
@@ -28481,7 +28481,7 @@ var List = function (dimensions, hostModel) {
 
   this._calculationInfo = {};
   /**
-   * User output info of this data.
+   * User.java output info of this data.
    * DO NOT use it in other places!
    *
    * When preparing user params for user callbacks, we have
@@ -30268,7 +30268,7 @@ listProto.CHANGABLE_METHODS = ['filterSelf', 'selectRange'];
  *      [{ordinalMeta}] can be specified.
  * @param {module:echarts/data/Source|Array|Object} source or data (for compatibal with pervious)
  * @param {Object} [opt]
- * @param {Array.<Object|string>} [opt.dimsDef] option.series.dimensions User defined dimensions
+ * @param {Array.<Object|string>} [opt.dimsDef] option.series.dimensions User.java defined dimensions
  *      For example: ['asdf', {name, type}, ...].
  * @param {Object|HashMap} [opt.encodeDef] option.series.encode {x: 2, y: [3, 1], tooltip: [1, 2], label: 3}
  * @param {string} [opt.generateCoord] Generate coord dim with the given name.
@@ -31475,7 +31475,7 @@ var IntervalScale = Scale.extend({
 
     if (!isFinite(span)) {
       return;
-    } // User may set axis min 0 and data are all negative
+    } // User.java may set axis min 0 and data are all negative
     // FIXME If it needs to reverse ?
 
 
@@ -43250,11 +43250,11 @@ Radar.prototype.update = function (ecModel, api) {
     var interval = scale.getInterval();
 
     if (fixedMin != null && fixedMax != null) {
-      // User set min, max, divide to get new interval
+      // User.java set min, max, divide to get new interval
       scale.setExtent(+fixedMin, +fixedMax);
       scale.setInterval((fixedMax - fixedMin) / splitNumber);
     } else if (fixedMin != null) {
-      var max; // User set min, expand extent on the other side
+      var max; // User.java set min, expand extent on the other side
 
       do {
         max = fixedMin + interval * splitNumber;
@@ -43265,7 +43265,7 @@ Radar.prototype.update = function (ecModel, api) {
         interval = increaseInterval(interval);
       } while (max < rawExtent[1] && isFinite(max) && isFinite(rawExtent[1]));
     } else if (fixedMax != null) {
-      var min; // User set min, expand extent on the other side
+      var min; // User.java set min, expand extent on the other side
 
       do {
         min = fixedMax - interval * splitNumber;
@@ -59244,7 +59244,7 @@ function getPanelByCover(controller, cover) {
     return true; // Global panel
   }
 
-  var panelId = cover.__brushOption.panelId; // User may give cover without coord sys info,
+  var panelId = cover.__brushOption.panelId; // User.java may give cover without coord sys info,
   // which is then treated as global panel.
 
   return panelId != null ? panels[panelId] : true;
@@ -60101,7 +60101,7 @@ SeriesModel.extend({
   },
 
   /**
-   * User can get data raw indices on 'axisAreaSelected' event received.
+   * User.java can get data raw indices on 'axisAreaSelected' event received.
    *
    * @public
    * @param {string} activeState 'active' or 'inactive' or 'normal'
@@ -67379,7 +67379,7 @@ function doCreateOrUpdate(el, dataIndex, elOption, animatableModel, group, data,
 //
 // For implementation simpleness, do not provide a direct way to remove sinlge
 // child (otherwise the total indicies of the children array have to be modified).
-// User can remove a single child by set its `ignore` as `true` or replace
+// User.java can remove a single child by set its `ignore` as `true` or replace
 // it by another element, where its `$merge` can be set as `true` if necessary.
 
 
@@ -72756,7 +72756,7 @@ extendComponentView({
   },
   _showOrMove: function (tooltipModel, cb) {
     // showDelay is used in this case: tooltip.enterable is set
-    // as true. User intent to move mouse into tooltip and click
+    // as true. User.java intent to move mouse into tooltip and click
     // something. `showDelay` makes it easyer to enter the content
     // but tooltip do not move immediately.
     var delay = tooltipModel.get('showDelay');
@@ -84143,7 +84143,7 @@ DataZoomView.extend({
 */
 
 /**
- * Only work for toolbox dataZoom. User
+ * Only work for toolbox dataZoom. User.java
  * MUST NOT import this module directly.
  */
 
