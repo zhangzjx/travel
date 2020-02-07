@@ -1,9 +1,12 @@
 package com.zhang.domain;
 
+import com.zhang.utils.DateUtils;
+
 /**
  * @author Administrator
  */
 public class Hotel {
+
     public int getId() {
         return id;
     }
@@ -12,20 +15,20 @@ public class Hotel {
         this.id = id;
     }
 
-    public int getBid() {
-        return bid;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setBid(int bid) {
-        this.bid = bid;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public String getGid() {
-        return gid;
+    public int getHotelId() {
+        return hotelId;
     }
 
-    public void setGid(String gid) {
-        this.gid = gid;
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
     }
 
     public String getHotelName() {
@@ -60,6 +63,14 @@ public class Hotel {
         this.hotelAddress = hotelAddress;
     }
 
+    public String getHotelPhone() {
+        return hotelPhone;
+    }
+
+    public void setHotelPhone(String hotelPhone) {
+        this.hotelPhone = hotelPhone;
+    }
+
     public String getHotelStar() {
         return hotelStar;
     }
@@ -68,37 +79,78 @@ public class Hotel {
         this.hotelStar = hotelStar;
     }
 
+    public String getHotelContent() {
+        return hotelContent;
+    }
+
+    public void setHotelContent(String hotelContent) {
+        this.hotelContent = hotelContent;
+    }
+
+    public String getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(String entryTime) {
+        this.entryTime = entryTime;
+    }
+
+    public String getRoomStandard() {
+        return roomStandard;
+    }
+
+    public void setRoomStandard(String roomStandard) {
+        this.roomStandard = roomStandard;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public String getPriceRoom() {
+        return priceRoom;
+    }
+
+    public void setPriceRoom(String priceRoom) {
+        this.priceRoom = priceRoom;
+    }
+
     @Override
     public String toString() {
         return "Hotel{" +
                 "id=" + id +
-                ", bid=" + bid +
-                ", gid='" + gid + '\'' +
+                ", roomId=" + roomId +
+                ", hotelId=" + hotelId +
                 ", hotelName='" + hotelName + '\'' +
                 ", hotelPrice='" + hotelPrice + '\'' +
                 ", hotelLabel='" + hotelLabel + '\'' +
                 ", hotelAddress='" + hotelAddress + '\'' +
+                ", hotelPhone='" + hotelPhone + '\'' +
                 ", hotelStar='" + hotelStar + '\'' +
+                ", hotelContent='" + hotelContent + '\'' +
+                ", entryTime='" + entryTime + '\'' +
+                ", roomStandard='" + roomStandard + '\'' +
+                ", roomNumber='" + roomNumber + '\'' +
+                ", priceRoom='" + priceRoom + '\'' +
                 '}';
     }
 
     private int id;
-    private int bid;
-    private String gid;
+    private int roomId;
+    private int hotelId;
     private String hotelName;
     private String hotelPrice;
     private String hotelLabel;
     private String hotelAddress;
+    private String hotelPhone;
     private String hotelStar;
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    private String time;
-
+    private String hotelContent;
+    private String entryTime;
+    private String roomStandard;
+    private String roomNumber;
+    private String priceRoom;
 }

@@ -6,18 +6,37 @@ import com.zhang.utils.JdbcUtils;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Administrator
+ */
 public class HotelDao {
     /**添加酒店信息
      * @return*/
     public static Hotel addHotel(Hotel hotel) {
-        String sql = "insert into hotel values(null,?,?,?,?,?,?)";
+        String sql = "insert into hotel values(null,?,?,?,?,?,?,?)";
         Object[] params ={
                 hotel.getHotelName(),
-                hotel.getHotelPrice(),
                 hotel.getHotelLabel(),
                 hotel.getHotelAddress(),
                 hotel.getHotelStar(),
-                hotel.getTime(),
+                hotel.getHotelPhone(),
+
+                hotel.getHotelContent(),
+                hotel.getEntryTime(),
+        };
+        JdbcUtils.insert(sql, params);
+        return hotel;
+    }
+    /**添加酒店房型信息
+     * @return*/
+    public static Hotel addHotelInf(Hotel hotel) {
+        String sql = "insert into hotel values(null,?,?,?,?,?)";
+        Object[] params ={
+                hotel.getHotelId(),
+                hotel.getRoomNumber(),
+                hotel.getRoomStandard(),
+                hotel.getPriceRoom(),
+                hotel.getEntryTime(),
         };
         JdbcUtils.insert(sql, params);
         return hotel;
@@ -80,7 +99,7 @@ public class HotelDao {
                 hotel.getHotelLabel(),
                 hotel.getHotelAddress(),
                 hotel.getHotelStar(),
-                hotel.getTime(),
+                hotel.getEntryTime(),
                 hotel.getId(),
         };
         JdbcUtils.update(sql, params);

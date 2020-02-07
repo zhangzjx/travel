@@ -33,6 +33,7 @@
             height: 20px;
             float: left;
             margin-top: 0;
+            margin-left: 3px;
             margin-right: 0 !important;
             border-radius: 3px;
         }
@@ -76,14 +77,13 @@
             <col width="50">
             <col width="60">
             <col width="180">
-            <col width="60">
+            <col width="100">
             <col width="100">
             <col width="60">
-            <col width="60">
             <col width="180">
             <col width="60">
             <col width="60">
-            <col width="180">
+            <col width="140">
         </colgroup>
         <thead>
         <tr>
@@ -93,7 +93,7 @@
             <th>说明</th>
             <th>营业时间</th>
             <th>价格</th>
-            <th>省份</th>
+
             <th>地址</th>
             <th>星级</th>
             <th>评分</th>
@@ -106,10 +106,10 @@
                 <td><input type="checkbox" name="number" value=${record.spId}></td>
                 <td>${record.spId}</td>
                 <td title="${record.spName}">${record.spName}</td>
-                <td title="${record.spLebel}">${record.spLebel}</td>
+                <td title="${record.spLabel}">${record.spLabel}</td>
                 <td title="${record.spTime}">${record.spTime}</td>
                 <td title="${record.spPrice}">${record.spPrice}</td>
-                <td title="${record.spName}">${record.province}</td>
+
                 <td title="${record.spAddress}">${record.spAddress}</td>
                 <td title="${record.spStar}">${record.spStar}</td>
                 <td title="${record.spName}">${record.country}</td>
@@ -192,15 +192,13 @@
             <li>营业时间</li>
             <li>景点地址</li>
             <li>景点电话</li>
-            <li>景点详情</li>
             <li>景点星级</li>
-            <li>景点电话</li>
+            <li>景点详情</li>
+
         </ul>
     </div>
     <div id="result" style="width: 600px;height: 300px;float: left;">
-        <ul>
-            <li></li>
-        </ul>
+
     </div>
 </script>
 <script type="text/html" id="editDialog">
@@ -287,18 +285,25 @@
                 spId:id,
             },
             success:function (data) {
-                //map型数据
+                //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
+                const json = JSON.stringify(data);
+                //alert("返回的数据："+json);
+                console.log(data,'数组');
+                const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
+                const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
+                const spTime = JSON.stringify(data.spTime).replace(/\"/g, "");
+                const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
+                const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
+                const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
+                const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
+
                 let str = '';
-                let spName ;
-                for(const i in data){
-                 //  alert(i);
-                  // alert(data[i])
-                    str +="<li>" + data[i] + "<li>";
-                }
+                str = "<ul><li>" + spName + "</li><li>" + spLabel + "</li><li>" + spTime + "</li>" +
+                    "<li>" + spAddress + "</li><li>" + spPhone + "</li><li>" + spStar + "</li><li>" + spFormation + "</li></ul>";
+                //追加到table中
                 $("#result").html(str);
-                //const json = JSON.stringify(data);
-               // alert(json);
-               // showData(data);//我们仅做数据展示
+
+                //showData(data);//我们仅做数据展示
                 //location.reload();
             },//响应成功后的回调函数
             error:function () {
@@ -324,6 +329,7 @@
             title: '详细信息',
             area: ['70%', '80%'],
             shade: 0,
+            offset: '10px',//弹窗位置
             //resize: false,
             content: $('#detailDialog').html(), //这里content是一个普通的String
             btn: ['确定', '取消'],

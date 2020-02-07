@@ -67,8 +67,8 @@ public class AttractionsDao {
     }
     /**查找一条数据*/
     public Map<String, Object> findOneAt(int id) {
-        String sql = "select s.spName,s.spLabel,s.spTime,s.spAddress,s.spPhone,s.spFormation " +
-                " from t_scenicspot s where spId=?";
+        String sql = "select s.spName,s.spLabel,s.spTime,s.spAddress,s.spPhone,s.spStar " +
+                " ,s.spFormation,s.spPlace from t_scenicspot s where spId=?";
         List<Map<String, Object>> list=JdbcUtils.find(sql, id);
         return list.get(0);
     }
@@ -95,7 +95,7 @@ public class AttractionsDao {
                 hotel.getHotelLabel(),
                 hotel.getHotelAddress(),
                 hotel.getHotelStar(),
-                hotel.getTime(),
+                hotel.getEntryTime(),
                 hotel.getId(),
         };
         JdbcUtils.update(sql, params);

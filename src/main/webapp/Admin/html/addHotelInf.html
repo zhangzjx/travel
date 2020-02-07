@@ -23,44 +23,15 @@
 </head>
 <body>
 <div style="margin: 0px 20px;">
-    <div class="main-top"><h2>添加酒店信息</h2></div>
+    <div class="main-top"><h2>添加酒店房型信息</h2></div>
     <form class="layui-form" id="myForm">
         <!--
         <input type="hidden" action="addAttractions">
         -->
         <div class="layui-form-item">
             <label class="layui-form-label">酒店名称：</label>
-            <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_name" name="hotel_name" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" placeholder="请输入标题" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">酒店标签：</label>
-            <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_label" name="hotel_label" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">酒店地址：</label>
-            <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_address" name="hotel_address" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">酒店电话：</label>
-                <div class="layui-input-inline">
-                    <!--lay-verify="required|phone"-->
-                    <input type="tel" id="hotel_phone" name="hotel_phone"  autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">酒店星级：</label>
             <div class="layui-input-inline">
-                <select id="hotel_star" name="hotel_star">
+                <select id="hotel_id" name="hotel_id">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -70,10 +41,28 @@
                 </select>
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">酒店简介：</label>
-            <div class="layui-input-block" style="width: 600px;">
-                <textarea id="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">房间标准：</label>
+            <div class="layui-input-inline">
+                <select id="room_Standard" name="room_Standard">
+                    <option value=""></option>
+                    <option value="1" selected="">标准间（单人间）</option>
+                    <option value="2">双人间</option>
+                    <option value="3">多床</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">房间编号：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" id="room_Number" name="price_min" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">房间价格：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" id="price_room" name="price_room" placeholder="￥" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -117,13 +106,12 @@
                 //使用$.ajax()发送异步请求
                 $.ajax({
                     //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                    url:"../../AdminAttractionsServlet?action=addHotel" , // 请求路径
+                    url:"../../AdminAttractionsServlet?action=addHotelInf" , // 请求路径
                     type:"POST" , //请求方式
                     data:$('#myForm').serialize(),// 序列化表单值
                     success:function (data) {
                         alert("添加成功");
                         location.reload();
-                        //alert(data);
                     },//响应成功后的回调函数
                     error:function () {
                         alert("出错啦...")
@@ -180,30 +168,7 @@
             });
         });
 
-         $("#goTo").click(function(){
-                    const name = $("#attractions_name").val();
-                    const label = $("#attractions_label").val();
-                    const address = $("#attractions_address").val();
-                    const star = $("#attractions_star").val();
-                    //使用$.ajax()发送异步请求
-                    $.ajax({
-                        //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                        url:"../../AdminAttractionsServlet?action=addAttractions" , // 请求路径
-                        type:"POST" , //请求方式
-                        data:$('#myForm').serialize(),// 序列化表单值
 
-                        success:function (data) {
-                            alert("添加成功");
-                            //location.reload();
-                            //alert(data);
-                        },//响应成功后的回调函数
-                        error:function () {
-                            alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
-
-                        dataType:"text"//设置接受到的响应数据的格式
-                    });
-                });
          */
     });
 

@@ -18,6 +18,12 @@ public class AdminHotelService {
         HotelDao.addHotel(hotel);
         return true;
     }
+    /**添加酒店房型
+     * @param hotel*/
+    public Boolean addHotelInf(Hotel hotel) {
+        HotelDao.addHotelInf(hotel);
+        return true;
+    }
 
     /**查看酒店*/
     /**查询酒店数据并分页*/

@@ -33,6 +33,7 @@ public class AdminHotelServlet extends HttpServlet {
     public static final String FIND_LIST_HOTEL = "findListHotel";
     public static final String FIND_JSON_HOTEL = "findJsonHotel";
     public static final String SEARCH_GO = "searchGo";
+    public static final String ADD_HOTEL_INF = "addHotelInf";
 
 
     private static final ServletRequest SESSION = null;
@@ -57,6 +58,8 @@ public class AdminHotelServlet extends HttpServlet {
 
             if(ADD_HOTEL.equals(action)){
                 addHotel(request,response);
+            } else if(ADD_HOTEL_INF.equals(action)){
+                addHotelInf(request, response);
             } else if(VALIDATE_NAME.equals(action)){
                 validateName(request, response);
             } else if(FIND_ALL_HOTEL.equals(action)||SEARCH_GO.equals(action)){
@@ -68,36 +71,58 @@ public class AdminHotelServlet extends HttpServlet {
             }
         }
 
-
+        /*******添加酒店信息*******/
         private void addHotel(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
 
             String name = request.getParameter("hotel_name");
-            String price = request.getParameter("hotel_price");
             String label = request.getParameter("hotel_label");
             String address = request.getParameter("hotel_address");
             String star = request.getParameter("hotel_star");
             String phone = request.getParameter("hotel_phone");
             String content = request.getParameter("content");
+
             //String bid = request.getParameter("bid");
 
-            System.out.println("获得的内容"+name+price+label+address+star);
+            System.out.println("获得的内容"+name+label+address+star);
             //3.封装到goods对象中
             Hotel hotel = new Hotel();
             hotel.setHotelName(name);
-            hotel.setHotelPrice(price);
             hotel.setHotelLabel(label);
             hotel.setHotelAddress(address);
             hotel.setHotelStar(star);
+            hotel.setHotelPhone(phone);
 
+            hotel.setHotelContent(content);
             //goods.setBid(Integer.parseInt(bid));
-            hotel.setTime(DateUtils.StrTime());
+            hotel.setEntryTime(DateUtils.StrTime());
             //4.调用Service中add方法添加一条新闻
             Boolean result = adminHotelService.addHotel(hotel);
             //返回添加成功的信息
             response.getWriter().print(result);
         }
+    /*******添加酒店房型信息*******/
+    private void addHotelInf(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
 
+        String hId = request.getParameter("hotel_id");
+        String standard = request.getParameter("room_Standard");
+        String number = request.getParameter("room_Number");
+        String price = request.getParameter("room_price");
+        //String bid = request.getParameter("bid");
+
+        Hotel hotel = new Hotel();
+        hotel.setHotelId(Integer.parseInt(hId));
+        hotel.setRoomStandard(standard);
+        hotel.setRoomNumber(number);
+        hotel.setPriceRoom(price);
+        //goods.setBid(Integer.parseInt(bid));
+        hotel.setEntryTime(DateUtils.StrTime());
+        //4.调用Service中add方法添加一条新闻
+        Boolean result = adminHotelService.addHotelInf(hotel);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+    }
         /**查询数据并分页
          * 根据关键词查找数据并传递到另一个页面(搜索功能)
          */
