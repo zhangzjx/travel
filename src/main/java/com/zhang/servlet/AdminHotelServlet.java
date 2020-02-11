@@ -34,6 +34,9 @@ public class AdminHotelServlet extends HttpServlet {
     public static final String FIND_JSON_HOTEL = "findJsonHotel";
     public static final String SEARCH_GO = "searchGo";
     public static final String ADD_HOTEL_INF = "addHotelInf";
+    public static final String GET_PROVINCE = "getProvince";
+    public static final String GET_HOTEL_INF = "getHotelInf";
+    public static final String GET_HOTEL = "getHotel";
 
 
     private static final ServletRequest SESSION = null;
@@ -58,6 +61,10 @@ public class AdminHotelServlet extends HttpServlet {
 
             if(ADD_HOTEL.equals(action)){
                 addHotel(request,response);
+            } else if(GET_PROVINCE.equals(action)){
+                getProvince(request, response);
+            } else if(GET_HOTEL.equals(action)){
+                getHotel(request, response);
             } else if(ADD_HOTEL_INF.equals(action)){
                 addHotelInf(request, response);
             } else if(VALIDATE_NAME.equals(action)){
@@ -71,36 +78,58 @@ public class AdminHotelServlet extends HttpServlet {
             }
         }
 
-        /*******添加酒店信息*******/
-        private void addHotel(HttpServletRequest request,
-                              HttpServletResponse response) throws IOException {
 
-            String name = request.getParameter("hotel_name");
-            String label = request.getParameter("hotel_label");
-            String address = request.getParameter("hotel_address");
-            String star = request.getParameter("hotel_star");
-            String phone = request.getParameter("hotel_phone");
-            String content = request.getParameter("content");
 
-            //String bid = request.getParameter("bid");
+    /*******获得省份信息*******/
+    private void getProvince(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+        List<Map<String,Object>> result= adminHotelService.findProvince();
+        //创建Jackson的核心对象  ObjectMapper
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(response.getWriter(),result);
+        System.out.println(result);
 
-            System.out.println("获得的内容"+name+label+address+star);
-            //3.封装到goods对象中
-            Hotel hotel = new Hotel();
-            hotel.setHotelName(name);
-            hotel.setHotelLabel(label);
-            hotel.setHotelAddress(address);
-            hotel.setHotelStar(star);
-            hotel.setHotelPhone(phone);
+    }
+    /*******获得酒店信息*******/
+    private void getHotel(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        String provinceId = request.getParameter("pro");
+        System.out.println("省份id"+provinceId);
+        List<Map<String,Object>> result= adminHotelService.getHotelInf(provinceId);
+        //创建Jackson的核心对象  ObjectMapper
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(response.getWriter(),result);
+    }
+    /*******添加酒店信息*******/
+    private void addHotel(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
 
-            hotel.setHotelContent(content);
-            //goods.setBid(Integer.parseInt(bid));
-            hotel.setEntryTime(DateUtils.StrTime());
-            //4.调用Service中add方法添加一条新闻
-            Boolean result = adminHotelService.addHotel(hotel);
-            //返回添加成功的信息
-            response.getWriter().print(result);
-        }
+        String name = request.getParameter("hotel_name");
+        String label = request.getParameter("hotel_label");
+        String address = request.getParameter("hotel_address");
+        String star = request.getParameter("hotel_star");
+        String phone = request.getParameter("hotel_phone");
+        String content = request.getParameter("content");
+
+        //String bid = request.getParameter("bid");
+
+        System.out.println("获得的内容"+name+label+address+star);
+        //3.封装到goods对象中
+        Hotel hotel = new Hotel();
+        hotel.setHotelName(name);
+        hotel.setHotelLabel(label);
+        hotel.setHotelAddress(address);
+        hotel.setHotelStar(star);
+        hotel.setHotelPhone(phone);
+
+        hotel.setHotelContent(content);
+        //goods.setBid(Integer.parseInt(bid));
+        hotel.setEntryTime(DateUtils.StrTime());
+        //4.调用Service中add方法添加一条新闻
+        Boolean result = adminHotelService.addHotel(hotel);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+    }
     /*******添加酒店房型信息*******/
     private void addHotelInf(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {

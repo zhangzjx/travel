@@ -41,6 +41,17 @@ public class HotelDao {
         JdbcUtils.insert(sql, params);
         return hotel;
     }
+    /*******获得省份信息*******/
+    public static List<Map<String, Object>> findProvince() {
+        String sql = "select * from t_provinces";
+        return JdbcUtils.find(sql);
+    }
+    /*******获得酒店名称*******/
+    public static List<Map<String, Object>> getHotelInf(String provinceId) {
+        String sql = "select hId,hName,hPlace from t_hotel where provinceid=?";
+        return JdbcUtils.find(sql,provinceId);
+    }
+
     /**查询所有酒店信息并分页*/
     /**搜索结果总记录数*/
     public static int findCountHotel(String skey, String svalue) {

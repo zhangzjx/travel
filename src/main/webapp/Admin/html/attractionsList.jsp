@@ -66,7 +66,6 @@
             <input type="text" id="sValue" name="sValue" class="el-input" placeholder="景点名称/景点地址">
             <button class="layui-btn layui-btn-sm" lay-submit lay-filter="formSearch">搜索</button>
         </div>
-
     </form>
     <div class="operating">
         <button class="layui-btn layui-btn-sm" onclick="goAdd()">添加</button>
@@ -107,7 +106,7 @@
                 <td>${record.spId}</td>
                 <td title="${record.spName}">${record.spName}</td>
                 <td title="${record.spLabel}">${record.spLabel}</td>
-                <td title="${record.spTime}">${record.spTime}</td>
+                <td title="${record.spTimeStart}">${record.spTimeStart} - ${record.spTimeEnd}</td>
                 <td title="${record.spPrice}">${record.spPrice}</td>
 
                 <td title="${record.spAddress}">${record.spAddress}</td>
@@ -194,7 +193,6 @@
             <li>景点电话</li>
             <li>景点星级</li>
             <li>景点详情</li>
-
         </ul>
     </div>
     <div id="result" style="width: 600px;height: 300px;float: left;">
@@ -202,177 +200,158 @@
     </div>
 </script>
 <script type="text/html" id="editDialog">
-    <form class="layui-form" action="" style="padding: 20px;" lay-filter="editDialogForm">
+    <form class="layui-form" id="myForm" action="" style="padding: 20px;" lay-filter="editDialogForm">
+        <!--
+<input type="hidden" action="addAttractions">
+-->
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
-            <div class="layui-input-inline">
-                <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            <label class="layui-form-label">景点名称：</label>
+            <div class="layui-input-block" style="width: 400px;">
+                <input type="text" id="attractions_name" name="attractions_name" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">单选框</label>
-            <div class="layui-input-inline">
-                <input type="radio" name="sex" value="男" title="男">
-                <input type="radio" name="sex" value="女" title="女" checked>
+            <label class="layui-form-label">景点标签：</label>
+            <div class="layui-input-block" style="width: 400px;">
+                <input type="text" id="attractions_label" name="attractions_label" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <!--
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">门票价格：</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="price" name="price" placeholder="￥" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">景点地址：</label>
+            <div class="layui-input-block" style="width: 400px;">
+                <input type="text" id="attractions_address" name="attractions_address" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">选择城市</label>
-            <div class="layui-input-inline">
-                <select name="city">
-                    <option value="城市-0">城市-0</option>
-                    <option value="城市-1">城市-1</option>
-                    <option value="城市-2">城市-2</option>
-                    <option value="城市-3">城市-3</option>
-                    <option value="城市-4">城市-4</option>
-                </select>
+            <div class="layui-inline">
+                <label class="layui-form-label">营业时间：</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="time_min" name="time_min" lay-verify="time" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" id="time_max" name="time_max" lay-verify="time" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">景区电话：</label>
+                <div class="layui-input-inline">
+                    <!--lay-verify="required|phone"-->
+                    <input type="tel" id="attractions_phone" name="attractions_phone"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">景点星级：</label>
+            <div class="layui-input-block" style="width: 100px;">
+                <input type="text" id="attractions_star" name="attractions_star"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">请填写签名</label>
+            <label class="layui-form-label">景点简介：</label>
+            <div class="layui-input-block" style="width: 600px;">
+                <textarea id="content" name="content" style="height:400px;" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <div class="layui-input-block">
-                <textarea name="sign" placeholder="请填写签名" class="layui-textarea"></textarea>
+                <button type="button" id="goTo" class="layui-btn" lay-filter="go" lay-submit="" >修改</button>
+
             </div>
         </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">积分</label>
-            <div class="layui-input-inline">
-                <input type="number" name="experience" placeholder="请输入积分" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">评分</label>
-            <div class="layui-input-inline">
-                <input type="number" name="score" placeholder="请输入评分" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">选择职业</label>
-            <div class="layui-input-inline">
-                <select name="classify">
-                    <option value="作家">作家</option>
-                    <option value="词人">词人</option>
-                    <option value="酱油">酱油</option>
-                    <option value="诗人">诗人</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">财富</label>
-            <div class="layui-input-inline">
-                <input type="number" name="wealth" placeholder="请输入财富" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
     </form>
 </script>
 <script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
-
-<script type="text/javascript">
-
-    $(".detail").click(function() {
-        const id = $(this).attr("value");
-        /**获取单条数据信息*/
-        $.ajax({
-            url: "../../AdminAttractionsServlet",  // 请求路径
-            type:"Get" , //请求方式
-            dataType:"json",//设置接受到的响应数据的格式
-            data:{action:"findOneAt",
-                spId:id,
-            },
-            success:function (data) {
-                //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
-                const json = JSON.stringify(data);
-                //alert("返回的数据："+json);
-                console.log(data,'数组');
-                const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
-                const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
-                const spTime = JSON.stringify(data.spTime).replace(/\"/g, "");
-                const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
-                const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
-                const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
-                const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
-
-                let str = '';
-                str = "<ul><li>" + spName + "</li><li>" + spLabel + "</li><li>" + spTime + "</li>" +
-                    "<li>" + spAddress + "</li><li>" + spPhone + "</li><li>" + spStar + "</li><li>" + spFormation + "</li></ul>";
-                //追加到table中
-                $("#result").html(str);
-
-                //showData(data);//我们仅做数据展示
-                //location.reload();
-            },//响应成功后的回调函数
-            error:function () {
-                alert("出错啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-        });
-        //展示数据
-        function showData(data) {
-
-            let str = "";
-            for(let i = 0; i < data.length; i++){    //遍历data数组
-                const ls = data[i];
-                alert(ls);
-                str +="<span>测试："+ls.spName+"</span>";
-                alert("zhixng");
-
-                $("#sValue").html(str);//在html页面id=test的标签里显示html内容
-            }
-        }
-
-        layer.open({
-            type: 1,
-            title: '详细信息',
-            area: ['70%', '80%'],
-            shade: 0,
-            offset: '10px',//弹窗位置
-            //resize: false,
-            content: $('#detailDialog').html(), //这里content是一个普通的String
-            btn: ['确定', '取消'],
-            /****
-             success: function (index, layero) {
-                form.render();
-            },
-             yes: function (index, layero) {
-            },
-             btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
-            }
-             **/
-        });
-
-    });
-
-
-    function goAdd() {
-        layer.open({
-            type: 1,
-            title: '添加',
-            area: ['50%', '70%'],
-            shade: 0,
-            //resize: false,
-            content: $('#editDialog').html(), //这里content是一个普通的String
-            btn: ['确定', '取消'],
-            /**
-            success: function (index, layero) {
-                form.render();
-            },
-            yes: function (index, layero) {
-            },
-            btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
-            }
-             */
-        });
-    };
-</script>
 <script type="application/javascript">
     $(document).ready(function(){
         layui.use(['form'], function() {
             const form = layui.form
                 , layer = layui.layer;
+            /**修改信息*/
+            $(".edit").click(function() {
+                const id = $(this).attr("value");
+                /**获取单条数据信息*/
+                $.ajax({
+                    url: "../../AdminAttractionsServlet",  // 请求路径
+                    type:"Get" , //请求方式
+                    dataType:"json",//设置接受到的响应数据的格式
+                    data:{action:"findOneAt",
+                        spId:id,
+                    },
+                    success:function (data) {
+                        //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
+                        const json = JSON.stringify(data);
+                        //alert("返回的数据："+json);
+                        console.log(json);
+                        const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
+                        const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
+                        const spTimeStart = JSON.stringify(data.spTimeStart).replace(/\"/g, "");
+                        const spTimeEnd = JSON.stringify(data.spTimeEnd).replace(/\"/g, "");
+                        const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
+                        const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
+                        const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
+                        const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
+
+                        $("#attractions_name").val(spName);
+                        $("#attractions_label").val(spLabel);
+                        $("#time_min").val(spTimeStart);
+                        $("#time_max").val(spTimeEnd);
+                        $("#attractions_address").val(spAddress);
+                        $("#attractions_phone").val(spPhone);
+                        $("#attractions_star").val(spStar);
+                        $("#content").html(spFormation);
+                        //showData(data);//我们仅做数据展示
+                        //location.reload();
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+                });
+                //展示数据
+                function showData(data) {
+                    let str = "";
+                    for(let i = 0; i < data.length; i++){    //遍历data数组
+                        const ls = data[i];
+                        alert(ls);
+                        str +="<span>测试："+ls.spName+"</span>";
+                        $("#sValue").html(str);//在html页面id=test的标签里显示html内容
+                    }
+                }
+                /**打开弹窗*/
+                layer.open({
+                    type: 1,
+                    title: '修改信息',
+                    area: ['70%', '80%'],
+                    shade: 0,
+                    offset: '10px',//弹窗位置
+                    //resize: false,
+                    content: $('#editDialog').html(), //这里content是一个普通的String
+                    btn: ['确定', '取消'],
+                    /****
+                     success: function (index, layero) {
+                form.render();
+            },
+                     yes: function (index, layero) {
+            },
+                     btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
+            }
+                     **/
+                });
+
+            });
         });
         // 页面加载后任何需要执行的js特效
         //document.location = "../../AdminAttractionsServlet?action=findAllAttractions";
@@ -404,7 +383,7 @@
         }
     });
     /**
-    function del() {
+     function del() {
         const msg = "确定要删除吗？\n请确认！";
         if (confirm(msg)==true){
             alert("删除成功");
@@ -446,7 +425,101 @@
             document.location = "../../AdminAttractionsServlet?action=delAtMore&ids="+s;
         }
     }
+    /**查看详情*/
+    $(".detail").click(function() {
+        const id = $(this).attr("value");
+        /**获取单条数据信息*/
+        $.ajax({
+            url: "../../AdminAttractionsServlet",  // 请求路径
+            type:"Get" , //请求方式
+            dataType:"json",//设置接受到的响应数据的格式
+            data:{action:"findOneAt",
+                spId:id,
+            },
+            success:function (data) {
+                //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
+                const json = JSON.stringify(data);
+                //alert("返回的数据："+json);
+                console.log(data,'数组');
+                const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
+                const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
+                const spTimeStart = JSON.stringify(data.spTimeStart).replace(/\"/g, "");
+                const spTimeEnd = JSON.stringify(data.spTimeEnd).replace(/\"/g, "");
+                const spTime = spTimeStart+" - "+spTimeEnd
+                const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
+                const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
+                const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
+                const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
+
+                let str = '';
+                str = "<ul><li>" + spName + "</li><li>" + spLabel + "</li><li>" + spTime + "</li>" +
+                    "<li>" + spAddress + "</li><li>" + spPhone + "</li><li>" + spStar + "</li><li>" + spFormation + "</li></ul>";
+                //追加到table中
+                $("#result").html(str);
+                //showData(data);//我们仅做数据展示
+                //location.reload();
+            },//响应成功后的回调函数
+            error:function () {
+                alert("出错啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+        });
+        //展示数据
+        function showData(data) {
+            let str = "";
+            for(let i = 0; i < data.length; i++){    //遍历data数组
+                const ls = data[i];
+                alert(ls);
+                str +="<span>测试："+ls.spName+"</span>";
+                $("#sValue").html(str);//在html页面id=test的标签里显示html内容
+            }
+        }
+        /**打开弹窗*/
+        layer.open({
+            type: 1,
+            title: '详细信息',
+            area: ['70%', '80%'],
+            shade: 0,
+            offset: '10px',//弹窗位置
+            //resize: false,
+            content: $('#detailDialog').html(), //这里content是一个普通的String
+            btn: ['确定', '取消'],
+            /****
+             success: function (index, layero) {
+                form.render();
+            },
+             yes: function (index, layero) {
+            },
+             btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
+            }
+             **/
+        });
+
+    });
+
+
+
+    function goAdd() {
+        layer.open({
+            type: 1,
+            title: '添加',
+            area: ['50%', '70%'],
+            shade: 0,
+            //resize: false,
+            content: $('#editDialog').html(), //这里content是一个普通的String
+            btn: ['确定', '取消'],
+            /**
+            success: function (index, layero) {
+                form.render();
+            },
+            yes: function (index, layero) {
+            },
+            btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
+            }
+             */
+        });
+    };
 </script>
+
 
 <script>
     layuiModules=['table', 'layer','form'];

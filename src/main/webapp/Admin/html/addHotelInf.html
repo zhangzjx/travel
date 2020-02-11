@@ -29,15 +29,28 @@
         <input type="hidden" action="addAttractions">
         -->
         <div class="layui-form-item">
+            <label class="layui-form-label">省份：</label>
+            <div class="layui-input-inline" >
+                <select id="province_id" name='province_id' lay-filter="hotel">
+
+                </select>
+            </div>
+        </div>
+        <!--
+        <div class="layui-form-item">
+            <label class="layui-form-label">城市：</label>
+            <div class="layui-input-inline" >
+                <select id="city_id" name='city_id' lay-filter="city">
+
+                </select>
+            </div>
+        </div>
+-->
+        <div class="layui-form-item">
             <label class="layui-form-label">酒店名称：</label>
-            <div class="layui-input-inline">
-                <select id="hotel_id" name="hotel_id">
-                    <option value=""></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5" selected="">5</option>
+            <div class="layui-input-inline" >
+                <select id="hotel_id" name='hotel_id' >
+
                 </select>
             </div>
         </div>
@@ -76,6 +89,7 @@
 
 </div>
 
+</select>
 </body>
 <script type="text/javascript" src="../../res/layui/layui.all.js"></script>
 
@@ -101,12 +115,70 @@
                     '时间格式不正确，正确格式为：00:00,请使用英文‘:’'
                 ]
             });
+            //获取省份信息，使用$.ajax()发送异步请求
+            $.ajax({
+                url:"../../AdminHotelServlet?action=getProvince" , // 请求路径
+                type:"POST" , //请求方式
+                data:{},
+                success:function (data) {
+                    const json = eval("(" + data + ")");
+                    let str = "";//定义用于拼接的字符串
+                    for(const i in json){//遍历
+                        //拼接表格的行和列
+                        const ls = json[i];
+                        str = "<option value="+ls.provinceid+">" + ls.province + "</option>";
+                        $("#province_id").append(str);
+                    }
+                    form.render();//菜单渲染 把内容加载进去
+                    // $("#hotel_id").html(str);
+                    // location.reload();
+                },//响应成功后的回调函数
+                error:function () {
+                    console.log("失败啦...")
+                },//表示如果请求响应出现错误，会执行的回调函数
+
+                dataType:"text"//设置接受到的响应数据的格式
+            });
+
+            form.on('select(hotel)',function(data){
+                const proId = data.value;
+                console.log(proId);
+                //使用$.ajax()发送异步请求
+                $.ajax({
+                    url:"../../AdminHotelServlet?action=getHotel" , // 请求路径
+                    type:"POST" , //请求方式
+                    data:{pro:proId},
+                    success:function (data) {
+                        const json = eval("(" + data + ")");
+                        let str = "";//定义用于拼接的字符串
+                        for(const i in json){//遍历
+                            //拼接表格的行和列
+                            const ls = json[i];
+                            str += "<option value="+ls.hId+">" + ls.hName + "</option>";
+
+                        }
+                        $("#hotel_id").html(str);
+                        form.render();//菜单渲染 把内容加载进去
+                        // $("#hotel_id").append(str);
+                        // location.reload();
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+
+                    dataType:"text"//设置接受到的响应数据的格式
+                });
+
+                //return false;//不跳转
+
+            });
+
             //监听提交
             form.on('submit(go)', function(data){
                 //使用$.ajax()发送异步请求
                 $.ajax({
                     //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                    url:"../../AdminAttractionsServlet?action=addHotelInf" , // 请求路径
+                    url:"../../AdminHotelServlet?action=addHotelInf" , // 请求路径
                     type:"POST" , //请求方式
                     data:$('#myForm').serialize(),// 序列化表单值
                     success:function (data) {
@@ -120,7 +192,7 @@
                     dataType:"text"//设置接受到的响应数据的格式
                 });
 
-                return false;
+                return false;//不跳转
             });
         });
         /**定义方法

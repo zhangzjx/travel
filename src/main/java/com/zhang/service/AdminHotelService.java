@@ -24,6 +24,14 @@ public class AdminHotelService {
         HotelDao.addHotelInf(hotel);
         return true;
     }
+    /*******获得省份信息*******/
+    public  List<Map<String,Object>> findProvince() {
+        return HotelDao.findProvince();
+    }
+    /*******获得酒店信息*******/
+    public  List<Map<String,Object>> getHotelInf(String provinceId) {
+        return HotelDao.getHotelInf(provinceId);
+    }
 
     /**查看酒店*/
     /**查询酒店数据并分页*/
