@@ -50,8 +50,9 @@ public class AdminAttractionsService {
         attractionsDao.delMore(ids);
     }
     /**修改酒店*/
-    public void update(Hotel hotel, Object action) {
-        HotelDao.update(hotel, action);
+    public Boolean changeAtInf(Attractions attractions) {
+        AttractionsDao.changeAtInf(attractions);
+        return true;
     }
 
 

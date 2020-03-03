@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>缤客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <script type="application/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="application/javascript" src="../res/layui/layui.all.js"></script>
+  <script type="application/javascript" src="js/lunBo.js"></script>
+  <script type="application/javascript" src="js/topFoot.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" type="text/css" href="css/topFoot.css">
+
+  <script type="application/javascript">
+
+    $(document).ready(function(){
+      // 页面加载后任何需要执行的js特效
+      if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+        //if(userCookie!= null&&userCookie != ""){
+        const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+        console.log("userCookie存在");
+        console.log(userCookie);
+        //console.log("userCookie===="+userCookie.uid);
+        $("#logout").show();
+
+      } else {
+        console.log("userCookie不存在");
+        $("#login").show()
+        //$("#account").show()
+        }
+
+    });
+  </script>
+
+  <style type="text/css">
+  </style>
+
+  <!--加载meta IE兼容文件-->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+</head>
+<body style="background-color: #f0f0f0">
+  
+  <!-- header -->
+  <div class="header-box">
+    <div class="header-top">
+      <!--
+      <ul class="app-header">
+        <li class="app-header-menuicon">
+           <i class="layui-icon layui-icon-more-vertical"></i>
+        </li>
+      </ul>
+      -->
+      <div class="logo">
+        <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+      </div>
+      <div class="login" id="login" style="display:none;">
+        <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+        <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+      </div>
+      <div class="login" id="logout" style="display:none;" >
+        <div class="account" >
+          <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+          <br>
+          <span style=" font-size: 9pt; ">账户</span>
+        </div>
+        <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
+      </div>
+      <!--
+      <ul class="layui-nav header-down-nav">
+        <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
+        <li class="layui-nav-item"><a href="case.html">案例</a></li>
+        <li class="layui-nav-item"><a href="service.html">服务</a></li>
+        <li class="layui-nav-item"><a href="about.html">关于</a></li>
+      </ul>-->
+    </div>
+    <div class="header-foot">
+      <div class="header-foot-item" >
+        <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+      </div>
+      <div class="header-foot-item">
+        <a href=""><img src="img/index-2.png" class="foot-img"><span>机票</span></a>
+      </div>
+      <div class="header-foot-item">
+        <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+      </div>
+    </div>
+
+  </div>
+  <!-- end-header -->
+
+  <!-- content -->
+    <div class="content">
+      <div class="title">
+        <h5>欢迎您的到来</h5>
+      </div>
+      <!--中部轮播图-->
+      <div class="box">
+        <ul class="image" id="img_main">
+          <!--
+          <li><img src="img/1.jpg" alt="这里是第一张图片"/></li>
+          <li><img src="img/2.jpg" alt="这里是第二张图片"/></li>
+          <li><img src="img/3.jpg" alt="这里是第三张图片"/></li>
+          <li><img src="img/4.jpg" alt="这里是第四张图片"/></li>
+          <li><img src="img/5.jpg" alt="这里是第五张图片"/></li>
+          <li><img src="img/6.jpg" alt="这里是第六张图片"/></li>
+          -->
+        </ul>
+        <ul class="num">
+          <li class="current">1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+          <li>6</li>
+
+        </ul>
+        <div class="left arrow">&lt;</div>
+        <div class="right arrow">&gt;</div>
+      </div>
+      <!--主要内容-->
+      <div class="prod-show" >
+        <div class="input-bor" >
+          <h1>景点、酒店、度假屋……更多优惠搜不停</h1>
+          <div style="margin-left: 400px;">
+            <input type="text" id="autocomplete" class="el-input">
+            <input type="button" class="el-btn layui-btn" value="搜索">
+          </div>
+        </div>
+        <div class="content-main">
+          <div class="content-left">
+            <div class="left-list-1">
+              <img src="img/v1.png" class="left-img">
+              <h2>解锁 Booking 的全部功能</h2><br>
+              <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;收藏你喜欢的旅行灵感，并在地图上查看</h3>
+              <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;接收价格通知和优惠资讯，然后以自己喜欢的方式旅游</h3>
+              <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;向像你一样的旅行者提问并寻求答案</h3>
+              <input type="button" class="register-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠"/>
+            </div>
+            <div class="left-list-2">
+              <h2>分享您的旅行建议</h2><br>
+
+              <h3><a href="#">撰写点评</a> </h3>
+            </div>
+            <img src="img/ad-1.jpg" class="left-list-3">
+
+          </div>
+          <div class="content-center">
+            <h1>为您推荐</h1>
+
+            <div id="result_1">
+              <h2>热门景点</h2>
+
+            </div>
+            <div id="result_2">
+              <h2>热门海滩</h2>
+
+            </div>
+
+            <div id="result_3">
+              <h2>热门海滩</h2>
+              <!-- <div class="center-item">
+                <img src="img/j-1.jpg" class="center-img">
+                <p><a href="#">巴黎勒布里斯托酒店</a></p>
+                <p><a href="#">
+                  <span class="layui-badge-dot layui-bg-blue"></span>
+                  <span class="layui-badge-dot layui-bg-blue"></span>
+                  <span class="layui-badge-dot layui-bg-blue"></span>
+                  <span class="layui-badge-dot layui-bg-blue"></span>
+                  <span class="layui-badge-dot layui-bg-blue"></span>
+                  2038条点评</a></p>
+              </div> -->
+
+            </div>
+
+          </div>
+          <div class="content-right">
+            <h2>精选目的地</h2>
+            <img src="img/w-1.jpg" class="right-img"/>
+            <span class="info">法国巴黎</span>
+            <img src="img/w-1.jpg" class="right-img"/>
+            <span class="info">法国巴黎</span>
+            <img src="img/w-1.jpg" class="right-img"/>
+            <span class="info">法国巴黎</span>
+          </div>
+        </div>
+        <div class="main-inf">
+          <h1>精彩下一站，灵感这里找</h1>
+          <div class="inf-item-1">
+            <img src="img/l-1.jpg" class="img">
+            <h2>情迷美利坚|美妙自然风光</h2>
+          </div>
+          <div class="inf-item-1">
+            <img src="img/l-2.jpg" class="img">
+            <h2>澳大利亚不可错过之美</h2>
+          </div>
+          <div class="inf-item-1">
+            <img src="img/l-2.jpg" class="img">
+            <h2>澳大利亚不可错过之美</h2>
+          </div>
+          <div class="inf-item-2">
+            <img src="img/l-4.jpg" class="img">
+            <h2>遇见欧若拉，全球十大极光欣赏地</h2>
+          </div>
+          <div class="inf-item-2">
+            <img src="img/l-4.jpg" class="img">
+            <h2>遇见欧若拉，全球十大极光欣赏地</h2>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  <!-- end-content -->
+
+  <!-- footer -->
+  <div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+      <div class="bottom-main">
+        <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+        <div class="bottom-main-list"><a href="#">北京市</a></div>
+        <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+        <div class="bottom-main-list"><a href="#">重庆市</a></div>
+        <div class="bottom-main-list"><a href="#">上海市</a></div>
+        <div class="bottom-main-list"><a href="#">广东省</a></div>
+      </div>
+      <div class="bottom-main">
+        <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+        <div class="bottom-main-list"><a href="#">山西省</a></div>
+        <div class="bottom-main-list"><a href="#">河南省</a></div>
+        <div class="bottom-main-list"><a href="#">河北省</a></div>
+        <div class="bottom-main-list"><a href="#">湖北省</a></div>
+        <div class="bottom-main-list"><a href="#">湖南省</a></div>
+      </div>
+      <div class="bottom-main">
+        <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+        <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+        <div class="bottom-main-list"><a href="#">吉林省</a></div>
+        <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+        <div class="bottom-main-list"><a href="#">河北省</a></div>
+        <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+      </div>
+      <div class="bottom-main">
+        <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+        <div class="bottom-main-list"><a href="#">四川省</a></div>
+        <div class="bottom-main-list"><a href="#">贵州省</a></div>
+        <div class="bottom-main-list"><a href="#">云南省</a></div>
+        <div class="bottom-main-list"><a href="#">重庆市</a></div>
+        <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+      </div>
+      <div class="bottom-main">
+        <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西北地区</a></div><br>
+        <div class="bottom-main-list"><a href="#">陕西省</a></div>
+        <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+        <div class="bottom-main-list"><a href="#">青海省</a></div>
+        <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+        <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+      </div>
+    </div>
+    <div class="foot">
+      <ul>
+        <li><a href="#"> 关于我们</a></li>
+        <li><a href="#"> 新闻动态</a></li>
+        <li><a href="#"> 工作机会</a></li>
+        <li><a href="#"> 商务合作</a></li>
+        <li><a href="#"> 会员中心</a></li>
+        <li><a href="#"> 常见问题</a></li>
+        <li><a href="#"> 意见反馈</a></li>
+        <li><a href="#"> 联系我们</a></li>
+        <li><a href="#"> 营业执照</a></li>
+      </ul>
+      <div >
+        © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+        * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+       </div>
+      <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+      </div>
+    </div>
+  </div>
+  <!-- end-footer -->
+
+</body>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script>
+  //定义方法
+  $(document).ready(function() {
+
+    //轮播图
+    $.ajax({
+      url: "../UserServlet", // 请求路径
+      type: "POST", //请求方式
+      //async:false,
+      data: {
+        action:"getImg"
+      },
+      success: function (data) {
+        console.log("dd"+data)
+        const json = eval("(" + data + ")");
+        let str = "";//定义用于拼接的字符串
+        for (const i in json) {//遍历
+
+          //拼接表格的行和列
+          const ls = json[i];
+
+          str = "<li><img src='/main/"+ls.imgName+"'/></li>";
+          $("#img_main").append(str);
+        }
+      },//响应成功后的回调函数
+      error: function () {
+        console.log("失败啦...")
+      },//表示如果请求响应出现错误，会执行的回调函数
+
+      dataType: "text"//设置接受到的响应数据的格式
+    });
+    //获取信息，使用$.ajax()发送异步请求
+    $.ajax({
+      url: "../UserServlet", // 请求路径
+      type: "POST", //请求方式
+      data: {
+        action:"getIndex"
+      },
+      success: function (data) {
+        console.log("cc"+data)
+        const json = eval("(" + data + ")");
+        let str = "";//定义用于拼接的字符串
+        //for(let i = 0; i < data.length; i++){    //遍历 数组
+        //for (const i in json) {//遍历
+        for(let i = 0; i < 3; i++){    //遍历 数组
+          //拼接表格的行和列
+          const ls = json[i];
+       //   str = "<div class="center-item"><img src="img/j-1.jpg" class="center-img">
+        //  <p><a href="#">ls.spName</a></p></div>";
+         // "<option value="+ls.hName+">" + ls.hName + "</option>";
+          str = "<div class='center-item'><img src='img/j-1.jpg' class='center-img'><p><a href='attractionReview.jsp?param="+ls.spId+"'>"+ls.spName+"</a></p></div>";
+          $("#result_1").append(str);
+          $("#result_2").append(str);
+          $("#result_3").append(str);
+        }
+        //form.render();//菜单渲染 把内容加载进去
+      },//响应成功后的回调函数
+      error: function () {
+        console.log("失败啦...")
+      },//表示如果请求响应出现错误，会执行的回调函数
+
+      dataType: "text"//设置接受到的响应数据的格式
+    });
+  })
+</script>
+</html>

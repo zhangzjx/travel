@@ -6,7 +6,22 @@ import java.sql.Time;
  * @author Administrator
  */
 public class Attractions {
-
+    private int spId;
+    private int uId;
+    private String attractionsName;
+    private String attractionsPrice;
+    private String attractionsLabel;
+    private String attractionsAddress;
+    private String attractionsPhone;
+    private String attractionsInf;
+    private String time;
+    private String status;
+    private String timeStart;
+    private String timeEnd;
+    private String attractionsStar;
+    private String entryTime;
+    private int quantity;
+    private double price;
 
     public int getSpId() {
         return spId;
@@ -14,6 +29,14 @@ public class Attractions {
 
     public void setSpId(int spId) {
         this.spId = spId;
+    }
+
+    public int getuId() {
+        return uId;
+    }
+
+    public void setuId(int uId) {
+        this.uId = uId;
     }
 
     public String getAttractionsName() {
@@ -72,6 +95,30 @@ public class Attractions {
         this.time = time;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(String timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
     public String getAttractionsStar() {
         return attractionsStar;
     }
@@ -88,10 +135,27 @@ public class Attractions {
         this.entryTime = entryTime;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Attractions{" +
                 "spId=" + spId +
+                ", uId=" + uId +
                 ", attractionsName='" + attractionsName + '\'' +
                 ", attractionsPrice='" + attractionsPrice + '\'' +
                 ", attractionsLabel='" + attractionsLabel + '\'' +
@@ -99,20 +163,16 @@ public class Attractions {
                 ", attractionsPhone='" + attractionsPhone + '\'' +
                 ", attractionsInf='" + attractionsInf + '\'' +
                 ", time='" + time + '\'' +
+                ", status='" + status + '\'' +
+                ", timeStart='" + timeStart + '\'' +
+                ", timeEnd='" + timeEnd + '\'' +
                 ", attractionsStar='" + attractionsStar + '\'' +
                 ", entryTime='" + entryTime + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
                 '}';
     }
 
-    private int spId;
-    private String attractionsName;
-    private String attractionsPrice;
-    private String attractionsLabel;
-    private String attractionsAddress;
-    private String attractionsPhone;
-    private String attractionsInf;
-    private String time;
-    private String attractionsStar;
-    private String entryTime;
+
 
 }

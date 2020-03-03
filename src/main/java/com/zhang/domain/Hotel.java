@@ -7,6 +7,7 @@ import com.zhang.utils.DateUtils;
  */
 public class Hotel {
 
+
     public int getId() {
         return id;
     }
@@ -111,12 +112,24 @@ public class Hotel {
         this.roomNumber = roomNumber;
     }
 
-    public String getPriceRoom() {
+    public Double getPriceRoom() {
         return priceRoom;
     }
 
-    public void setPriceRoom(String priceRoom) {
+    public void setPriceRoom(Double priceRoom) {
         this.priceRoom = priceRoom;
+    }
+
+    private int id;
+    private int roomId;
+    private int hotelId;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     @Override
@@ -125,6 +138,7 @@ public class Hotel {
                 "id=" + id +
                 ", roomId=" + roomId +
                 ", hotelId=" + hotelId +
+                ", province='" + province + '\'' +
                 ", hotelName='" + hotelName + '\'' +
                 ", hotelPrice='" + hotelPrice + '\'' +
                 ", hotelLabel='" + hotelLabel + '\'' +
@@ -135,13 +149,11 @@ public class Hotel {
                 ", entryTime='" + entryTime + '\'' +
                 ", roomStandard='" + roomStandard + '\'' +
                 ", roomNumber='" + roomNumber + '\'' +
-                ", priceRoom='" + priceRoom + '\'' +
+                ", priceRoom=" + priceRoom +
                 '}';
     }
 
-    private int id;
-    private int roomId;
-    private int hotelId;
+    private String province;
     private String hotelName;
     private String hotelPrice;
     private String hotelLabel;
@@ -152,5 +164,5 @@ public class Hotel {
     private String entryTime;
     private String roomStandard;
     private String roomNumber;
-    private String priceRoom;
+    private Double priceRoom;
 }

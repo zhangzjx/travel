@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../Admin/css/hotelManage.css">
     <link rel="stylesheet" href="../layui/css/layui.css">
     <link rel="stylesheet" href="css/style.css">
     <title>layuiAdmin管理系统</title>
@@ -27,8 +28,8 @@
            <li class="layui-nav-item"><a href="">退了</a></li>
        </ul>
    -->
-    <div class="loginNameDiv">
-        <img class="loginIcon" src="image/icon.png">
+    <div class="loginNameDiv" style="cursor: pointer">
+        <img class="loginIcon" src="/adminImg/bg_miaomiao.png">
         <div class="loginUserInfo">
             <span>ice</span><br>
             <span>管理员</span>
@@ -49,12 +50,31 @@
 </div>
 
 <!--设置弹框-->
-<div class="dialogMenu">
+<div class="dialogMenu" style="cursor: pointer">
+    <div id="parentChangeImg" class="dialogMenu-item">修改头像</div>
     <div id="parentChangePassword" class="dialogMenu-item">修改密码</div>
     <div id="parentExit" class="dialogMenu-item">退出</div>
 </div>
 </body>
 </html>
+<!--修改头像弹框-->
+<script type="text/html" id="dialogChangeImg">
+    <form class="layui-form" id="dialogChangeImgForm" action="/PhotoServlet?action=addAdminImg" method="post" enctype="multipart/form-data">
+        <div class="brand-2">
+            <span style="margin-right: 180px">仅支持上传JPG，JPEG，PNG格式图片</span>
+            <div id="imgPreview">
+                <div id="prompt">
+                    <span id="imgSpan">点击上传	</span>
+                    <input  type="file" id="photo" name="photo" class="filepath" onchange="changePic(this)"
+                            accept="image/jpg,image/jpeg,image/png"/>
+                    <!--当vaule值改变时执行changepic函数，规定上传的文件只能是图片-->
+                </div>
+                <img src="#" id="img" />
+            </div>
+        </div>
+        <button type="submit" id="goTo" class="layui-btn">立即提交</button>
+    </form>
+</script>
 <!--修改密码弹框-->
 <script type="text/html" id="dialogChangePassword">
     <form class="layui-form" id="dialogChangePasswordForm" style="margin-top:30px;padding-right:30px;">
@@ -82,9 +102,21 @@
     </form>
 </script>
 
-<script src="js/jquery.min.js"></script>
+<script src="js/jquery-3.4.1.min.js"></script>
 <script src="../layui/layui.all.js"></script>
 <script src="js/common.js"></script>
+<script type="application/javascript">
+    function changePic() {
+        $("#prompt").css("display", "none");
+        const reads = new FileReader();
+        const f = document.getElementById('photo').files[0];
+        reads.readAsDataURL(f);
+        reads.onload = function(e) {
+            document.getElementById('img').src = this.result;
+            $("#img").css("display", "block");
+        };
+    }
+</script>
 <script>
 
     layuiModules=['layer', 'form','element'];
@@ -108,13 +140,13 @@
                 pid: -1,
                 url: ''
             }, {
-                name: "餐厅管理",
+                name: "用户管理",
                 id: 3,
                 pid: -1,
                 url: ''
-                //url: '#/rich_editor.html'
+
             },  {
-                name: "表格",
+                name: "网站首页信息管理",
                 id: 4,
                 pid: -1,
                 url: '#/table.html'
@@ -144,19 +176,24 @@
                 pid: 2,
                 url: '#/addHotelInf.html'
             }, {
-                name: "酒店列表",
+                name: "添加酒店照片",
                 id: 10,
                 pid: 2,
-                url: '#/hotelList.html'
-            }, {
-                name: "新增餐厅信息",
+                url: '#/addHotelImg.html'
+            },  {
+                name: "酒店列表",
                 id: 11,
-                pid: 3,
-                url: ''
+                pid: 2,
+                url: '#/hotelList.jsp'
             }, {
-                name: "餐厅列表",
+                name: "用户列表",
                 id: 12,
                 pid: 3,
+                url: '#/rich_editor.html'
+            }, {
+                name: "首页信息配置",
+                id: 13,
+                pid: 4,
                 url: ''
             },
         ];
@@ -182,6 +219,24 @@
                 btn: ["确定退出", "暂不退出"],
                 yes: function (index, layero) {
                     location.href = "login.html";
+                },
+                btn2: function (index, layero) {
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        });
+        //显示修改头像弹框
+        $('#parentChangeImg').click(function () {
+            $('.dialogMenu').css('display', 'none');
+            layer.open({
+                type: 1,
+                title: '修改头像',
+                area: ['40%', '50%'],
+                content: $('#dialogChangeImg').html(), //这里content是一个普通的String
+                btn: ['确定', '取消'],
+
+                yes: function (index, layero) {
+                    $('#dialogChangeImgForm').submit();
                 },
                 btn2: function (index, layero) {
                     //return false 开启该代码可禁止点击该按钮关闭

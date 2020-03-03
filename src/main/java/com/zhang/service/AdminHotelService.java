@@ -1,7 +1,9 @@
 package com.zhang.service;
 
+import com.zhang.dao.AttractionsDao;
 import com.zhang.dao.HotelDao;
 import com.zhang.dao.Page;
+import com.zhang.domain.Attractions;
 import com.zhang.domain.User;
 import com.zhang.domain.Hotel;
 
@@ -29,8 +31,8 @@ public class AdminHotelService {
         return HotelDao.findProvince();
     }
     /*******获得酒店信息*******/
-    public  List<Map<String,Object>> getHotelInf(String provinceId) {
-        return HotelDao.getHotelInf(provinceId);
+    public  List<Map<String,Object>> getHotelInf(String province) {
+        return HotelDao.getHotelInf(province);
     }
 
     /**查看酒店*/
@@ -39,7 +41,7 @@ public class AdminHotelService {
     public Page findAll(int currentPage, String skey, String svalue) {
         int totalSize = HotelDao.findCountHotel(skey,svalue);
         Page page = new Page(currentPage,totalSize);
-        List<Map<String,Object>> list = HotelDao.findAllGoods(page.getStartIndex(),page.getPageSize(),skey,svalue);
+        List<Map<String,Object>> list = HotelDao.findAllHotel(page.getStartIndex(),page.getPageSize(),skey,svalue);
         page.setList(list);
         System.out.println("页码"+page.getCurrentPage());
         return page;
@@ -48,21 +50,25 @@ public class AdminHotelService {
         return HotelDao.findAllHotel();
     }
     /**查找一条数据*/
-    public Map<String, Object> findOne(int id) {
+    public Map<String, Object> findOneH(int id) {
         return HotelDao.findOne(id);
     }
     /**删除酒店*/
-    public  void delete(int id){
+    public Boolean delete(int id){
         HotelDao.delete(id);
+        return true;
     }
     /**删除多条数据*/
-    public void delMore(String[] ids,Object action){
-        HotelDao.delMore(ids,action);
+    public void delMore(String[] ids){
+        HotelDao.delMore(ids);
     }
     /**修改酒店*/
     public void update(Hotel hotel, Object action) {
         HotelDao.update(hotel, action);
     }
-
+    public Boolean changeAtInf(Hotel hotel) {
+        HotelDao.changeAtInf(hotel);
+        return true;
+    }
 
 }

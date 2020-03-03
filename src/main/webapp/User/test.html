@@ -1,0 +1,66 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>js数量加减</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+
+    <script type="text/javascript">
+        /*或者不用jquery*/
+        /*商品数量框输入*/
+        function keyup(){
+            var quantity = document.getElementById("quantity").value;
+            if(isNaN(quantity) ||  parseInt(quantity)!=quantity || parseInt(quantity)<1){
+                quantity = 1;
+                return;
+            }
+            if(quantity>=10){
+                document.getElementById("quantity").value=quantity.substring(0,quantity.length-1);
+                alert("商品数量不能大于10");
+            }
+        }
+
+        /*商品数量+1*/
+        function numAdd(){
+            var quantity = document.getElementById("quantity").value;
+            var num_add = parseInt(quantity)+1;
+            var price=document.getElementById("price").value;
+            if(quantity==""){
+                num_add = 1;
+            }
+            if(num_add>=10){
+                document.getElementById("quantity").value=num_add-1;
+                alert("商品数量不能大于10");
+            }else{
+                document.getElementById("quantity").value=num_add;
+                var Num=price*num_add;
+                document.getElementById("totalPrice").innerHTML=Num.toFixed(2);
+            }
+        }
+        /*商品数量-1*/
+        function numDec(){
+            var quantity = document.getElementById("quantity").value;
+            var price=document.getElementById("price").value;
+            var num_dec = parseInt(quantity)-1;
+            if(num_dec>0){
+                document.getElementById("quantity").value=num_dec;
+                var Num=price*num_dec;
+                document.getElementById("totalPrice").innerHTML=Num.toFixed(2);
+            }
+        }
+        function show()
+        {
+            document.getElementById("totalPrice").innerHTML=3.25*3;
+        }
+    </script>
+
+</head>
+<body>
+<p>Quantity: <span οnclick="numDec()">-</span> <input type="text" id="quantity" /> <span οnclick="numAdd()">+</span></p>
+<p class="sdsd">Total Price: <span id="totalPrice">28.10</span></p>
+<input type="hidden" value="28.1" id="price" /><!--单价-->
+<input type="button" value="展示" οnclick="show()"/>
+</body>
+
+</html>

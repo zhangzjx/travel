@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>会员登录</title>
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/registerLogin.css">
+    <script src="js/jquery-3.4.1.min.js"></script>
+
+</head>
+<body>
+
+<div style="width:100%;">
+
+    <form id="myForm" action="../UserServlet?action=login" method="post">
+        <div style="width: 100%; margin-top: 30px; height:350px;">
+            <div class="register-login">
+                <div style="height: 60px;width:100%;border-bottom:solid 1px;text-align: center">
+                    <div id="tabOtherLogin" onclick="switchOtherLogin()" style="width: 49%;float: left;">
+                        <a href="javascript:void(0)" >
+                            <h3>扫描登录</h3>
+                        </a>
+                    </div>
+                    <div id="tabSuiForm" class="active" onclick="switchSuiForm()" style="width: 49%;float: left">
+                        <a href="javascript:void(0)" >
+                            <h3>账户登录</h3>
+                        </a>
+                    </div>
+                </div>
+
+                <div style="margin-top: 5px;">
+                    <!--扫码登录-->
+                    <div id="index" class="tab-pane" style="text-align: center;">
+                        <p>二维码登录</p>
+                        <img src="img/code.png" />
+                    </div>
+                    <!--账户登录-->
+                    <div id="profile" class="tab-pane active">
+                        <div style="margin-left: 30px">
+                            账号: <input id="username" class="el-input" type="text" maxlength="10" name="username"/><br/><br/>
+                            密码: <input id="password" class="el-input" type="password" maxlength="10" name="password"/><br/><br/>
+                        </div>
+                        <div class="other">
+                            <div style="margin: 10px 20px 0 10px;text-align: center">
+                                <a href="#"><img src="./img/qq.png" width="35px" height="35px" /></a>
+                                <a href="#"><img src="./img/微博.png" width="32px" height="32px" /></a>
+                                <a href="#"><img src="./img/支付宝.png" width="32px" height="32px" /></a>
+                                <a href="#"><img src="./img/微信.png" width="35px" height="35px" /></a>
+                            </div>
+                        </div>
+                        <div class="register">
+                            <div style="margin: 10px 20px 0 10px;text-align: center">
+                                <a ><input class="layui-btn" type="button" value="立即注册" onclick="openReg()"/></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="reg-log-go" >
+            <input name="m1" type="checkbox" value="2" checked="">
+            <span>若继续操作，即表示您同意我们的<strong><a href="teams.html">使用条款</a></strong>并确认已经阅读我们的隐私政策。</span>
+            <br><br><br>
+            <a ><input class="layui-btn" type="button" value="登录" onclick="login()"/></a>
+        </div>
+    </form>
+</div>
+
+
+</body>
+<script type="text/javascript" src="../res/layui/layui.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script type="text/javascript">
+    //验证表单合法性
+    function openReg(){
+        window.location.replace("register.html")
+    }
+    function login(){
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if(username==""||username==null||password==""||password==null){
+            alert("请填写完整内容");
+            $(this).next('input').focus();
+            return false;
+        }
+        //$("#myForm").submit();
+        $.ajax({
+            url:"../UserServlet?action=login" , // 请求路径
+            type:"POST" , //请求方式
+            data:$('#myForm').serialize(),// 序列化表单值
+            success:function (data) {
+                $.cookie('userCookie', data, {expires: 3, path: '/'});
+               // window.location.replace("index.html")
+                window.parent.location.href="index.html"
+
+            },//响应成功后的回调函数
+            error:function () {
+                alert("出错啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType:"text"//设置接受到的响应数据的格式
+        });
+
+        return true;//跳转
+    }
+    function switchSuiForm() {
+        document.getElementById('index').className = "tab-pane";
+        document.getElementById('profile').className = "tab-pane active";
+        document.getElementById('tabSuiForm').className = "active";
+        document.getElementById('tabOtherLogin').className = "";
+    }
+    function switchOtherLogin() {
+        document.getElementById('index').className = "tab-pane active";
+        document.getElementById('profile').className = "tab-pane";
+        document.getElementById('tabSuiForm').className = "";
+        document.getElementById('tabOtherLogin').className = "active";
+    }
+</script>
+
+</body>
+</html>

@@ -40,7 +40,14 @@
                 <input type="text" id="hotel_label" name="hotel_label" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">省份：</label>
+            <div class="layui-input-inline" >
+                <select id="province" name='province' lay-filter="hotel">
 
+                </select>
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">酒店地址：</label>
             <div class="layui-input-block" style="width: 400px;">
@@ -112,18 +119,39 @@
                     '时间格式不正确，正确格式为：00:00,请使用英文‘:’'
                 ]
             });
+            //获取省份信息，使用$.ajax()发送异步请求
+            $.ajax({
+                url:"../../AdminHotelServlet?action=getProvince" , // 请求路径
+                type:"POST" , //请求方式
+                data:{},
+                success:function (data) {
+                    const json = eval("(" + data + ")");
+                    let str = "";//定义用于拼接的字符串
+                    for(const i in json){//遍历
+                        //拼接表格的行和列
+                        const ls = json[i];
+                        str = "<option value="+ls.province+">" + ls.province + "</option>";
+                        $("#province").append(str);
+                    }
+                    form.render();//菜单渲染 把内容加载进去
+                },//响应成功后的回调函数
+                error:function () {
+                    console.log("失败啦...")
+                },//表示如果请求响应出现错误，会执行的回调函数
+
+                dataType:"text"//设置接受到的响应数据的格式
+            });
             //监听提交
             form.on('submit(go)', function(data){
                 //使用$.ajax()发送异步请求
                 $.ajax({
                     //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                    url:"../../AdminAttractionsServlet?action=addHotel" , // 请求路径
+                    url:"../../AdminHotelServlet?action=addHotel" , // 请求路径
                     type:"POST" , //请求方式
                     data:$('#myForm').serialize(),// 序列化表单值
                     success:function (data) {
                         alert("添加成功");
                         location.reload();
-                        //alert(data);
                     },//响应成功后的回调函数
                     error:function () {
                         alert("出错啦...")

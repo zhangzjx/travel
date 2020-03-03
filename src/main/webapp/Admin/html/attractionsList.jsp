@@ -78,6 +78,7 @@
             <col width="180">
             <col width="100">
             <col width="100">
+
             <col width="60">
             <col width="180">
             <col width="60">
@@ -200,10 +201,11 @@
     </div>
 </script>
 <script type="text/html" id="editDialog">
-    <form class="layui-form" id="myForm" action="" style="padding: 20px;" lay-filter="editDialogForm">
+    <form class="layui-form" id="myForm" style="padding: 20px;" lay-filter="editDialogForm">
         <!--
 <input type="hidden" action="addAttractions">
 -->
+        <input type="hidden" id="spId" name="spId" value="">
         <div class="layui-form-item">
             <label class="layui-form-label">景点名称：</label>
             <div class="layui-input-block" style="width: 400px;">
@@ -269,18 +271,97 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button type="button" id="goTo" class="layui-btn" lay-filter="go" lay-submit="" >修改</button>
-
             </div>
         </div>
     </form>
 </script>
 <script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
+<script>
+    $(document).ready(function(){
+        //$.post("${pageContext.request.contextPath}/AdminHotelServlet",{
+        //document.location = "../../AdminAttractionsServlet?action=findAllAttractions";
+        $.post("${pageContext.request.contextPath}/AdminAttractionsServlet",{
+            action:"findAllAttractions",
+        },);
+    });
+</script>
 <script type="application/javascript">
     $(document).ready(function(){
+
         layui.use(['form'], function() {
             const form = layui.form
                 , layer = layui.layer;
-            /**修改信息*/
+            /**查看详情*/
+            $(".detail").click(function() {
+                const id = $(this).attr("value");
+                /**获取单条数据信息*/
+                $.ajax({
+                    url: "../../AdminAttractionsServlet",  // 请求路径
+                    type:"Get" , //请求方式
+                    dataType:"json",//设置接受到的响应数据的格式
+                    data:{action:"findOneAt",
+                        spId:id,
+                    },
+                    success:function (data) {
+                        //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
+                        const json = JSON.stringify(data);
+                        //alert("返回的数据："+json);
+                        console.log(data,'数组');
+                        const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
+                        const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
+                        const spTimeStart = JSON.stringify(data.spTimeStart).replace(/\"/g, "");
+                        const spTimeEnd = JSON.stringify(data.spTimeEnd).replace(/\"/g, "");
+                        const spTime = spTimeStart+" - "+spTimeEnd
+                        const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
+                        const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
+                        const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
+                        const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
+
+                        let str = '';
+                        str = "<ul><li>" + spName + "</li><li>" + spLabel + "</li><li>" + spTime + "</li>" +
+                            "<li>" + spAddress + "</li><li>" + spPhone + "</li><li>" + spStar + "</li><li>" + spFormation + "</li></ul>";
+                        //追加到table中
+                        $("#result").html(str);
+                        //showData(data);//我们仅做数据展示
+                        //location.reload();
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+                });
+                //展示数据
+                function showData(data) {
+                    let str = "";
+                    for(let i = 0; i < data.length; i++){    //遍历data数组
+                        const ls = data[i];
+                        alert(ls);
+                        str +="<span>测试："+ls.spName+"</span>";
+                        $("#sValue").html(str);//在html页面id=test的标签里显示html内容
+                    }
+                }
+                /**打开弹窗*/
+                layer.open({
+                    type: 1,
+                    title: '详细信息',
+                    area: ['70%', '80%'],
+                    shade: 0,
+                    offset: '10px',//弹窗位置
+                    //resize: false,
+                    content: $('#detailDialog').html(), //这里content是一个普通的String
+                    btn: ['确定', '取消'],
+                    /****
+                     success: function (index, layero) {
+                form.render();
+            },
+                     yes: function (index, layero) {
+            },
+                     btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
+            }
+                     **/
+                });
+
+            });
+            /**获取信息*/
             $(".edit").click(function() {
                 const id = $(this).attr("value");
                 /**获取单条数据信息*/
@@ -296,6 +377,7 @@
                         const json = JSON.stringify(data);
                         //alert("返回的数据："+json);
                         console.log(json);
+                        const spId= JSON.stringify(data.spId).replace(/\"/g, "");
                         const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
                         const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
                         const spTimeStart = JSON.stringify(data.spTimeStart).replace(/\"/g, "");
@@ -304,7 +386,7 @@
                         const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
                         const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
                         const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
-
+                        $("#spId").val(spId);
                         $("#attractions_name").val(spName);
                         $("#attractions_label").val(spLabel);
                         $("#time_min").val(spTimeStart);
@@ -340,25 +422,33 @@
                     //resize: false,
                     content: $('#editDialog').html(), //这里content是一个普通的String
                     btn: ['确定', '取消'],
-                    /****
-                     success: function (index, layero) {
-                form.render();
-            },
-                     yes: function (index, layero) {
-            },
-                     btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
-            }
-                     **/
                 });
 
             });
+            //监听提交
+            form.on('submit(go)', function(data){
+                //使用$.ajax()发送异步请求
+                $.ajax({
+                    //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
+                    url:"../../AdminAttractionsServlet?action=changeAtInf" , // 请求路径
+                    type:"POST" , //请求方式
+                    data:$('#myForm').serialize(),// 序列化表单值
+                    success:function (data) {
+                        alert("修改成功");
+                        //form.render();//菜单渲染 把内容加载进去
+                        location.reload();
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+                    dataType:"text"//设置接受到的响应数据的格式
+                });
+                return false;//不跳转
+            });
         });
-        // 页面加载后任何需要执行的js特效
-        //document.location = "../../AdminAttractionsServlet?action=findAllAttractions";
-        $.post("${pageContext.request.contextPath}/AdminAttractionsServlet",{
-            action:"findAllAttractions",
-        },)
+
     });
+    /**删除一条*/
     $(".del").click(function(){
         const id = $(this).attr("value");
         const msg = "确定要删除吗？\n请确认！";
@@ -425,78 +515,6 @@
             document.location = "../../AdminAttractionsServlet?action=delAtMore&ids="+s;
         }
     }
-    /**查看详情*/
-    $(".detail").click(function() {
-        const id = $(this).attr("value");
-        /**获取单条数据信息*/
-        $.ajax({
-            url: "../../AdminAttractionsServlet",  // 请求路径
-            type:"Get" , //请求方式
-            dataType:"json",//设置接受到的响应数据的格式
-            data:{action:"findOneAt",
-                spId:id,
-            },
-            success:function (data) {
-                //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
-                const json = JSON.stringify(data);
-                //alert("返回的数据："+json);
-                console.log(data,'数组');
-                const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
-                const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
-                const spTimeStart = JSON.stringify(data.spTimeStart).replace(/\"/g, "");
-                const spTimeEnd = JSON.stringify(data.spTimeEnd).replace(/\"/g, "");
-                const spTime = spTimeStart+" - "+spTimeEnd
-                const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
-                const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
-                const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
-                const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
-
-                let str = '';
-                str = "<ul><li>" + spName + "</li><li>" + spLabel + "</li><li>" + spTime + "</li>" +
-                    "<li>" + spAddress + "</li><li>" + spPhone + "</li><li>" + spStar + "</li><li>" + spFormation + "</li></ul>";
-                //追加到table中
-                $("#result").html(str);
-                //showData(data);//我们仅做数据展示
-                //location.reload();
-            },//响应成功后的回调函数
-            error:function () {
-                alert("出错啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-        });
-        //展示数据
-        function showData(data) {
-            let str = "";
-            for(let i = 0; i < data.length; i++){    //遍历data数组
-                const ls = data[i];
-                alert(ls);
-                str +="<span>测试："+ls.spName+"</span>";
-                $("#sValue").html(str);//在html页面id=test的标签里显示html内容
-            }
-        }
-        /**打开弹窗*/
-        layer.open({
-            type: 1,
-            title: '详细信息',
-            area: ['70%', '80%'],
-            shade: 0,
-            offset: '10px',//弹窗位置
-            //resize: false,
-            content: $('#detailDialog').html(), //这里content是一个普通的String
-            btn: ['确定', '取消'],
-            /****
-             success: function (index, layero) {
-                form.render();
-            },
-             yes: function (index, layero) {
-            },
-             btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
-            }
-             **/
-        });
-
-    });
-
-
 
     function goAdd() {
         layer.open({
@@ -508,96 +526,16 @@
             content: $('#editDialog').html(), //这里content是一个普通的String
             btn: ['确定', '取消'],
             /**
-            success: function (index, layero) {
+             success: function (index, layero) {
                 form.render();
             },
-            yes: function (index, layero) {
+             yes: function (index, layero) {
             },
-            btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
+             btn2: function (index, layero) {//return false 开启该代码可禁止点击该按钮关闭
             }
              */
         });
     };
-</script>
 
-
-<script>
-    layuiModules=['table', 'layer','form'];
-    function mounted() {
-        //第一个实例
-
-        table.on('toolbar(test)', function (obj) {
-            const checkStatus = table.checkStatus(obj.config.id);
-            switch (obj.event) {
-                case 'add':
-                    layer.msg('添加');
-                    layer.open({
-                        type: 1,
-                        title: '添加',
-                        area:['50%','70%'],
-                        content: $('#editDialog').html(), //这里content是一个普通的String
-                        btn: ['确定', '取消'],
-                        success: function (index, layero) {
-                            form.render();
-                        },
-                        yes: function (index, layero) {
-                        },
-                        btn2: function (index, layero) {
-                            //return false 开启该代码可禁止点击该按钮关闭
-                        }
-                    });
-                    break;
-                case 'delete':
-                    console.log(checkStatus);
-                    layer.confirm('真的删除选中行么', function (index) {
-                        layer.close(index);
-                        //向服务端发送删除指令
-                    });
-                    break;
-                //自定义头工具栏右侧图标 - 提示
-                case 'LAYTABLE_TIPS':
-                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
-                    break;
-            }
-        });
-        //监听工具条
-        table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的DOM对象
-            if (layEvent === 'detail') { //查看
-                //do somehing
-            } else if (layEvent === 'del') { //删除
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                    layer.close(index);
-                    //向服务端发送删除指令
-                });
-            } else if (layEvent === 'edit') { //编辑
-                //do something
-                layer.open({
-                    type: 1,
-                    title: '编辑',
-                    area:['50%','70%'],
-                    content: $('#editDialog').html(), //这里content是一个普通的String
-                    btn: ['确定', '取消'],
-                    success: function (index, layero) {
-                        form.render();
-                        form.val("editDialogForm",data);
-                    },
-                    yes: function (index, layero) {
-                    },
-                    btn2: function (index, layero) {
-                        //return false 开启该代码可禁止点击该按钮关闭
-                    }
-                });
-                //同步更新缓存对应的值
-                obj.update({
-                    username: '123'
-                    , title: 'xxx'
-                });
-            }
-        });
-    }
 </script>
 </html>

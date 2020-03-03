@@ -31,6 +31,7 @@ public class AdminAttractionsServlet extends HttpServlet {
     public static final String DEL_AT_MORE = "delAtMore";
     public static final String FIND_ONE_AT = "findOneAt";
     public static final String FIND_ALL_ATTRACTIONS = "findAllAttractions";
+    public static final String CHANGE_AT_INF = "changeAtInf";
 
     private AdminAttractionsService adminAttractionsService = new AdminAttractionsService();
     @Override
@@ -55,10 +56,44 @@ public class AdminAttractionsServlet extends HttpServlet {
             delAtMore(request, response);
         } else if(FIND_ONE_AT.equals(action)) {
             findOneAt(request, response);
+        } else if(CHANGE_AT_INF.equals(action)) {
+            changeAtInf(request, response);
         }
 
     }
 
+    private void changeAtInf(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+        int spId = Integer.parseInt(request.getParameter("spId"));
+        String name = request.getParameter("attractions_name");
+        String label = request.getParameter("attractions_label");
+        String price_min = request.getParameter("price_min");
+        String price_max = request.getParameter("price_max");
+        String address = request.getParameter("attractions_address");
+        String time_start = request.getParameter("time_min");
+        String time_end = request.getParameter("time_max");
+        //String time = time_start+"-"+time_end;
+        String phone= request.getParameter("attractions_phone");
+        String star = request.getParameter("attractions_star");
+        String content = request.getParameter("content");
+
+        Attractions attractions = new Attractions();
+        attractions.setSpId(spId);
+        attractions.setAttractionsName(name);
+        attractions.setAttractionsLabel(label);
+        attractions.setAttractionsAddress(address);
+        attractions.setTimeStart(time_start);
+        attractions.setTimeEnd(time_end);
+        attractions.setAttractionsPhone(phone);
+        attractions.setAttractionsStar(star);
+        attractions.setAttractionsInf(content);
+
+        attractions.setEntryTime(DateUtils.StrTime());
+        //4.调用Service中add方法添加一条新闻
+        Boolean result = adminAttractionsService.changeAtInf(attractions);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+    }
 
 
     /**根据id查看一条数据并传递到另一个页面**/

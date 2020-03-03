@@ -15,20 +15,22 @@ public class AttractionsDao {
     /**添加景点信息
      * @return*/
     public Attractions addAttractions(Attractions attractions) {
-        String sql = "insert into t_scenicspot values(null,?,?,?,?,?,?,?,?,null,null,?,null)";
+        String sql = "insert into t_scenicspot values(null,?,null,null,?,?,?,null,?,?,?,?,?,null)";
         Object[] params ={
                 //占位
                 attractions.getAttractionsName(),
-                attractions.getAttractionsPrice(),
+                //占位
+                //占位
                 attractions.getAttractionsAddress(),
-                attractions.getAttractionsLabel(),
 
+                attractions.getAttractionsLabel(),
                 attractions.getAttractionsPhone(),
-                attractions.getTime(),
+                //占位
+                attractions.getTimeStart(),
+                attractions.getTimeEnd(),
+
                 attractions.getAttractionsInf(),
                 attractions.getAttractionsStar(),
-                //占位
-                //占位
                 attractions.getEntryTime(),
                 //占位
         };
@@ -67,7 +69,7 @@ public class AttractionsDao {
     }
     /**查找一条数据*/
     public Map<String, Object> findOneAt(int id) {
-        String sql = "select s.spName,s.spLabel,s.spTimeStart,s.spTimeEnd,s.spAddress,s.spPhone,s.spStar " +
+        String sql = "select s.spId,s.spName,s.spLabel,s.spTimeStart,s.spTimeEnd,s.spAddress,s.spPhone,s.spStar " +
                 " ,s.spFormation,s.spPlace from t_scenicspot s where spId=?";
         List<Map<String, Object>> list=JdbcUtils.find(sql, id);
         return list.get(0);
@@ -86,18 +88,26 @@ public class AttractionsDao {
             JdbcUtils.update(sql, ids[i]);
         }
     }
-    /**修改酒店*/
-    public static void update(Hotel hotel, Object action) {
-        String sql="update hotel set name=?,price=?,lable=?,address=?,star=? where id=?";
-        Object []params={
-                hotel.getHotelName(),
-                hotel.getHotelPrice(),
-                hotel.getHotelLabel(),
-                hotel.getHotelAddress(),
-                hotel.getHotelStar(),
-                hotel.getEntryTime(),
-                hotel.getId(),
+    /**修改信息*/
+    public static Attractions changeAtInf(Attractions attractions) {
+        String sql="update t_scenicspot set spName=?,spAddress=?,spLabel=?,spPhone=?,spTimeStart=?," +
+                "spTimeEnd=?,spFormation=?,spStar=?,spEntryTime=? where spId=?";
+        Object[] params ={
+
+                attractions.getAttractionsName(),
+                attractions.getAttractionsAddress(),
+                attractions.getAttractionsLabel(),
+                attractions.getAttractionsPhone(),
+                attractions.getTimeStart(),
+
+                attractions.getTimeEnd(),
+                attractions.getAttractionsInf(),
+                attractions.getAttractionsStar(),
+                attractions.getEntryTime(),
+                attractions.getSpId()
+
         };
         JdbcUtils.update(sql, params);
+        return attractions;
     }
 }
