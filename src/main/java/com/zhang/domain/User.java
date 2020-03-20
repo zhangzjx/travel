@@ -1,5 +1,7 @@
 package com.zhang.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,8 @@ import java.util.Date;
  * @date 2020/1/14 20:49
  */
 public class User {
+
+
     public int getUid() {
         return uid;
     }
@@ -23,11 +27,11 @@ public class User {
         this.status = status;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -39,12 +43,28 @@ public class User {
         this.name = name;
     }
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public String getEmail() {
@@ -95,30 +115,18 @@ public class User {
         this.firsttTimeString = firsttTimeString;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid=" + uid +
-                ", status=" + status +
-                ", phone=" + phone +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", lasttime=" + lasttime +
-                ", entryTime='" + entryTime + '\'' +
-                ", sessionIdString='" + sessionIdString + '\'' +
-                ", ipString='" + ipString + '\'' +
-                ", firsttTimeString='" + firsttTimeString + '\'' +
-                '}';
-    }
-
     /**用户id*/
     private int uid;
     /**状态码*/
     private int status;
-    private int phone;
+    private String phone;
     private String name;
+
+    private String sex;
     private String password;
+
+    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private String oldPassword;
     private String email;
     private Date lasttime;
     private String entryTime;
@@ -127,6 +135,22 @@ public class User {
     private String ipString;
     private String firsttTimeString;
 
-
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", status=" + status +
+                ", phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", password='" + password + '\'' +
+                ", oldPassword='" + oldPassword + '\'' +
+                ", email='" + email + '\'' +
+                ", lasttime=" + lasttime +
+                ", entryTime='" + entryTime + '\'' +
+                ", sessionIdString='" + sessionIdString + '\'' +
+                ", ipString='" + ipString + '\'' +
+                ", firsttTimeString='" + firsttTimeString + '\'' +
+                '}';
+    }
 }

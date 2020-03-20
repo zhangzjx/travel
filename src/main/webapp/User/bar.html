@@ -12,10 +12,12 @@
 </head>
 <body>
 <div id="allmap"></div>
+<div id="viewAddress" style="display: none"></div>
 </body>
 <script type="text/javascript">
-    const address = "张家界国家森林公园";
-    const province = "湖南省";
+    const address = parent.$("#viewAddress").html();//访问父页面元素值
+    const province = "北京市";
+
     // 百度地图API功能
     const map = new BMap.Map("allmap");    // 创建Map实例
     const point = new BMap.Point(116.331398, 39.897445);
@@ -78,7 +80,7 @@
 
 
     function showInfo(e){
-        alert(e.point.lng + ", " + e.point.lat);
+        //alert(e.point.lng + ", " + e.point.lat);
     }
     map.addEventListener("click", showInfo);
 

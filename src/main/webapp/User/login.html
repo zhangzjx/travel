@@ -92,7 +92,8 @@
             type:"POST" , //请求方式
             data:$('#myForm').serialize(),// 序列化表单值
             success:function (data) {
-                $.cookie('userCookie', data, {expires: 3, path: '/'});
+                alert(data);
+                $.cookie('userCookie', data, {expires: 1, path: '/'});
                // window.location.replace("index.html")
                 window.parent.location.href="index.html"
 

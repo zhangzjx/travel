@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+<style type="text/css">
+
+    /****上传图片******/
+    #imgPreview {
+        width: 500px;
+        height: 220px;
+        margin: 10px auto 0px 0;
+        border: 1px dashed black;
+        text-align: center;
+    }
+    #prompt {
+        width: 100%;
+        height: 160px;
+        text-align: center;
+        position: relative;
+    }
+    #imgSpan {
+        position: absolute;
+        top: 100px;
+        left: 240px;
+    }
+    .filepath {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+    #img {
+        height: 100%;
+        width: 100%;
+        display: none;
+    }
+</style>
+</head>
+<body>
+<form class="layui-form" id="myForm" style="padding: 50px 0 0 80px;" lay-filter="editDialogForm">
+
+    <input type="hidden" id="uId" name="uId" value="">
+    注意：照片必须小于 14MB，仅支持上传JPG，JPEG，PNG格式图片
+    <div class="layui-form-item">
+
+        <div id="imgPreview">
+            <div id="prompt">
+                <span id="imgSpan">点击上传</span>
+                <input  type="file" id="photo" name="photo" class="filepath" onchange="changePic(this)"
+                        accept="image/jpg,image/jpeg,image/png"/>
+                <!--当vaule值改变时执行changepic函数，规定上传的文件只能是图片-->
+            </div>
+            <img src="#" id="img" />
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" id="goTo" class="layui-btn" lay-filter="go" lay-submit="" style="margin-left: 100px">修改</button>
+        </div>
+    </div>
+</form>
+
+</body>
+<script type="application/javascript">
+    function changePic() {
+        $("#prompt").css("display", "none");
+        const reads = new FileReader();
+        const f = document.getElementById('photo').files[0];
+        reads.readAsDataURL(f);
+        reads.onload = function(e) {
+            document.getElementById('img').src = this.result;
+            $("#img").css("display", "block");
+        };
+    }
+</script>
+<script type="text/javascript">
+    const uId = parent.$("#uI").val();//访问父页面元素值
+    $("#uId").val(uId);
+
+    $(document).ready(function(){
+
+        layui.use(['form'], function() {
+            const form = layui.form
+                , layer = layui.layer;
+
+            //监听提交
+            form.on('submit(go)', function(data){
+                //使用$.ajax()发送异步请求
+                $.ajax({
+                    url:"../UserServlet?action=changePassword" , // 请求路径
+                    type:"POST" , //请求方式
+                    data:$('#myForm').serialize(),// 序列化表单值
+                    success:function (data) {
+                        console.log(typeof(data));
+                        if (data==0){
+                            alert("修改成功");
+                            const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+
+                        }else if(data==1){
+                            alert("原密码不正确，修改失败！");
+                            location.reload();
+                        }
+                        //form.render();//菜单渲染 把内容加载进去
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+                    dataType:"text"//设置接受到的响应数据的格式
+                });
+                return false;//不跳转
+            });
+        });
+
+    });
+
+
+</script>
+</html>
+

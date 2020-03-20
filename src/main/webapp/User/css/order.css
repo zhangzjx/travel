@@ -1,0 +1,124 @@
+a{color: #000000;cursor: pointer}
+/**a对象在未被访问前的样式表属性*/
+a:link {color: #000000;
+    text-transform:none;
+    /**清除下划线*/
+    text-decoration:none;}
+a:hover {color: #00ff00; text-decoration:none;}
+
+/**a对象在其链接地址已被访问过时的样式表属性*/
+a:visited {text-decoration:none;}
+/**设置对象在被用户激活（在鼠标点击与释放之间发生的事件）时的样式表属性*/
+a:active {text-decoration:underline;}
+
+
+/******主要内容*******/
+.content{
+    width: 1200px;
+    margin: 30px auto;
+}
+.content-main{
+    width: 1200px;
+    min-height: 600px;
+}
+/**左侧*/
+.content-left{
+    width: 200px;
+    height: 300px;
+    font-size: 10pt;
+    background-color: #fff;
+    float: left;
+}
+.content-left-main{
+    width: 200px;
+    height: 300px;
+    background-color: #fff;
+    padding-top: 30px;
+}
+.content-left ul{
+    padding: 0 20px;
+}
+.content-left li{
+    width: 140px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+    border-bottom: solid  1px #d4d4d4;
+}
+/**设置对象在其鼠标悬停时的样式表属性*/
+.content-left a:hover{
+    text-decoration:none;
+    color: #00ff00;
+}
+/**右侧*/
+.content-right{
+    width: 960px;
+    height: auto;
+    margin-left: 35px;
+    font-size: 10pt;
+    border: #1aa5fb solid 1px;
+    float: left;
+}
+.right-top{
+    width: 960px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #fff;
+    border-bottom: solid 1px #d4d4d4;
+    text-align: center;
+}
+.right-top-list{
+    width: 100px;
+    float: left;
+}
+.right-main{
+    width: 960px;
+    height: 130px;
+
+}
+.right-main-top{
+    width: 960px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #fff;
+}
+.main-top-list{
+    width: 220px;
+    float: left;
+    text-align: left;
+    padding-left: 15px;
+}
+.main-content{
+    width: 960px;
+    height: 72px;
+    line-height: 70px;
+}
+.main-content-list{
+    width: 100px;
+    height: 70px;
+    line-height: 70px;
+    cursor: pointer;
+    text-align: center;
+    border: #d4d4d4 solid 1px;
+    float: left;
+    /**对超出容器的部分强制截取，高度不确定则换行*/
+    overflow: hidden;
+    /**显示省略符号来代表被修剪的文本。*/
+    text-overflow: ellipsis;
+    /**禁止换行*/
+    //white-space: nowrap;
+}
+/***分页功能***/
+.pagination{
+    width: 960px;
+    height: 40px;
+    line-height:40px;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 9pt;
+    border-bottom: solid 1px #dddddd;
+    border-left: solid 1px #dddddd;
+    border-right: solid 1px #dddddd;
+    float: left;
+}

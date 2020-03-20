@@ -1,8 +1,12 @@
 package com.zhang.servlet;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zhang.dao.Page;
+import com.zhang.dao.PageOther;
 import com.zhang.domain.Attractions;
+import com.zhang.domain.Cart;
 import com.zhang.domain.Hotel;
 import com.zhang.domain.User;
 import com.zhang.exception.UserException;
@@ -13,11 +17,9 @@ import com.zhang.utils.MD5;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -38,6 +40,18 @@ public class UserServlet extends HttpServlet {
     public static final String GET_IMG = "getImg";
     public static final String GET_ONE_AT = "getOneAt";
     public static final String ADD_AT_CART = "addAt";
+    public static final String SUB_ORDER = "subOrder";
+    public static final String PAY_ORDER = "payOrder";
+    public static final String GET_USER_INF = "getUserInf";
+    public static final String CHANGE_PASSWORD = "changePassword";
+    public static final String CHANGE_PT = "changePt";
+    public static final String CHANGE_NC = "changeNc";
+    public static final String CHANGE_MY_INF = "changeMyInf";
+    public static final String FIND_ALL_ORDER = "findAllOrder";
+    public static final String ORDER_STATUS = "orderStatus";
+    public static final String ONE = "1";
+    public static final String TWO = "2";
+
 
 
     private AdminHotelService adminHotelService = new AdminHotelService();
@@ -74,8 +88,28 @@ public class UserServlet extends HttpServlet {
             getOneAt(request,response);
         }else if(ADD_AT_CART.equals(action)){
             addAtCart(request,response);
+        } else if(SUB_ORDER.equals(action)){
+            subOrder(request, response);
+        } else if(PAY_ORDER.equals(action)){
+            payOrder(request, response);
+        } else if(GET_USER_INF.equals(action)){
+            getUserInf(request, response);
+        } else if(CHANGE_MY_INF.equals(action)){
+            changeMyInf(request, response);
+        } else if(CHANGE_PASSWORD.equals(action)){
+            changePassword(request, response);
+        } else if(CHANGE_NC.equals(action)){
+            changeNc(request, response);
+        } else if(CHANGE_PT.equals(action)){
+            changePt(request, response);
+        } else if(FIND_ALL_ORDER.equals(action)){
+            findAllOrder(request, response);
+        } else if(ORDER_STATUS.equals(action)){
+            orderStatus(request, response);
         }
     }
+
+
 
     /**注册*/
     private void regist(HttpServletRequest request,HttpServletResponse response)
@@ -116,7 +150,7 @@ public class UserServlet extends HttpServlet {
         User user=new User();
         user.setName(name);
         user.setPassword(password);
-        user.setPhone(Integer.parseInt(phone));
+        user.setPhone(phone);
         user.setEmail(email);
         userService.regist(user);
         request.setAttribute("msg","<script>alert('注册成功')</script>");
@@ -145,7 +179,6 @@ public class UserServlet extends HttpServlet {
         password = MD5.md5(password);
         try {
             User user = userService.login(name,password);
-
             userService.updateLastLoginTime(user);
             //把用户信息保存到session中
             HttpSession session = request.getSession();
@@ -201,6 +234,7 @@ public class UserServlet extends HttpServlet {
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
     }
+
     /**获得一条信息**/
     private void getOneAt(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
@@ -212,6 +246,200 @@ public class UserServlet extends HttpServlet {
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
 
+    }
+    /**获得个人信息**/
+    private void getUserInf(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        String uId = request.getParameter("uid");
+        //List<Map<String,Object>> result= userService.getUserInf(Integer.parseInt(uId));
+        Map<String,Object> result= userService.getUserInf(Integer.parseInt(uId));
+        //System.out.println(result);
+        String json= JSON.toJSONString(result);
+        //System.out.println("json"+json);
+        response.getWriter().print(json);
+
+    }
+    /**修改个人信息**/
+    private void changeMyInf(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        String uid = request.getParameter("uid");
+        String customerName = request.getParameter("customerName");
+        String sex = request.getParameter("sex");
+        String phone = request.getParameter("phone");
+        String email= request.getParameter("email");
+
+        //System.out.println("获得的内容"+uid+" "+customerName+" "+sex+" "+phone+" "+email);
+        System.out.println("获得的内容"+phone+"结尾");
+        User user=new User();
+        user.setUid(Integer.parseInt(uid));
+        user.setName(customerName);
+        user.setSex(sex);
+        user.setPhone(phone);
+        user.setEmail(email);
+
+        Boolean result = userService.changeMyInf(user);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+    }
+    /**修改密码*/
+    private void changePassword(HttpServletRequest request,
+                                HttpServletResponse response) throws IOException {
+        String uid = request.getParameter("uid");
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
+
+        //System.out.println("获得的内容"+uid+" "+oldPassword+" "+newPassword);
+        oldPassword = MD5.md5(oldPassword);
+
+        boolean result = userService.validatePw(uid,oldPassword);
+
+        if (result == true){
+            User m = new User();
+            newPassword = MD5.md5(newPassword);
+            System.out.println(newPassword);
+            m.setUid(Integer.parseInt(uid));
+            m.setPassword(newPassword);
+            userService.changePw(m);
+
+            response.getWriter().print(0);
+        }else {
+            response.getWriter().print(1);
+        }
+        //response.sendRedirect(request.getContextPath()+"/User/centerSettingAddress.jsp");
+
+    }
+    /**修改头像**/
+    private void changePt(HttpServletRequest request,
+                          HttpServletResponse response) {
+    }
+    /**修改昵称**/
+    private void changeNc(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        String uid = request.getParameter("uid");
+        String customerName = request.getParameter("customerName");
+
+        User user = new User();
+        user.setUid(Integer.parseInt(uid));
+        user.setName(customerName);
+        Boolean result = userService.changeNc(user);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+    }
+    /*****添加订单第二步，提交商品信息，等待付款******/
+    private void subOrder(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String phone = request.getParameter("phone");
+        String receiver = request.getParameter("receiver");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String spName = request.getParameter("spName");
+
+        double price = Double.parseDouble(request.getParameter("price"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
+        int status = Integer.parseInt(request.getParameter("status"));
+
+        System.out.println(uid+" "+quantity+" "+totalPrice+" "+phone+" "+receiver+""+status);
+
+        Cart order = new Cart();
+        Cart orderItem = new Cart();
+        //oid存入session
+        HttpSession session = request.getSession();
+
+        try {
+            String oid = DateUtils.nowTimeName();
+            order.setOid(oid);
+            orderItem.setOid(oid);
+            session.setAttribute("oid", oid);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        order.setUid(uid);
+        order.setPhone(phone);
+        order.setReceiver(receiver);
+        order.setTotalPrice(totalPrice);
+        order.setStatus(status);
+        try {
+            order.setAddTime(DateUtils.nowTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        orderItem.setId(id);
+        orderItem.setName(spName);
+        orderItem.setPrice(price);
+        orderItem.setQuantity(quantity);
+
+        userService.subOrder(order);
+        userService.subOrderItem(orderItem);
+        session.setAttribute("totalPrice", totalPrice);
+        //返回添加成功的信息
+        //创建Cookie
+        String payPrice = String.valueOf(totalPrice);;
+        Cookie cookie = new Cookie("totalPrice", payPrice);
+        //设置Cookie的最大生命周期,否则浏览器关闭后Cookie即失效
+        cookie.setMaxAge(Integer.MAX_VALUE);
+        //将Cookie加到response中
+        response.addCookie(cookie);
+
+
+        response.sendRedirect(request.getContextPath()+"/User/pay.jsp");
+    }
+    /*****添加订单第三步，付款成功，等待发货******/
+    private void payOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String oid = request.getParameter("oid");
+        String status = request.getParameter("status");
+        System.out.println("状态"+oid+status);
+        Cart order = new Cart();
+
+        order.setOid(oid);
+        order.setStatus(Integer.parseInt(status));
+        userService.payOrder(order);
+        response.sendRedirect(request.getContextPath()+"/User/paySuccess.html");
+    }
+    /*****查看所有订单******/
+    private void findAllOrder(HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String current = request.getParameter("currentPage");
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        PageOther page = userService.findAllOrder(uid, currentPage);
+        //request.getSession().setAttribute("order",page);
+        //response.sendRedirect(request.getContextPath() + "/User/centerOrder.html");
+
+        String json= JSON.toJSONString(page);
+        //System.out.println("json"+json);
+        response.getWriter().print(json);
+
+    }
+
+    /********查看订单状态**********/
+    private void orderStatus(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String status = request.getParameter("status");
+        String current = request.getParameter("currentPage");
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        if(ONE.equals(status)) {
+            PageOther page = userService.orderStatus(uid, status,currentPage);
+            String json= JSON.toJSONString(page);
+            response.getWriter().print(json);
+        } else if(TWO.equals(status)) {
+            PageOther page = userService.orderStatus(uid, status,currentPage);
+            String json= JSON.toJSONString(page);
+            response.getWriter().print(json);
+        }
     }
 
     private void changeHInf(HttpServletRequest request,
@@ -330,4 +558,5 @@ public class UserServlet extends HttpServlet {
         // response.getWriter().print(result);
     }
 
-    }
+
+}

@@ -5,10 +5,25 @@
     <title>旅游景点</title>
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <script src="js/jquery.cookie.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/attractions.css">
+    <script>
+        $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                console.log("userCookie存在");
+                $("#logout").show();
 
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+                //$("#account").show()
+            }
+
+        });
+    </script>
     <style type="text/css">
 
 
@@ -25,12 +40,23 @@
           </li>
         </ul>
         -->
-        <h1 class="logo">
+        <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
-        </h1>
-        <div class="login"  style="visibility: visible">
+        </div>
+        <div class="login" id="login" style="display:none;">
             <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
             <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
         </div>
         <!--
         <ul class="layui-nav header-down-nav">
@@ -42,19 +68,12 @@
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
-            <a href=""><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
         </div>
         <div class="header-foot-item">
-            <a href=""><img src="img/index-2.png" class="foot-img"><span>机票</span></a>
-        </div>
-        <div class="header-foot-item">
-            <a href=""><img src="img/index-3.png" class="foot-img"><span>租车</span></a>
-        </div>
-        <div class="header-foot-item">
-            <a href=""><img src="img/index-4.png" class="foot-img"><span>观光和活动</span></a>
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
         </div>
     </div>
-
 </div>
 <!-- end-header -->
 

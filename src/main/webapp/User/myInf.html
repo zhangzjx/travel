@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的信息</title>
+    <link rel="stylesheet" href="css/topFoot.css">
+    <link rel="stylesheet" href="css/myInf.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/topFoot.js"></script>
+    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                console.log("userCookie存在");
+                $("#logout").show();
+
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+                //$("#account").show()
+            }
+
+        });
+    </script>
+    <style type="text/css" >
+
+    </style>
+</head>
+<body>
+
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+        <!--
+        <ul class="app-header">
+          <li class="app-header-menuicon">
+             <i class="layui-icon layui-icon-more-vertical"></i>
+          </li>
+        </ul>
+        -->
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+        </div>
+        <div class="login" id="login" style="display:none;">
+            <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
+        </div>
+        <!--
+        <ul class="layui-nav header-down-nav">
+          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
+          <li class="layui-nav-item"><a href="case.html">案例</a></li>
+          <li class="layui-nav-item"><a href="service.html">服务</a></li>
+          <li class="layui-nav-item"><a href="about.html">关于</a></li>
+        </ul>-->
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+        </div>
+    </div>
+</div>
+<!-- end-header -->
+
+<!--主要内容-->
+<div class="content">
+
+    <div class="content-main">
+        <!--左侧主内容-->
+        <div class="content-left">
+
+            <div class="content-left-main">
+                <div style="font-size: 12pt;text-align: center;margin-bottom: 15px;">账户设置</div>
+                <li class="content-left-list"><a id="getMyInf">账号信息</a></li>
+                <li class="content-left-list"><a id="changePw">修改密码</a></li>
+                <div style="font-size: 12pt;text-align: center;margin-bottom: 15px;">订单中心</div>
+                <li class="content-left-list"><a href="centerOrder.html">我的订单</a></li>
+                <li class="content-left-list"><a onclick="orderEvaluate()" href="">待评价</a></li>
+
+            </div>
+        </div>
+        <!--右侧主内容-->
+        <div class="content-right">
+            <!--右侧顶部-->
+            <div class="right-top">
+                <div class="top-header">
+                    <img src="img/l-2.jpg" alt="头像" class="img">
+                    <div style="width: 820px;height: 50px;float: left;">
+                        <div class="top-item" style="width: 200px" >
+                            <strong style="font-size: 15pt;" id="nickname"></strong>
+                        </div>
+                        <div class="top-item-right">
+                            <div class="inf">编辑</div>
+                            <div class="inf-k"><img src="img/setting.png" class="img"></div>
+
+                        </div>
+                    </div>
+                    <div style="width: 820px;height: 50px;float: left">
+                        <div class="top-item">
+                            <a href=""><strong style="font-size: 13pt;">粉丝</strong></a><br>
+                            <span>4</span>
+                        </div>
+                        <div class="top-item">
+                            <a href=""><strong style="font-size: 13pt;">已关注</strong></a><br>
+                            <span>6</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="top-bottom">
+                    <div id="change-one" class="top-bottom-item">订单</div>
+                    <div id="change-two" class="top-bottom-item">点评</div>
+                </div>
+            </div>
+            <!--右侧中部-->
+            <div class="right-central">
+                <div id="one" class="central-main tab-pane active">
+                    写您的第一条点评！
+                    您的意见很重要！开始在 TripAdvisor 点评酒店、景点玩乐和更多内容。写点评
+                </div>
+                <div id="two" class="central-main tab-pane">
+                    点评精选及图片
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="entry" class="entry hide-div">
+        <div class="entry-trangle"><!--本Div只来实现三角形，无其他作用--></div>
+        <br/><a id="changeNc">修改昵称</a><br/><br/>
+        <a id="changeTp">修改头像</a><br/>
+    </div>
+
+</div>
+
+<!--底部内容-->
+<input type="hidden" id="uI" name="uI" value="">
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;"><a href="#">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function(){
+        const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+        const uid = userCookie.uid;
+        $("#uI").val(uid);
+
+        /**获取单条数据信息*/
+        $.ajax({
+            url: "../UserServlet", // 请求路径
+            type:"Get" , //请求方式
+            dataType:"text",//设置接受到的响应数据的格式
+            data:{action:"getUserInf",
+                uid:uid,
+            },
+            success:function (data) {
+                console.log("dd"+data);
+                const json = eval("(" + data + ")");
+                $("#nickname").html(json.customerName);
+            },
+            error:function () {
+                console.log("出错啦...")
+            },
+        });
+        /**获取信息*/
+        $("#getMyInf").click(function() {
+            layer.open({
+                type: 2,
+                title: '个人信息',
+                offset: '50px',//弹窗位置
+                shade: 0.2,
+                shadeClose: true, //点击遮罩关闭层    
+                area: ['50%', '70%'],
+                // id:'nfghK',
+                content:'detailInf.html',//弹框显示的url,对应的页面  
+                //btn: ['确定', '取消'],
+            });
+        });
+        /**修改密码*/
+        $("#changePw").click(function() {
+            layer.open({
+                type: 2,
+                title: '修改密码',
+                offset: '50px',//弹窗位置
+                shade: 0.2,
+                shadeClose: true, //点击遮罩关闭层    
+                area: ['40%', '50%'],
+                // id:'nfghK',
+                content:'password.html',//弹框显示的url,对应的页面  
+                //btn: ['确定', '取消'],
+            });
+        });
+        /**修改昵称*/
+        $("#changeNc").click(function() {
+            layer.open({
+                type: 2,
+                title: '修改昵称',
+                offset: '50px',//弹窗位置
+                shade: 0.2,
+                shadeClose: true, //点击遮罩关闭层    
+                area: ['40%', '50%'],
+                // id:'nfghK',
+                content:'nickname.html',//弹框显示的url,对应的页面  
+                //btn: ['确定', '取消'],
+            });
+        });
+        /**修改头像*/
+        $("#changeTp").click(function() {
+            layer.open({
+                type: 2,
+                title: '修改头像',
+                offset: '50px',//弹窗位置
+                shade: 0.2,
+                shadeClose: true, //点击遮罩关闭层    
+                area: ['50%', '60%'],
+                // id:'nfghK',
+                content:'avatar.html',//弹框显示的url,对应的页面  
+                //btn: ['确定', '取消'],
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+
+    $("#change-one").click(function () {
+        document.getElementById('two').classList.remove("active");
+        document.getElementById('two').classList.add("tab-pane");
+        document.getElementById('one').classList.remove("tab-pane");
+        document.getElementById('one').classList.add("active");
+    });
+    $("#change-two").click(function () {
+        document.getElementById('one').classList.remove("active");
+        document.getElementById('one').classList.add("tab-pane");
+        document.getElementById('two').classList.remove("tab-pane");
+        document.getElementById('two').classList.add("active");
+        //document.getElementById('one').className = "tab-pane";
+        //document.getElementById('two').className = "active";
+    });
+
+    $(".top-item-right").click(function () {
+        $("#entry").show(300);
+    });
+    //点击空白处隐藏弹出层，下面为滑动消失效果和淡出消失效果。
+    $(document).bind("click", function (e) {
+        const target = $(e.target); // 设置目标区域
+        if (target.closest("#entry ,.top-item-right").length == 0) {
+            $("#entry").hide(300);
+         //  $('#entry').addClass('hide-div')
+        };
+        e.stopPropagation();
+    })
+
+
+
+</script>
+</html>

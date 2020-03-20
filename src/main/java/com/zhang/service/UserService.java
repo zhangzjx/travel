@@ -1,7 +1,10 @@
 package com.zhang.service;
 
+import com.zhang.dao.Page;
+import com.zhang.dao.PageOther;
 import com.zhang.dao.UserDao;
 import com.zhang.domain.Attractions;
+import com.zhang.domain.Cart;
 import com.zhang.domain.User;
 import com.zhang.exception.UserException;
 import com.zhang.utils.DateUtils;
@@ -48,7 +51,37 @@ public class UserService {
         userDao.addAtCart(attractions);
         return true;
     }
-
+    /*****添加订单第二步，提交商品信息及地址信息******/
+    public void subOrder(Cart order) {
+        //添加订单信息
+        userDao.subOrder(order);
+    }
+    public void subOrderItem(Cart orderItem) {
+        userDao.subOrderItem(orderItem);
+    }
+    /*****添加订单第三步，付款成功，等待发货******/
+    public void payOrder(Cart order) {
+        userDao.payOrder(order);
+    }
+    /******查看所有订单*****/
+    public PageOther findAllOrder(int uid, int currentPage) {
+        String status=null;
+        int totalSize = userDao.findCountOrder(uid,status);
+        PageOther page = new PageOther(currentPage,totalSize);
+        List<Map<String,Object>> list = UserDao.findAllOrder(uid,page.getStartIndex(),page.getPageSize());
+        page.setList(list);
+        System.out.println("页码"+page.getCurrentPage());
+        return page;
+    }
+    /******查看所有订单状态*****/
+    public PageOther orderStatus(int uid, String status,int currentPage) {
+        int totalSize = userDao.findCountOrder(uid,status);
+        PageOther page = new PageOther(currentPage,totalSize);
+        List<Map<String,Object>> list = UserDao.orderStatus(uid,status,page.getStartIndex(),page.getPageSize());
+        page.setList(list);
+        System.out.println("页码"+page.getCurrentPage());
+        return page;
+    }
     public List<Map<String,Object>> getImg(){
         return userDao.getImg();
     }
@@ -58,6 +91,41 @@ public class UserService {
     public List<Map<String,Object>> getOneAt(int spId){
         return userDao.getOneAt(spId);
     }
+    /**获得个人信息**/
+    public Map<String,Object> getUserInf(int uId){
+        return userDao.getUserInf(uId);
+    }
+    /**修改个人信息**/
+    public Boolean changeMyInf(User user) {
+        userDao.changeMyInf(user);
 
+        if(user!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**验证密码**/
+    public boolean validatePw(String uid,String oldPassword) {
+        User user = userDao.validateByPw(uid,oldPassword);
+        if(user!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**修改密码**/
+    public void changePw(User m) {
+        userDao.changePw(m);
+    }
+    /**修改昵称**/
+    public Boolean changeNc(User user) {
+        userDao.changeNc(user);
+        if(user!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }

@@ -51,7 +51,7 @@
             <div class="cart-u-1">操作</div>
         </div>
 
-        <form id="myForm" action="order.jsp" method="post" name="creator">
+        <form id="myForm" action=" " method="post" name="creator">
             <section class="cart-list">
                 <div class="cartBox">
                     <!--顶部信息-->

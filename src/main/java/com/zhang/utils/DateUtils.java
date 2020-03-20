@@ -38,4 +38,13 @@ public class DateUtils {
         return time;
     }
 
+
+    public static String nowTimeName() throws ParseException {
+        //获得系统时间.
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat( " yyyyMMddHHmmss " );
+        String nowTime = sdf.format(date);
+        return nowTime;
+    }
+
 }

@@ -6,6 +6,7 @@ function reg(){
         title: '立即加入——完全免费！',
         //maxmin: true,//最大化，最小化
         //skin: 'layui-layer-lan',
+        shade: 0.2,
         shadeClose: true, //点击遮罩关闭层    
         area : ['440px' , '90%'],
         content:'register.html'//弹框显示的url,对应的页面  
@@ -18,6 +19,7 @@ function log(){
         title: '欢迎回来——登录！',
         //maxmin: true,
         //skin: 'layui-layer-lan',
+        shade: 0.2,
         shadeClose: true, //点击遮罩关闭层    
         area : ['440px' , '90%'],
         content:'login.html'//弹框显示的url,对应的页面  

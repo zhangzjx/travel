@@ -198,11 +198,7 @@
                             <li><img src="img/hotel-parking.png">免费停车</li>
                         </ul>
                     </div>
-
-
                 </div>
-
-
             </div>
 
             <div class="right-content">
@@ -243,13 +239,13 @@
 <script>
     //评分
     layui.use('rate', function(){
-        var rate = layui.rate;
+        const rate = layui.rate;
         //渲染
-        var ins1 = rate.render({
-            elem: '.f' , //绑定元素
+        const ins1 = rate.render({
+            elem: '.f', //绑定元素
             value: 5,
-            half:true,
-            readonly:true,
+            half: true,
+            readonly: true,
         });
     });
     // 时间格式化

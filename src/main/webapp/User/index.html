@@ -66,9 +66,11 @@
       </div>
       <div class="login" id="logout" style="display:none;" >
         <div class="account" >
-          <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
-          <br>
-          <span style=" font-size: 9pt; ">账户</span>
+          <a href="myInf.html">
+            <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+            <br>
+            <span style=" font-size: 9pt; ">账户</span>
+          </a>
         </div>
         <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
 
@@ -86,18 +88,14 @@
         <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
       </div>
       <div class="header-foot-item">
-        <a href=""><img src="img/index-2.png" class="foot-img"><span>机票</span></a>
-      </div>
-      <div class="header-foot-item">
         <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
       </div>
     </div>
-
   </div>
   <!-- end-header -->
 
   <!-- content -->
-    <div class="content">
+    <div class="content" >
       <div class="title">
         <h5>欢迎您的到来</h5>
       </div>
@@ -138,11 +136,11 @@
           <div class="content-left">
             <div class="left-list-1">
               <img src="img/v1.png" class="left-img">
-              <h2>解锁 Booking 的全部功能</h2><br>
+              <h2>解锁网站的全部功能</h2><br>
               <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;收藏你喜欢的旅行灵感，并在地图上查看</h3>
               <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;接收价格通知和优惠资讯，然后以自己喜欢的方式旅游</h3>
               <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;向像你一样的旅行者提问并寻求答案</h3>
-              <input type="button" class="register-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠"/>
+              <input type="button" onclick="reg()" class="register-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠"/>
             </div>
             <div class="left-list-2">
               <h2>分享您的旅行建议</h2><br>
@@ -348,7 +346,7 @@
        //   str = "<div class="center-item"><img src="img/j-1.jpg" class="center-img">
         //  <p><a href="#">ls.spName</a></p></div>";
          // "<option value="+ls.hName+">" + ls.hName + "</option>";
-          str = "<div class='center-item'><img src='img/j-1.jpg' class='center-img'><p><a href='attractionReview.jsp?param="+ls.spId+"'>"+ls.spName+"</a></p></div>";
+          str = "<div class='center-item'><a href='attractionReview.html?param="+ls.spId+"'><img src='img/j-1.jpg' class='center-img'><p>"+ls.spName+"</a></p></div>";
           $("#result_1").append(str);
           $("#result_2").append(str);
           $("#result_3").append(str);

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+
+</head>
+<body>
+<form class="layui-form" id="myForm" style="padding: 50px 0 0 150px;" >
+    <input type="hidden" id="uid" name="uid" value="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称：</label>
+        <div class="layui-input-block" style="width: 240px;">
+            <input type="text" id="customerName" name="customerName"  lay-reqtext="不能为空" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">单选框</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男">
+            <input type="radio" name="sex" value="女" title="女" checked>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话：</label>
+        <div class="layui-input-block" style="width: 240px;">
+
+            <input type="text" id="phone" name="phone" lay-verify="required|phone" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电子邮件：</label>
+        <div class="layui-input-block" style="width: 240px;">
+            <input type="text" id="email" name="email" lay-verify="required|email" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最后登录时间：</label>
+        <div class="layui-input-block" style="width: 240px;">
+            <input type="text" id="entryTime" name="entryTime" readonly class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <span style="matgin:5px 0 0 50px "></span>点击'保存'以确认您的更改
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" id="goTo" class="layui-btn" lay-filter="go" lay-submit="" >保存</button>
+            <button type="button" id="close" class="layui-btn" >取消</button>
+        </div>
+    </div>
+</form>
+</body>
+<script type="text/javascript">
+    const uid = parent.$("#uI").val();//访问父页面元素值
+    $("#uid").val(uid);
+
+    $(document).ready(function(){
+        /**获取单条数据信息*/
+        $.ajax({
+            url: "../UserServlet", // 请求路径
+            type:"Get" , //请求方式
+            dataType:"text",//设置接受到的响应数据的格式
+            data:{action:"getUserInf",
+                uid:uid,
+            },
+            success:function (data) {
+                console.log("dd"+data);
+                //alert(data);
+                const json = eval("(" + data + ")");
+
+//  $("#payPhone").html(json.phone);
+                $("#customerName").val(json.customerName);
+                $("#phone").val(json.phone);
+                $("#email").val(json.email);
+                let timestamp = json.entryTime
+                let entryTime = timestampToTime(timestamp);//时间戳转换
+                $("#entryTime").val(entryTime);
+                //location.reload();
+            },//响应成功后的回调函数
+            error:function () {
+                console.log("出错啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+        });
+        /**时间戳转换**/
+        function timestampToTime(timestamp) {
+            const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            const Y = date.getFullYear() + '-';
+            const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            const D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+            const h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':';
+            const m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+            const s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+            return Y + M + D + h + m + s;
+        }
+        layui.use(['form'], function() {
+            const form = layui.form;
+            form.render();
+
+            //监听提交
+            form.on('submit(go)', function(data){
+                //使用$.ajax()发送异步请求
+                $.ajax({
+                    url:"../UserServlet?action=changeMyInf" , // 请求路径
+                    type:"POST" , //请求方式
+                    data:$('#myForm').serialize(),// 序列化表单值
+                    success:function (data) {
+                        console.log(typeof(data));
+                        if (data!=false){
+                            alert("修改成功");
+                            const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+
+                        }else {
+                            alert("修改失败");
+                            location.reload();
+                        }
+                        //form.render();//菜单渲染 把内容加载进去
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+                    dataType:"text"//设置接受到的响应数据的格式
+                });
+                return false;//不跳转
+            });
+        });
+
+    });
+    $("#close").click(function () {
+        const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    })
+
+
+</script>
+
+</html>

@@ -1,0 +1,127 @@
+a:link {color: #000000;
+    text-transform:none;
+    /**清除下划线*/
+    text-decoration:none;}
+a:hover {color: #7cc815; text-decoration:none;}
+a:visited {text-decoration:none;}
+a:active {text-decoration:underline;}
+
+/******主要内容********/
+/**顶部**/
+.pay{
+    width: 1200px;
+    height: 600px;
+}
+.checkout-tit{
+    width: 1200px;
+    height: 80px;
+}
+.tit-txt{
+    width: 1200px;
+    height: 40px;
+    line-height: 40px;
+}
+.paymark{
+    width: 1200px;
+    height: 30px;
+    line-height: 30px;
+}
+.fl{
+    width: 600px;
+    height: 30px;
+    margin-left: 50px;
+    line-height: 30px;
+    float: left;
+}
+.fr{
+    width: 200px;
+    height: 30px;
+    text-align: right;
+    margin-right: 10px;
+    line-height: 30px;
+    float: right;
+}
+/**中部**/
+.check-info{
+    width: 1171px;
+    height: 160px;
+    margin-top: 30px;
+    padding-left: 20px;
+    border: cornflowerblue solid 3px;
+}
+ol li{
+    font-size: 10pt;
+}
+/**底部**/
+.checkout-steps{
+    width: 1175px;
+    height: 260px;
+    margin-top: 10px;
+    padding-left: 20px;
+    border: #d4d4d4  solid 1px;
+}
+.step-cont{
+    width: 1150px;
+    height: 80px;
+    border-bottom: #d4d4d4 solid 1px;
+}
+.payType{
+    width: 1000px;
+    height: 60px;
+    margin: 0 0 50px 60px;
+}
+.payType li{
+    list-style-type: none;
+    width: 135px;
+    height: 40px;
+    float: left;
+    padding : 4px 0 0 10px;
+    border: #d4d4d4 solid 1px;
+    margin: 10px 0 0 5px;
+}
+.payType li:hover{
+    border: red solid 1px;cursor:pointer;
+}
+.submit{
+    width: 1200px;
+    height: 150px;
+    text-align: center;
+    margin-top: 30px;
+}
+.sui-btn{
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    padding:15px 50px 15px 50px;
+    border: cornflowerblue solid 1px;
+    background-color: #fff137;
+    margin-top: 30px;
+}
+/****paySuccess****/
+/*******主要内容*******/
+.paySuccess{
+    width: 1200px;
+    margin:  50px auto 0;
+    font-family: 微软雅黑;
+    border: #d4d4d4 solid 1px;
+}
+.success{
+    width: 400px;
+    height: 300px;
+    margin: 50px 0 0 400px;
+}
+.payDetail{
+    width: 300px;
+    height: 200px;
+    margin:  5px 0 0 50px;
+}
+.button{
+    margin-top: 30px;
+}
+.pay-sui-btn{
+    text-align: center;
+    margin: 10px 0 0 0;
+    padding:10px 20px 10px 20px;
+    border: cornflowerblue solid 1px;
+    background-color: #fff137;
+}
