@@ -15,24 +15,20 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <link rel="stylesheet" type="text/css" href="css/topFoot.css">
 
-  <script type="application/javascript">
-
+  <script type="text/javascript">
     $(document).ready(function(){
       // 页面加载后任何需要执行的js特效
       if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-        //if(userCookie!= null&&userCookie != ""){
         const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
         console.log("userCookie存在");
         console.log(userCookie);
         //console.log("userCookie===="+userCookie.uid);
         $("#logout").show();
-
+        $("#left-list-1").hide();
       } else {
         console.log("userCookie不存在");
         $("#login").show()
-        //$("#account").show()
         }
-
     });
   </script>
 
@@ -134,7 +130,7 @@
         </div>
         <div class="content-main">
           <div class="content-left">
-            <div class="left-list-1">
+            <div id="left-list-1" class="left-list-1">
               <img src="img/v1.png" class="left-img">
               <h2>解锁网站的全部功能</h2><br>
               <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;收藏你喜欢的旅行灵感，并在地图上查看</h3>
@@ -312,11 +308,9 @@
         console.log("dd"+data)
         const json = eval("(" + data + ")");
         let str = "";//定义用于拼接的字符串
-        for (const i in json) {//遍历
-
+        for (const i in json) {//遍
           //拼接表格的行和列
           const ls = json[i];
-
           str = "<li><img src='/main/"+ls.imgName+"'/></li>";
           $("#img_main").append(str);
         }

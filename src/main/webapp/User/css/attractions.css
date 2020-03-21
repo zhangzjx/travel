@@ -1,14 +1,17 @@
 /**************景点信息*******************/
+a{cursor: pointer}
 /*********旅游景点***********/
 /*********主要内容*******/
-.content{width: 1200px;margin: 0 auto;}
+.content{width: 1200px;margin: 30px auto;;}
 .content .title{ color: #333333; padding:10px 0;}
-.attractions-main{width: 1200px;min-height: 800px;margin: 30px auto 0;border: darkblue solid 1px;}
+.attractions-main{width: 1200px;min-height: 2100px;}
 .attractions-title{ text-align:center;color: #333333; padding:10px 0;border-bottom: #d4d4d4 solid 1px}
+
+
 /***左侧***/
 .attractions-left{width: 280px;height: auto;margin-top:20px;float: left;}
 .left-list-1{width: 280px;height: 150px;}
-.left-img{width: 280px;height: 150px;}
+.left-list-img{width: 280px;height: 150px;}
 .view-btn{width:100px;height: 30px;line-height: 30px;position:absolute;margin: 60px 0 0 -190px;}
 .view-btn:hover{border: #00CC00 solid 1px}
 .left-list-2{width: 280px;height: 220px;margin: 30px 0 0 0;cursor: pointer;padding-bottom:10px;border-bottom: #d4d4d4 solid 1px}
@@ -17,16 +20,35 @@
 .circle-content{width:250px;margin:5px 0 0 5px;float: left;}
 .circle-content:hover {text-decoration:underline;}
 /***右侧***/
-.attractions-right{width: 866px;height: auto;margin:20px 0 0 50px;float: left;border: darkblue solid 1px;}
-.right-content{width: 866px;height:280px;padding-bottom:20px;border-bottom: #d4d4d4 solid 1px; }
+.attractions-right{width: 866px;height: auto;margin:20px 0 0 50px;float: left;}
+.right-content{width: 866px;height:250px;padding-bottom:20px;border-bottom: #d4d4d4 solid 1px; }
 .right-top{width: 866px;height: auto;}
 .top-left{width: 300px;height: 40px;float: left;line-height: 40px}
 .top-left h2{margin-left: 10px}
 .top-right{width:70px;height: 40px;float: left;margin-left: 480px;line-height: 40px}
-.right-item{width: 165px;height: 220px;margin:10px;float: left;}
-.right-img{width: 165px;height: 130px;margin:10px 0 10px 0;border-radius:3px;}
+.right-item{width: 200px;height: 220px;margin:10px 5px;float: left;}
+.right-img{width: 200px;height: 130px;margin:10px 0 10px 0;border-radius:3px;}
 .right-item p{margin-top: 3px}
-
+/***列表功能***/
+.right-list-content{width: 860px;height:200px;margin-top:30px;background-color: #fff;}
+.right-list-content:hover{box-shadow: #666 0px 0px 10px;}
+.right-list-top{width: 500px;height: 100px;margin:10px 0 0 10px;line-height:50px;float: left;}
+.right-list-top p{font-size: 10pt}
+.right-list{width: 220px;height: 70px;margin-left:10px;float: left;}
+.el-button{width: 160px;margin: 10px 30px}
+.right-list-img{width: 200px;height: 200px;margin:0;border-radius:3px;;float: left}
+.right-list h2{text-align: center;margin-top: 50px}
+/***分页功能***/
+.pagination{
+    width: 860px;
+    height: 40px;
+    line-height:40px;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 9pt;
+    border-top: solid 1px #dddddd;
+    float: left;
+}
 
 /*********单个景点详情***********/
 /***顶部***/

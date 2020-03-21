@@ -82,15 +82,15 @@ public class UserService {
         System.out.println("页码"+page.getCurrentPage());
         return page;
     }
+    /**获得首页轮播图**/
     public List<Map<String,Object>> getImg(){
         return userDao.getImg();
     }
+    /**获得首页信息**/
     public List<Map<String,Object>> getIndex(){
         return userDao.getIndex();
     }
-    public List<Map<String,Object>> getOneAt(int spId){
-        return userDao.getOneAt(spId);
-    }
+
     /**获得个人信息**/
     public Map<String,Object> getUserInf(int uId){
         return userDao.getUserInf(uId);

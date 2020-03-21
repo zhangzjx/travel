@@ -82,7 +82,7 @@ public class UserDao {
 
         JdbcUtils.update(sql,params);
     }
-    /**首页显示的商品*/
+    /**首页显示的轮播图*/
     public List<Map<String,Object>> getImg() {
         String sql = "select imgName,imgId from t_main_img limit 0,6";
         return JdbcUtils.find(sql);
@@ -92,13 +92,9 @@ public class UserDao {
         String sql = "select spId,spName,spStar from t_scenicspot limit 0,5";
         return JdbcUtils.find(sql);
     }
-    /**获得一条信息**/
-    public List<Map<String,Object>> getOneAt(int spId) {
-        String sql = "select * from t_scenicspot where spId=?";
-        return JdbcUtils.find(sql,spId);
-       // List<Map<String, Object>> list=JdbcUtils.find(sql, id);
-        //return list.get(0);
-    }
+
+
+
     /**获得个人信息**/
     public Map<String,Object> getUserInf(int uId) {
         String sql = "select * from t_customer where uId=?";

@@ -38,7 +38,6 @@ public class UserServlet extends HttpServlet {
     public static final String ADD_HOTEL = "addHotel";
     public static final String GET_INDEX = "getIndex";
     public static final String GET_IMG = "getImg";
-    public static final String GET_ONE_AT = "getOneAt";
     public static final String ADD_AT_CART = "addAt";
     public static final String SUB_ORDER = "subOrder";
     public static final String PAY_ORDER = "payOrder";
@@ -84,8 +83,6 @@ public class UserServlet extends HttpServlet {
             validateName(request, response);
         } else if(LOGIN.equals(action)){
             login(request, response);
-        }else if(GET_ONE_AT.equals(action)){
-            getOneAt(request,response);
         }else if(ADD_AT_CART.equals(action)){
             addAtCart(request,response);
         } else if(SUB_ORDER.equals(action)){
@@ -108,8 +105,6 @@ public class UserServlet extends HttpServlet {
             orderStatus(request, response);
         }
     }
-
-
 
     /**注册*/
     private void regist(HttpServletRequest request,HttpServletResponse response)
@@ -235,18 +230,7 @@ public class UserServlet extends HttpServlet {
         response.getWriter().print(json);
     }
 
-    /**获得一条信息**/
-    private void getOneAt(HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
-        String spId = request.getParameter("spId");
-        //System.out.println("输出的值"+spId);
-        //1.获取商品列表，调用Service的findAll方法,2.将获取的商品列表保存到request中
-        //Map<String, Object> map = userService.findOne(Integer.parseInt(id));
-        List<Map<String,Object>> result= userService.getOneAt(Integer.parseInt(spId));
-        String json= JSON.toJSONString(result);
-        response.getWriter().print(json);
 
-    }
     /**获得个人信息**/
     private void getUserInf(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {

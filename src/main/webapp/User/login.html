@@ -62,7 +62,7 @@
         <div class="reg-log-go" >
             <input name="m1" type="checkbox" value="2" checked="">
             <span>若继续操作，即表示您同意我们的<strong><a href="teams.html">使用条款</a></strong>并确认已经阅读我们的隐私政策。</span>
-            <br><br><br>
+            <br>
             <a ><input class="layui-btn" type="button" value="登录" onclick="login()"/></a>
         </div>
     </form>
@@ -92,7 +92,7 @@
             type:"POST" , //请求方式
             data:$('#myForm').serialize(),// 序列化表单值
             success:function (data) {
-                alert(data);
+                //alert(data);
                 $.cookie('userCookie', data, {expires: 1, path: '/'});
                // window.location.replace("index.html")
                 window.parent.location.href="index.html"

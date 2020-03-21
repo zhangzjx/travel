@@ -145,31 +145,28 @@
             </div>
             <!--分页 -->
             <div class="pagination">
-                <div style="width: 68%;text-align: left;margin-left: 20px;float: left">
+                <div style="width: 45%;text-align: left;margin-left: 20px;float: left">
                     共找到<span id="totalSize"></span>条记录，每页<span id="pageSize"></span>条，
                     共<span id="totalPage"></span>页，当前第<span id="currentPage"></span>页
                 </div>
-                <div style="float: left;width: 17%;">
+                <div style="float: left;width: 35%;">
                     <!-- 首页 -->
-                    <span id="firstPage">首页</span>
-                    <span id="firstPageClick"  ><a>首页</a></span>
-
+                    <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">首页</button>
+                    <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm">首页</button>
                     <!-- 上一页 -->
-                    <span id="lastPage">上一页</span>
-                    <span id="lastPageClick"  ><a>上一页</a></span>
-
+                    <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
+                    <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm">上一页</button>
                     <!-- 下一页 -->
-                    <span id="nextPage">下一页</span>
-                    <span id="nextPageClick"  ><a>下一页</a></span>
-
+                    <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
+                    <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm">下一页</button>
                     <!-- 尾页 -->
-                    <span id="finalPage">尾页</span>
-                    <span id="finalPageClick"  ><a>尾页</a></span>
+                    <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
+                    <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm">尾页</button>
 
                 </div>
                 <div style="float: left">
-                    跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页
-                    <input type="button" id="jump" style="border: none;cursor: pointer " value="确定">
+                    <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
+                    <button id="jump" type="button" class="layui-btn layui-btn-sm">确定</button>
                 </div>
             </div>
 
@@ -356,7 +353,7 @@
         /**下一页*/
         $("#nextPageClick").click(function () {
             let currentPage = $("#currentPage").html();
-            let current = currentPage+1;
+            let current = parseInt(currentPage)+1;
             $.ajax({
                 url: "../UserServlet", // 请求路径
                 type:"Get" , //请求方式

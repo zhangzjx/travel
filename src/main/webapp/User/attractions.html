@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>旅游景点</title>
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <script type="text/javascript" src="js/topFoot.js"></script>
+    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
     <script src="js/jquery.cookie.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
@@ -25,6 +26,10 @@
         });
     </script>
     <style type="text/css">
+
+        /*********旅游景点***********/
+        a{cursor: pointer}
+        .button-hide{display: none}
 
 
     </style>
@@ -79,7 +84,7 @@
 
 <!-- content -->
 <div class="content">
-    <!---->
+    <!--
     <div class="title">
         <a href="#">亚洲</a><span>&nbsp;></span>
         <a href="#">中国 </a><span>&nbsp;></span>
@@ -87,6 +92,7 @@
         <a href="#">成都</a><span>&nbsp;></span>
         <a href="#">成都景点</a>
     </div>
+    -->
     <!--主要内容-->
     <div class="attractions-main">
         <div class="attractions-title">
@@ -94,20 +100,18 @@
         </div>
         <div class="attractions-left">
             <div class="left-list-1">
-                <img src="img/view-1.png" class="left-img">
+                <img src="img/view-1.png" class="left-list-img">
                 <input type="button" class="view-btn layui-btn layui-btn-primary" value="查看地图" title="查看地图"/>
             </div>
 
             <div class="left-list-2">
                 <p><h2>景点类型</h2></p>
-                <div class="circle"></div><div class="circle-content">自然与公园 (43)</div>
-                <div class="circle"></div><div class="circle-content">景点与地标 (109)</div>
-                <div class="circle"></div><div class="circle-content">博物馆 (38)</div>
-                <div class="circle"></div><div class="circle-content">动物园与水族馆 (3)</div>
-                <div class="circle"></div><div class="circle-content">水上活动与游乐园 (4)</div>
-                <div class="circle"></div><div class="circle-content">夜生活 (23)</div>
-                <div class="circle"></div><div class="circle-content">水疗与养生 (5)</div>
-                <div class="circle"></div><div class="circle-content">休闲与游戏 (18)</div>
+                <div class="circle"></div><div class="circle-content">自然与公园</div>
+                <div class="circle"></div><div class="circle-content">景点与地标</div>
+                <div class="circle"></div><div class="circle-content">博物馆</div>
+                <div class="circle"></div><div class="circle-content">动物园与水族馆</div>
+                <div class="circle"></div><div class="circle-content">水上活动与游乐园</div>
+                <div class="circle"></div><div class="circle-content">夜生活</div>
             </div>
 
         </div>
@@ -118,62 +122,11 @@
                         <h2><strong>热门景点</strong></h2>
                     </div>
                     <div class="top-right">
-                        <a href="#" ><span>查看更多</span></a>
+                        <a href="#result_list" ><span>查看更多</span></a>
                     </div>
                 </div>
-                <div class="right-item">
-                    <img src="img/j-1.jpg" class="right-img">
-                    <p><a href="#">巴黎勒布里斯托酒店</a></p>
-                    <p><a href="#">
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        2038条点评</a>
-                    </p>
-                    <p>古迹徒步,景观步行区</p>
+                <div id="result_hot">
                 </div>
-                <div class="right-item">
-                    <img src="img/j-1.jpg" class="right-img">
-                    <p><a href="#">巴黎勒布里斯托酒店</a></p>
-                    <p><a href="#">
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        2038条点评</a>
-                    </p>
-                    <p>古迹徒步,景观步行区</p>
-                </div>
-                <div class="right-item">
-                    <img src="img/j-1.jpg" class="right-img">
-                    <p><a href="#">巴黎勒布里斯托酒店</a></p>
-                    <p><a href="#">
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        2038条点评</a>
-                    </p>
-                    <p>古迹徒步,景观步行区</p>
-                </div>
-                <div class="right-item">
-                    <img src="img/j-1.jpg" class="right-img">
-                    <p><a href="#">巴黎勒布里斯托酒店</a></p>
-                    <p><a href="#">
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        2038条点评</a>
-                    </p>
-                    <p>古迹徒步,景观步行区</p>
-                </div>
-
             </div>
             <div class="right-content">
                 <div class="right-top">
@@ -184,18 +137,46 @@
                         <a href="#" ><span>查看更多</span></a>
                     </div>
                 </div>
-                <div class="right-item">
-                    <img src="img/j-1.jpg" class="right-img">
-                    <p><a href="#">巴黎勒布里斯托酒店</a></p>
-                    <p><a href="#">
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        <span class="layui-badge-dot layui-bg-blue"></span>
-                        2038条点评</a>
-                    </p>
-                    <p>古迹徒步,景观步行区</p>
+                <div id="result_landmarks"></div>
+            </div>
+            <div class="right-content">
+                <div class="right-top">
+                    <div class="top-left">
+                        <h2><strong>自然与公园</strong></h2>
+                    </div>
+                    <div class="top-right">
+                        <a href="#" ><span>查看更多</span></a>
+                    </div>
+                </div>
+                <div id="result_parks"></div>
+            </div>
+            <div class="right-bottom">
+                <div id="result_list"></div>
+                <!--分页 -->
+                <div class="pagination">
+                    <div style="width: 45%;text-align: left;margin-left: 20px;float: left">
+                        共找到<span id="totalSize"></span>条记录，每页<span id="pageSize"></span>条，
+                        共<span id="totalPage"></span>页，当前第<span id="currentPage"></span>页
+                    </div>
+                    <div style="float: left;width: 35%;">
+                        <!-- 首页 -->
+                         <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
+                         <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
+                        <!-- 上一页 -->
+                        <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
+                        <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
+                        <!-- 下一页 -->
+                        <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
+                        <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
+                        <!-- 尾页 -->
+                        <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
+                        <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
+
+                    </div>
+                    <div style="float: left">
+                        <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
+                        <button id="jump" type="button" class="layui-btn layui-btn-sm">确定</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -203,6 +184,348 @@
     </div>
 </div>
 <!-- end-content -->
+<!--底部内容-->
+<input type="hidden" id="uI" name="uI" value="">
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
 
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;"><a href="#">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
 </body>
+<script>
+    //定义方法
+    $(document).ready(function() {
+        const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+        const uid = userCookie.uid;
+        $("#uI").val(uid);
+
+        /**获取热门景点信息，使用$.ajax()发送异步请求*/
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            data: {
+                action:"getHotInf",
+                num:10,
+            },
+            success: function (data) {
+                console.log("cc"+data)
+                const json = eval("(" + data + ")");
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < 4; i++){    //遍历 数组
+                    //拼接表格的行和列
+                    const ls = json[i];
+                    str += "<div class='right-item'><a href='attractionReview.html?param="+ls.spId+"'>" +
+                        "<img src='/atImg/"+ls.img_name+"' class='right-img'><p>"+ls.spName+"</a></p><p>古迹徒步,景观步行区</p></div>";
+                    $("#result_hot").html(str);
+                }
+
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+         /**景点与地标信息*/
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            data: {
+                action:"getLandmarksInf",
+                label:"景点与地标",
+                num:4,
+            },
+            success: function (data) {
+
+                const json = eval("(" + data + ")");
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < json.length; i++){    //遍历 数组
+                    //拼接表格的行和列
+                    const ls = json[i];
+                    str += "<div class='right-item'><a href='attractionReview.html?param="+ls.spId+"'>" +
+                        "<img src='/atImg/"+ls.img_name+"' class='right-img'><p>"+ls.spName+"</a></p><p>古迹徒步,景观步行区</p></div>";
+                    $("#result_landmarks").html(str);
+                }
+            },
+            error: function () {
+                console.log("失败啦...")
+            },
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+         /**自然与公园信息*/
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            data: {
+                action:"getSparksInf",
+                label:"自然与公园",
+                num:4,
+            },
+            success: function (data) {
+
+                const json = eval("(" + data + ")");
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < json.length; i++) {    //遍历 数组
+                    //拼接表格的行和列
+                    const ls = json[i];
+                    str += "<div class='right-item'><a href='attractionReview.html?param=" + ls.spId + "'>" +
+                        "<img src='/atImg/"+ls.img_name+"' class='right-img'><p>"+ls.spName+"</a></p><p>古迹徒步,景观步行区</p></div>";
+                    $("#result_parks").html(str);
+                }
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+         /**查询所有信息*/
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            data: {
+                action:"getAllHotInf",
+            },
+            success: function (data) {
+                console.log("dd"+data);
+                show(data);
+
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+
+        /**首页*/
+        $("#firstPageClick").click(function () {
+            let current = 1;
+            $.ajax({
+                url: "../UserAttractionsServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
+                data:{ action:"getAllHotInf",
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**上一页*/
+        $("#lastPageClick").click(function () {
+            let currentPage = $("#currentPage").html();
+            let current = currentPage-1;
+            $.ajax({
+                url: "../UserAttractionsServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{action:"getAllHotInf",
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**下一页*/
+        $("#nextPageClick").click(function () {
+            let currentPage = $("#currentPage").html();
+            let current = parseInt(currentPage)+1;
+            $.ajax({
+                url: "../UserAttractionsServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{action:"getAllHotInf",
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**尾页*/
+        $("#finalPageClick").click(function () {
+            let current = $("#totalPage").html();
+            $.ajax({
+                url: "../UserAttractionsServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{action:"getAllHotInf",
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**跳页*/
+        $("#jump").click(function () {
+            const current = $("#num").val();
+            $.ajax({
+                url: "../UserAttractionsServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{action:"getAllHotInf",
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /*******8******/
+        function show(data){
+            const json = eval("(" + data + ")");
+            //将JSON对象转化为JSON字符
+            const list = JSON.stringify(json.list);
+            const j = eval("(" + list+ ")");
+
+            $("#totalSize").html(json.totalSize);
+            $("#pageSize").html(json.pageSize);
+            $("#totalPage").html(json.totalPage);
+            $("#currentPage").html(json.currentPage);
+            if (json.currentPage==1){
+
+                $("#firstPage").show();
+                $("#lastPage").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+
+                $("#firstPageClick").hide();
+                $("#lastPageClick").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+
+            } else if (json.currentPage==json.totalPage ){
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPage").show();
+                $("#finalPage").show();
+
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPageClick").hide();
+                $("#finalPageClick").hide();
+
+            } else if (json.currentPage!=1||json.currentPage!=json.totalPage ){
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+            }
+            let str = "";//定义用于拼接的字符串
+            for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
+                const ls = j[i];
+
+                str += "<div class='right-list-content'><img src='/atImg/"+ls.img_name+"' class='right-list-img'>" +
+                    "<div class='right-list-top'><h2><b>"+ls.spName+"</b></h2><p>"+ls.spLabel+"</p></div>" +
+                    "<div class='right-list'><a href='attractionReview.html?param="+ls.spId+"'>" +
+                    "<input type='button' class='el-button layui-btn layui-btn-warm' value='查看详情'></a></div></div>";
+
+                $("#result_list").html(str);
+
+            };
+        }
+
+    })
+</script>
 </html>

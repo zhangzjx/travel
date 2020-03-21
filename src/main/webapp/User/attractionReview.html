@@ -139,9 +139,11 @@
         </div>
         <div class="login" id="logout" style="display:none;" >
             <div class="account" >
-                <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
-                <br>
-                <span style=" font-size: 9pt; ">账户</span>
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
 
@@ -156,22 +158,17 @@
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
-            <a href=""><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
         </div>
         <div class="header-foot-item">
-            <a href=""><img src="img/index-2.png" class="foot-img"><span>机票</span></a>
-        </div>
-        <div class="header-foot-item">
-            <a href=""><img src="img/index-4.png" class="foot-img"><span>观光和活动</span></a>
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
         </div>
     </div>
-
 </div>
 <!-- end-header -->
 <!-- top -->
 <div class="top">
     <div class="top-content">
-
         <div class="title">
             <a href="#">中国 </a><span>&nbsp;></span>
             <a href="#" class="province"> </a><span>&nbsp;></span>
@@ -246,11 +243,7 @@
             </div>
 
             <div class="evaluate-right">
-                <img src="img/mutianyu-great-wall-2.jpg" class="img">
-                <img src="img/mutianyu-great-wall-2.jpg" class="img-1">
-                <img src="img/mutianyu-great-wall-2.jpg" class="img-1">
-                <img src="img/mutianyu-great-wall-2.jpg" class="img-1">
-
+                <div id="oneAtImg"></div>
             </div>
         </div>
         <!--印象，简介及联系方式-->
@@ -361,6 +354,82 @@
 </div>
 <div id="viewName" style="display: none"></div>
 <div id="viewAddress" style="display: none" ></div>
+<!--底部内容-->
+<input type="hidden" id="uI" name="uI" value="">
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;"><a href="#">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
 </body>
 <script type="text/javascript" src="js/echarts.js"></script>
 <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
@@ -383,7 +452,7 @@
         const id = getParams("param");
         //获取景点信息
         $.ajax({
-            url: "../UserServlet", // 请求路径
+            url: "../UserAttractionsServlet", // 请求路径
             type: "POST", //请求方式
             //async:false,
             data: {
@@ -391,7 +460,7 @@
                 spId:id
             },
             success: function (data) {
-                console.log("dd"+data)
+                console.log("信息"+data)
                 const json = eval("(" + data + ")");
                 let str = "";//定义用于拼接的字符串
                 for (const i in json) {//遍历
@@ -428,6 +497,37 @@
                         //alert(ls.spFormation)
                     });
                 }
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        //获取景点图片信息
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getOneAtImg",
+                spId:id
+            },
+            success: function (data) {
+                console.log("dd"+data)
+
+                const json = eval("(" + data + ")");
+
+                let atImg = json[0].img_name;
+                let atImgTwo = json[1].img_name;
+                let atImgThree = json[2].img_name;
+                let atImgFour = json[3].img_name;
+                //定义用于拼接的字符串src='/atImg/"+ls.img_name+"'
+                let str = "<img src='/atImg/"+ atImg +"' class='img'>" +
+                    "<img src='/atImg/"+ atImgTwo +"' class='img-1'>" +
+                    "<img src='/atImg/"+ atImgThree +"' class='img-1'>" +
+                    "<img src='/atImg/"+ atImgFour+"' class='img-1'>";
+                $("#oneAtImg").html(str);
             },//响应成功后的回调函数
             error: function () {
                 console.log("失败啦...")

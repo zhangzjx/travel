@@ -8,7 +8,7 @@ function reg(){
         //skin: 'layui-layer-lan',
         shade: 0.2,
         shadeClose: true, //点击遮罩关闭层    
-        area : ['440px' , '90%'],
+        area : ['440px' , '85%'],
         content:'register.html'//弹框显示的url,对应的页面  
     });
 };
@@ -21,7 +21,7 @@ function log(){
         //skin: 'layui-layer-lan',
         shade: 0.2,
         shadeClose: true, //点击遮罩关闭层    
-        area : ['440px' , '90%'],
+        area : ['440px' , '85%'],
         content:'login.html'//弹框显示的url,对应的页面  
     });
 };
