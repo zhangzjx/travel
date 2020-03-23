@@ -8,7 +8,7 @@
 /*base*/
 .fl{float: left;}
 .fr{float: right;}
-body{font: 12px/1.5 PingFangSC-Regular,Tahoma,'Microsoft Yahei',sans-serif;}
+/**body{font: 12px/1.5 PingFangSC-Regular,Tahoma,'Microsoft Yahei',sans-serif;}*/
 .padding0{
   padding:0;
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+
+<script>
+    window.onload = function(){
+        $('input:radio[name="fruit"]').change(function(){
+            var v = $(this).val();
+            alert(v)
+        });
+
+        const inp = $('input[name="fruit"]:checked').val();
+
+        $("#go").click(function () {
+
+        })
+
+    }
+
+</script>
+
+<form>
+    <input type="radio" class="layu" name ="fruit" value="apple" checked>苹果
+    <input type="radio" class="layu" name ="fruit" value="banana">香蕉
+    <input type="radio" class="layu" name ="fruit" value="pear">梨
+    <button id="go">迪阿尼</button>
+</form>
+</body>
+</html>

@@ -67,8 +67,8 @@ a {text-decoration: none;color: black;}
 .left-list-1{width: 240px;height: 350px;padding:0 20px;background-color: #FFFFFF;border: darkblue solid 1px;}
 .left-img{width: 130px;height: 70px;margin: 20px 0 5px 55px}
 .left-list-1 h3{margin-top: 5px}
-.register-btn{width:200px;height: 30px;line-height: 30px;margin: 20px 0 0 20px;}
-.left-list-2{width: 240px;height: 100px;padding:0 20px;margin-top:10px;background-color: #FFFFFF;border: darkblue solid 1px;}
+.register-btn{width:200px;height: 30px;line-height: 30px;margin: 20px 0 10px 20px;}
+.left-list-2{width: 240px;height: 100px;padding:0 20px;background-color: #FFFFFF;border: darkblue solid 1px;}
 .left-list-3{width: 280px;height: 220px;margin-top:10px;}
 /****中部****/
 .content-center{width: 565px;height: auto;margin:0 30px;padding:20px 10px;background-color: #FFFFFF;float: left;}

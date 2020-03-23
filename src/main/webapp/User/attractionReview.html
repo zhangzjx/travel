@@ -10,28 +10,12 @@
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/attractions.css">
     <script type="application/javascript">
-        function atCart() {
 
-            //由于是一个新的技术，你可以通过下面的代码检测你的浏览器是否支持
-            if (window.localStorage) {
-                //存储变量的值
-                localStorage.spId = $("#spId").val();
-                localStorage.price = $("#one_price").html();
-                localStorage.quantity= $("#sum").val();
-                localStorage.sumPrice= $("#sum_price").html();
-                location.href = 'order.html';
-            } else {
-                alert("NOT SUPPORT");
-            }
-
-    }
-
-
-    $(document).ready(function(){
+        $(document).ready(function(){
             // 页面加载后任何需要执行的js特效
             if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
                 //if(userCookie!= null&&userCookie != ""){
-                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
                 console.log("userCookie存在");
                 console.log(userCookie);
                 //console.log("userCookie===="+userCookie.uid);
@@ -46,8 +30,10 @@
         });
     </script>
     <style type="text/css">
-        body{background-color: #EEEEEE}
 
+        body{background-color:  #f0f0f0}
+
+        p{margin: 5px 0}
 
         .increment{
             width: 30px;
@@ -119,17 +105,11 @@
     </style>
 </head>
 <body>
-<input type="hidden" id="spId" name="spId"/>
+
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
-        <!--
-        <ul class="app-header">
-          <li class="app-header-menuicon">
-             <i class="layui-icon layui-icon-more-vertical"></i>
-          </li>
-        </ul>
-        -->
+
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -148,13 +128,7 @@
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
 
         </div>
-        <!--
-        <ul class="layui-nav header-down-nav">
-          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
-          <li class="layui-nav-item"><a href="case.html">案例</a></li>
-          <li class="layui-nav-item"><a href="service.html">服务</a></li>
-          <li class="layui-nav-item"><a href="about.html">关于</a></li>
-        </ul>-->
+
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
@@ -288,47 +262,49 @@
             <!--预定门票-->
             <div class="tickets">
 
-                <div class="tickets-list" price='50'>
-                    <input name="fg" type="radio">
+
+                <div class="tickets-list">
+                    <input name="ticketInf" type="radio"  price='50' value="1">
                     <div class="list-item" style="width: 820px;margin-left: 10px">成人票（通票）</div>
                     <div class="list-item" class="type_1">50</div>
-
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
 
                 </div>
 
-                <div class="tickets-list" price='25'>
-                    <input name="fg" type="radio" >
+                <div class="tickets-list">
+                    <input name="ticketInf" type="radio" price='25' value="2">
                     <div class="list-item" style="width: 820px;margin-left: 10px">儿童票（通票）</div>
                     <div class="list-item" class="type_1">25</div>
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
                 </div>
 
-                <div class="tickets-list" price='70'>
-                    <input name="fg" type="radio" >
+                <div class="tickets-list" >
+                    <input name="ticketInf" type="radio" price='70' value="3">
                     <div class="list-item" style="width: 820px;margin-left: 10px">亲子票（1大1小）</div>
                     <div class="list-item"  class="type_1">70</div>
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
                 </div>
 
-                <div class="tickets-list" price='115'>
-                    <input name="fg" type="radio" >
+                <div class="tickets-list" >
+                    <input name="ticketInf" type="radio" price='115' value="4">
                     <div class="list-item" style="width: 820px;margin-left: 10px">家庭票（2大1小）</div>
                     <div class="list-item" class="type_1">115</div>
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
                 </div>
 
-                <div class="tickets-list" price='125'>
-                    <input name="fg" type="radio" >
+                <div class="tickets-list" >
+                    <input name="ticketInf" type="radio" price='125' value="5">
                     <div class="list-item" style="width: 820px;margin-left: 10px">家庭票（2大2小）</div>
                     <div class="list-item" class="type_1">125</div>
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
-
                 </div>
+
+
             </div>
+
             <!--总金额结算-->
             <div class="tickets">
-                <div id="one_price" style="display: none"></div>
+                <input type="hidden" id="one_price" value="">
 
                 <div class="tickets-list">
                     <div class="list-item" style="width:130px;margin-left:800px;">
@@ -340,22 +316,49 @@
 
                     </div>
                     <div class="list-item" style="width: 50px;margin: 0 50px;">
-                        <span class="sum_price" id="sum_price"></span>
+                        ￥<span class="sum_price" id="sum_price">0</span>
                     </div>
 
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 10px" id="atCart" onclick="atCart()">购买</button>
                 </div>
             </div>
         </div>
-        <div style="border: solid 1px;width: 1160px;height: 300px;margin: 30px 0 100px 0;"></div>
+        <div style="width: 1200px;height: 400px;background-color: #fff;margin-top: 30px;">
+            <div style="margin:30px 30px;">
+                <h2 style="color: #FFB800">优待政策</h2>
+
+                <p>老年人</p>
+                <p>* 70周岁(含)以上凭老年证或身份证免费； 60周岁（含）-69周岁（含）凭老年证身份证五折优惠</p>
+
+                <p>儿童</p>
+                <p>* 身高1.2米（含）以下免费； 身高1.2米（不含）-1.5米（不含）五折优惠</p>
+
+                <p>残疾人</p>
+                <p>* 凭残疾证免费</p>
+
+                <p>现役军人</p>
+                <p>* 凭军官证免费</p>
+
+                <p>离休干部</p>
+                <p>* 凭离休证免费</p>
+
+                <p>大中小学生</p>
+                <p>* 凭学生证和身份证五折优惠</p>
+
+                <p>其他</p>
+                <p>* 6周岁（不含）-18周岁（含）未成年人：凭身份证或者户口本五折优惠</p>
+            </div>
+        </div>
 
 
     </div>
 </div>
 <div id="viewName" style="display: none"></div>
 <div id="viewAddress" style="display: none" ></div>
+<input type="hidden" id="ticket_id"  value="">
 <!--底部内容-->
 <input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="spId" name="spId">
 <div class="bottom-foot" >
     <h2>热门目的地</h2>
     SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
@@ -450,7 +453,8 @@
         };
         console.log("参数param:"+getParams("param"));//输出aa
         const id = getParams("param");
-        //获取景点信息
+        $("#spId").val(id);
+        /**获取景点信息*/
         $.ajax({
             url: "../UserAttractionsServlet", // 请求路径
             type: "POST", //请求方式
@@ -461,42 +465,7 @@
             },
             success: function (data) {
                 console.log("信息"+data)
-                const json = eval("(" + data + ")");
-                let str = "";//定义用于拼接的字符串
-                for (const i in json) {//遍历
-                    const ls = json[i];
-                    $("#spId").val(ls.spId);
-                    $(".province").append(ls.province);
-                    $("#title").html(ls.spName);
-                    $("#viewName").html(ls.spName);
-                    $(".address").html(ls.spAddress);
-                    $("#viewAddress").html(ls.spAddress);
-                    $(".time").html(ls.spTimeStart+" - "+ls.spTimeEnd);
-                    $("#label").html(ls.spLabel);
-                    $("#item-inf").html(ls.spFormation);
-
-                    $("#item-inf").each(function(){
-                        const len = $(this).text().length;   //当前HTML对象text的长度
-                        if(len>200){
-                            let str = "";
-                            str=$(this).text().substring(0,200)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
-                            $(this).html(str);                   //将替换的值赋值给当前对象
-                        }
-                    });
-                    $("#moreInf").click(function(){
-                        layer.open({
-                            type: 1
-                            ,title: false //不显示标题栏   title : false/标题
-                            , area: ['45%', '70%']
-                            ,shade: 0
-                            ,id: 'LAY_layui' //设定一个id，防止重复弹出
-                            ,resize: false
-                            ,content: '<div style="padding:50px">'+ls.spFormation+'</div>',
-
-                        });
-                        //alert(ls.spFormation)
-                    });
-                }
+                showData(data);
             },//响应成功后的回调函数
             error: function () {
                 console.log("失败啦...")
@@ -504,7 +473,7 @@
 
             dataType: "text"//设置接受到的响应数据的格式
         });
-        //获取景点图片信息
+        /**获取景点图片信息*/
         $.ajax({
             url: "../UserAttractionsServlet", // 请求路径
             type: "POST", //请求方式
@@ -535,8 +504,46 @@
 
             dataType: "text"//设置接受到的响应数据的格式
         });
+        //展示数据
+        function showData(data) {
+            const json = eval("(" + data + ")");
+            let str = "";//定义用于拼接的字符串
+            for (const i in json) {//遍历
+                const ls = json[i];
+                $("#spId").val(ls.spId);
+                $(".province").append(ls.province);
+                $("#title").html(ls.spName);
+                $("#viewName").html(ls.spName);
+                $(".address").html(ls.spAddress);
+                $("#viewAddress").html(ls.spAddress);
+                $(".time").html(ls.spTimeStart+" - "+ls.spTimeEnd);
+                $("#label").html(ls.spLabel);
+                $("#item-inf").html(ls.spFormation);
 
-        /**价格*/
+                $("#item-inf").each(function(){
+                    const len = $(this).text().length;   //当前HTML对象text的长度
+                    if(len>200){
+                        let str = "";
+                        str=$(this).text().substring(0,200)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+                        $(this).html(str);                   //将替换的值赋值给当前对象
+                    }
+                });
+                $("#moreInf").click(function(){
+                    layer.open({
+                        type: 1
+                        ,title: false //不显示标题栏   title : false/标题
+                        , area: ['45%', '70%']
+                        ,shade: 0
+                        ,id: 'LAY_layui' //设定一个id，防止重复弹出
+                        ,resize: false
+                        ,content: '<div style="padding:50px">'+ls.spFormation+'</div>',
+
+                    });
+                    //alert(ls.spFormation)
+                });
+            }
+        };
+        /**价格
         $(".tickets-list").each(function(k,v){
             $(v).click(function(){
                 if(!$(v).is(".selected")){
@@ -553,14 +560,60 @@
                 }
             });
         });
-        //展示数据
-        function showData() {
+         */
+        /**展示数据*/
+        function showData(data) {
+            const json = eval("(" + data + ")");
+            let str = "";//定义用于拼接的字符串
+            for (const i in json) {//遍历
+                const ls = json[i];
+                $("#spId").val(ls.spId);
+                $(".province").append(ls.province);
+                $("#title").html(ls.spName);
+                $("#viewName").html(ls.spName);
+                $(".address").html(ls.spAddress);
+                $("#viewAddress").html(ls.spAddress);
+                $(".time").html(ls.spTimeStart+" - "+ls.spTimeEnd);
+                $("#label").html(ls.spLabel);
+                $("#item-inf").html(ls.spFormation);
 
+                $("#item-inf").each(function(){
+                    const len = $(this).text().length;   //当前HTML对象text的长度
+                    if(len>200){
+                        let str = "";
+                        str=$(this).text().substring(0,200)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+                        $(this).html(str);                   //将替换的值赋值给当前对象
+                    }
+                });
+                $("#moreInf").click(function(){
+                    layer.open({
+                        type: 1
+                        ,title: false //不显示标题栏   title : false/标题
+                        , area: ['45%', '70%']
+                        ,shade: 0
+                        ,id: 'LAY_layui' //设定一个id，防止重复弹出
+                        ,resize: false
+                        ,content: '<div style="padding:50px">'+ls.spFormation+'</div>',
+
+                    });
+                    //alert(ls.spFormation)
+                });
+            }
         };
 
+        /**选中input*/
+        /**const inp = $('input[name="ticketInf"]:checked').val();*/
+        $('input:radio[name="ticketInf"]').change(function(){
+            const price =$(this).attr("price");
+            const v = $(this).val();
+
+            $("#ticket_id").val(v);
+            $("#one_price").val(price);
+            $("#sum_price").html(price);
+        });
         //加的效果
         $(".plus").click(function () {
-            let pr = $("#one_price").html();
+            let pr = $("#one_price").val();
             const n = $(this).prev().val();
             const itxt = parseInt(n) + 1;
             if (itxt == 0) {
@@ -578,7 +631,7 @@
         });
         //减的效果
         $(".reduce").click(function () {
-            let pr = $("#one_price").html();
+            let pr = $("#one_price").val();
             const n = $(this).next().val();
             const itxt = parseInt(n) - 1;
             if (itxt == 0) {
@@ -600,53 +653,40 @@
 
         });
 
-        // document.getElementById("sum_price").innerHTML=3.25*3;
-        //加入购物车
-
-        /**
-         * $("#atCart").click(function (){
-            $.ajax({
-                url: "../UserServlet", // 请求路径
-                type: "POST", //请求方式
-                data: {
-                    action:"addAt",
-                    spId:id,
-                    uId: id,
-                    quantity: 10,
-                    price: 100,
-                },
-                success: function (data) {
-                    alert("添加成功");
-                    console.log("添加成功" + data)
-                    //const json = eval("(" + data + ")");
-                },//响应成功后的回调函数
-                error: function () {
-                    console.log("失败啦...")
-                },//表示如果请求响应出现错误，会执行的回调函数
-
-                dataType: "text"//设置接受到的响应数据的格式
-            });
-
-        });
-         */
     });
+    function atCart() {
 
+        //由于是一个新的技术，你可以通过下面的代码检测你的浏览器是否支持
+        if (window.localStorage) {
+            //存储变量的值
+
+            localStorage.spId = $("#spId").val();
+            localStorage.ticket_id = $("#ticket_id").val();
+            localStorage.price = $("#one_price").val();
+            localStorage.quantity= $("#sum").val();
+            localStorage.sumPrice= $("#sum_price").html();
+            location.href = 'order.html';
+        } else {
+            alert("NOT SUPPORT");
+        }
+
+    }
 </script>
 
 <script type="text/javascript">
     /**地图**/
     const c = "116.028702, 40.363106";
-     document.getElementById("position").src = "http://api.map.baidu.com/staticimage/v2?ak=MXPc39yzvyV11CCIv4maBPmnPKdRMHC8&center="+c+"&width=340&height=150&zoom=11";
+    document.getElementById("position").src = "http://api.map.baidu.com/staticimage/v2?ak=MXPc39yzvyV11CCIv4maBPmnPKdRMHC8&center="+c+"&width=340&height=150&zoom=11";
 
     function re(){
         let viewN = $("#viewName").html();
 
         layer.open({
-            type: 2,
-            title: viewN,
-            shadeClose: true, //点击遮罩关闭层    
-            area : ['90%' , '90%'],
-            content:'bar.html',//弹框显示的url,对应的页面  
+            type: 2,
+            title: viewN,
+            shadeClose: true, //点击遮罩关闭层
+            area : ['90%' , '90%'],
+            content:'bar.html',//弹框显示的url,对应的页面
 
         });
 

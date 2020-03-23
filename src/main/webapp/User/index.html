@@ -124,8 +124,8 @@
         <div class="input-bor" >
           <h1>景点、酒店、度假屋……更多优惠搜不停</h1>
           <div style="margin-left: 400px;">
-            <input type="text" id="autocomplete" class="el-input">
-            <input type="button" class="el-btn layui-btn" value="搜索">
+            <input type="text" id="sValue" class="el-input">
+            <input type="button" id="searchGo" class="el-btn layui-btn" value="搜索">
           </div>
         </div>
         <div class="content-main">
@@ -177,12 +177,19 @@
           </div>
           <div class="content-right">
             <h2>精选目的地</h2>
-            <img src="img/w-1.jpg" class="right-img"/>
-            <span class="info">法国巴黎</span>
-            <img src="img/w-1.jpg" class="right-img"/>
-            <span class="info">法国巴黎</span>
-            <img src="img/w-1.jpg" class="right-img"/>
-            <span class="info">法国巴黎</span>
+            <div>
+              <img src="img/w-1.jpg" class="right-img"/>
+              <span class="info">法国巴黎</span>
+            </div>
+            <div>
+              <img src="img/w-1.jpg" class="right-img"/>
+              <span class="info">法国巴黎</span>
+            </div>
+            <div>
+              <img src="img/w-1.jpg" class="right-img"/>
+              <span class="info">法国巴黎</span>
+            </div>
+
           </div>
         </div>
         <div class="main-inf">
@@ -281,7 +288,7 @@
         <li><a href="#"> 营业执照</a></li>
       </ul>
       <div >
-        © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+        © 2020 SeeWorld 版权所有。<a href="teams.html">使用条款</a> | <a href="teams.html">隐私政策</a> | <a href="#">网站工作原理</a>
         * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
        </div>
       <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
@@ -321,6 +328,19 @@
 
       dataType: "text"//设置接受到的响应数据的格式
     });
+
+    /**搜索*/
+    $("#searchGo").click(function () {
+      let inputValue = $("#sValue").val();
+      if (inputValue==null||inputValue==""){
+        layer.msg('请输入内容');
+        $("#sValue").focus();
+      }else {
+        localStorage.ipValue = inputValue;
+        window.parent.location.href="searchResult.html"
+      }
+
+    });
     //获取信息，使用$.ajax()发送异步请求
     $.ajax({
       url: "../UserServlet", // 请求路径
@@ -340,7 +360,7 @@
        //   str = "<div class="center-item"><img src="img/j-1.jpg" class="center-img">
         //  <p><a href="#">ls.spName</a></p></div>";
          // "<option value="+ls.hName+">" + ls.hName + "</option>";
-          str = "<div class='center-item'><a href='attractionReview.html?param="+ls.spId+"'><img src='img/j-1.jpg' class='center-img'><p>"+ls.spName+"</a></p></div>";
+          str = "<div class='center-item'><a href='attractionReview.html?param="+ls.spId+"'><img src='/atImg/"+ls.img_name+"' class='center-img'><p>"+ls.spName+"</a></p></div>";
           $("#result_1").append(str);
           $("#result_2").append(str);
           $("#result_3").append(str);

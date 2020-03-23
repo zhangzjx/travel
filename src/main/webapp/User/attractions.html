@@ -122,7 +122,7 @@
                         <h2><strong>热门景点</strong></h2>
                     </div>
                     <div class="top-right">
-                        <a href="#result_list" ><span>查看更多</span></a>
+                        <a onclick="goTo()" ><span>查看更多</span></a>
                     </div>
                 </div>
                 <div id="result_hot">
@@ -160,17 +160,24 @@
                     </div>
                     <div style="float: left;width: 35%;">
                         <!-- 首页 -->
-                         <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
-                         <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
+                        <a href="#result_parks" >
+                            <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
+                            <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
+                        </a>
                         <!-- 上一页 -->
-                        <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
-                        <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
+
+                            <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
+                            <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
+
                         <!-- 下一页 -->
-                        <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
-                        <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
+
+                            <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
+                            <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
+
                         <!-- 尾页 -->
-                        <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
-                        <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
+
+                            <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
+                            <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
 
                     </div>
                     <div style="float: left">
@@ -338,7 +345,7 @@
                 for(let i = 0; i < json.length; i++) {    //遍历 数组
                     //拼接表格的行和列
                     const ls = json[i];
-                    str += "<div class='right-item'><a href='attractionReview.html?param=" + ls.spId + "'>" +
+                    str += "<div class='right-item'><a href='attractionReview.html?param="+ls.spId+"'>" +
                         "<img src='/atImg/"+ls.img_name+"' class='right-img'><p>"+ls.spName+"</a></p><p>古迹徒步,景观步行区</p></div>";
                     $("#result_parks").html(str);
                 }
@@ -359,7 +366,11 @@
             success: function (data) {
                 console.log("dd"+data);
                 show(data);
+                //location.href = "#result_parks";
+                 //$("html,body").animate({scrollTop: $("#result_parks").offset().top}, 500);
+                 $("#result_parks")[0].scrollIntoView();
 
+                //document.querySelector("#result_parks").scrollIntoView();
             },//响应成功后的回调函数
             error: function () {
                 console.log("失败啦...")
@@ -370,6 +381,7 @@
 
         /**首页*/
         $("#firstPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#result_parks").offset().top}, 500);
             let current = 1;
             $.ajax({
                 url: "../UserAttractionsServlet", // 请求路径
@@ -391,6 +403,7 @@
         });
         /**上一页*/
         $("#lastPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#result_parks").offset().top}, 500);
             let currentPage = $("#currentPage").html();
             let current = currentPage-1;
             $.ajax({
@@ -403,6 +416,7 @@
                 success:function (data) {
                     console.log("dd"+data);
                     show(data);
+
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -411,6 +425,7 @@
         });
         /**下一页*/
         $("#nextPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#result_parks").offset().top}, 500);
             let currentPage = $("#currentPage").html();
             let current = parseInt(currentPage)+1;
             $.ajax({
@@ -423,6 +438,7 @@
                 success:function (data) {
                     console.log("dd"+data);
                     show(data);
+
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -431,6 +447,7 @@
         });
         /**尾页*/
         $("#finalPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#result_parks").offset().top}, 500);
             let current = $("#totalPage").html();
             $.ajax({
                 url: "../UserAttractionsServlet", // 请求路径
@@ -450,6 +467,7 @@
         });
         /**跳页*/
         $("#jump").click(function () {
+            $("html,body").animate({scrollTop: $("#result_parks").offset().top}, 500);
             const current = $("#num").val();
             $.ajax({
                 url: "../UserAttractionsServlet", // 请求路径
@@ -524,8 +542,14 @@
                 $("#result_list").html(str);
 
             };
+
         }
 
-    })
+
+
+    });
+    function goTo() {
+        $("html,body").animate({scrollTop: $("#result_parks").offset().top}, 500);
+    }
 </script>
 </html>

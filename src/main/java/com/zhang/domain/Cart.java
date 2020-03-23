@@ -106,12 +106,25 @@ public class Cart {
         this.status = status;
     }
 
+    private int id;
+    private int uid;
+    private int cid;
+
+    public int getTicket_id() {
+        return ticket_id;
+    }
+
+    public void setTicket_id(int ticket_id) {
+        this.ticket_id = ticket_id;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +
                 "id=" + id +
                 ", uid=" + uid +
                 ", cid=" + cid +
+                ", ticket_id=" + ticket_id +
                 ", oid='" + oid + '\'' +
                 ", receiver='" + receiver + '\'' +
                 ", name='" + name + '\'' +
@@ -119,14 +132,12 @@ public class Cart {
                 ", price=" + price +
                 ", totalPrice=" + totalPrice +
                 ", addTime=" + addTime +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", status=" + status +
                 '}';
     }
 
-    private int id;
-    private int uid;
-    private int cid;
+    private int ticket_id;
     private String oid;
     private String receiver;
     private String name;

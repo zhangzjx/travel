@@ -27,6 +27,8 @@ public class UserAttractionsServlet extends HttpServlet {
     public static final String GET_SPARKS_INF = "getSparksInf";
     public static final String GET_ONE_AT = "getOneAt";
     public static final String GET_ONE_AT_IMG = "getOneAtImg";
+    public static final String GET_ALL_HOT_INF = "getAllHotInf";
+    public static final String GET_TICKET = "getTicket";
 
     private UserAttractionsService userAtService = new UserAttractionsService();
     @Override
@@ -47,12 +49,14 @@ public class UserAttractionsServlet extends HttpServlet {
             getLandmarksInf(request, response);
         } else if(GET_SPARKS_INF.equals(action)){
             getSparksInf(request, response);
-        } else if("getAllHotInf".equals(action)){
+        } else if(GET_ALL_HOT_INF.equals(action)){
             getAllHotInf(request, response);
         } else if(GET_ONE_AT.equals(action)){
             getOneAt(request,response);
         } else if(GET_ONE_AT_IMG.equals(action)){
             getOneAtImg(request,response);
+        } else if(GET_TICKET.equals(action)){
+            getTicket(request,response);
         }
 
     }
@@ -126,7 +130,16 @@ public class UserAttractionsServlet extends HttpServlet {
         response.getWriter().print(json);
     }
 
+    /**获得本景点门票信息**/
+    private void getTicket(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+         String ticket_id = request.getParameter("ticket_id");
+        //System.out.println(spId);
 
+        List<Map<String,Object>> result= userAtService.getTicket(ticket_id);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {

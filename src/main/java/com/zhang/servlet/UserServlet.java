@@ -1,9 +1,7 @@
 package com.zhang.servlet;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zhang.dao.Page;
 import com.zhang.dao.PageOther;
 import com.zhang.domain.Attractions;
 import com.zhang.domain.Cart;
@@ -50,7 +48,7 @@ public class UserServlet extends HttpServlet {
     public static final String ORDER_STATUS = "orderStatus";
     public static final String ONE = "1";
     public static final String TWO = "2";
-
+    public static final String FIND_SEARCH = "findSearch";
 
 
     private AdminHotelService adminHotelService = new AdminHotelService();
@@ -103,6 +101,8 @@ public class UserServlet extends HttpServlet {
             findAllOrder(request, response);
         } else if(ORDER_STATUS.equals(action)){
             orderStatus(request, response);
+        } else if(FIND_SEARCH.equals(action)){
+            findSearch(request, response);
         }
     }
 
@@ -316,8 +316,11 @@ public class UserServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String receiver = request.getParameter("receiver");
         int id = Integer.parseInt(request.getParameter("id"));
-        String spName = request.getParameter("spName");
 
+        String spName = request.getParameter("spName");
+        int ticketId = Integer.parseInt(request.getParameter("ticket_id"));
+        String ticketType = request.getParameter("ticket_type");
+        String ticketName = spName+ticketType;
         double price = Double.parseDouble(request.getParameter("price"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
@@ -351,9 +354,11 @@ public class UserServlet extends HttpServlet {
         }
 
         orderItem.setId(id);
-        orderItem.setName(spName);
+        orderItem.setTicket_id(ticketId);
+        orderItem.setName(ticketName);
         orderItem.setPrice(price);
         orderItem.setQuantity(quantity);
+
 
         userService.subOrder(order);
         userService.subOrderItem(orderItem);
@@ -425,7 +430,33 @@ public class UserServlet extends HttpServlet {
             response.getWriter().print(json);
         }
     }
+    /**查询数据并分页
+     * 根据关键词查找数据并传递到另一个页面(搜索功能)
+     */
+    private void findSearch(HttpServletRequest request,
+                                    HttpServletResponse response) throws IOException {
 
+
+        String svalue=request.getParameter("sValue");
+        String current = request.getParameter("currentPage");
+        System.out.println("跳转的页数"+svalue);
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        PageOther page = userService.findSearch(currentPage, svalue);
+        /**request.setAttribute("myList",page);*/
+        /**System.out.println("结果为"+page.getList());*/
+        String json= JSON.toJSONString(page);
+        //System.out.println("json"+json);
+        response.getWriter().print(json);
+
+
+
+
+    }
     private void changeHInf(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
         int hId = Integer.parseInt(request.getParameter("hId"));

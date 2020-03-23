@@ -50,6 +50,9 @@ public class UserAttractionsService {
     /**获得一条景点图片信息**/
     public List<Map<String, Object>> getOneAtImg(int spId) {
         return userAtDao.getOneAtImg(spId);
-
+    }
+    /**获得一条景点门票信息**/
+    public List<Map<String, Object>> getTicket(String ticket_id) {
+        return userAtDao.getTicket(ticket_id);
     }
 }

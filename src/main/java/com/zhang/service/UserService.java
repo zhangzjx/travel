@@ -1,6 +1,5 @@
 package com.zhang.service;
 
-import com.zhang.dao.Page;
 import com.zhang.dao.PageOther;
 import com.zhang.dao.UserDao;
 import com.zhang.domain.Attractions;
@@ -127,5 +126,14 @@ public class UserService {
             return false;
         }
     }
+    /**查询景点数目及分页，查询搜索结果数目及分页（搜索功能）*/
+    public PageOther findSearch(int currentPage, String svalue) {
+        int totalSize = userDao.findCountSearch(svalue);
+        PageOther page = new PageOther(currentPage,totalSize);
+        List<Map<String,Object>> list = userDao.findSearch(page.getStartIndex(),page.getPageSize(), svalue);
+        page.setList(list);
+        return page;
+    }
+
 
 }

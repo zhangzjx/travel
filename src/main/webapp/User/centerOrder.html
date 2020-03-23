@@ -109,37 +109,7 @@
                 <div class="right-top-list" >交易状态</div>
                 <div class="right-top-list" >交易操作</div>
             </div>
-            <!--
-                                <div class="right-main-top">
-                                    <div class="main-top-list">订单时间：${record.ordertime}</div>
-                                    <div class="main-top-list">订单编号：${record.oid}</div>
-                                    <div class="main-top-list">名称：${record.spName}</div>
-                                </div>
-                                <div class="main-content" >
-                                    <div class="main-content-list"style="width: 172px">
-                                            ${record.oid}
-                                    </div>
-                                    <div class="main-content-list" title="${record.spName}" style="width: 172px">${record.spName}</div>
-                                    <div class="main-content-list">
-                                            ${record.price}
-                                    </div>
-                                    <div class="main-content-list">
-                                            ${record.buycount}
-                                    </div>
-                                    <div class="main-content-list" >
-                                        已完成订单
-                                    </div>
-                                    <div class="main-content-list">
-                                            ${record.totalprice}
-                                    </div>
-                                    <div class="main-content-list">
-                                        待评价
-                                    </div>
-                                    <div class="main-content-list">
-                                        <a href="#">评价</a>
-                                    </div>
-                                </div>
-            -->
+
             <div id="right-main" class="right-main" >
 
             </div>
@@ -322,7 +292,6 @@
                 success:function (data) {
                     console.log("dd"+data);
                     show(data);
-
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -466,10 +435,10 @@
                 str += "<div class='right-main-top'>" +
                     "<div class='main-top-list'>订单时间："+ordertime+"</div>" +
                     "<div class='main-top-list'>订单编号："+ls.oid+"</div>" +
-                    "<div class='main-top-list'>名称："+ls.spName+"</div></div>" +
+                    "<div class='main-top-list'>名称："+ls.name+"</div></div>" +
                     "<div class='main-content'>" +
                     "<div class='main-content-list' style='width: 172px'>"+ls.oid+"</div>" +
-                    "<div class='main-content-list' style='width: 172px'>"+ls.spName+"</div>" +
+                    "<div class='main-content-list' style='width: 172px'>"+ls.name+"</div>" +
                     "<div class='main-content-list'>"+ls.price+"</div>" +
                     "<div class='main-content-list'>"+ls.buycount+"</div>" +
                     "<div class='main-content-list'>已完成订单</div>" +

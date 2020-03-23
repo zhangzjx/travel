@@ -53,7 +53,9 @@ public class UserAttractionsDao {
     }
     /**获得一条信息**/
     public List<Map<String,Object>> getOneAt(int spId) {
-        String sql = "select * from t_scenicspot where spId=?";
+
+        String sql = "select a.*,b.img_id,b.img_name,b.space from t_scenicspot a,t_scenicspot_img b" +
+                " where a.spId=b.spId and b.img_priority=1 and a.spId=?";
         return JdbcUtils.find(sql,spId);
         // List<Map<String, Object>> list=JdbcUtils.find(sql, id);
         //return list.get(0);
@@ -63,5 +65,15 @@ public class UserAttractionsDao {
     public List<Map<String, Object>> getOneAtImg(int spId) {
         String sql = "select * from t_scenicspot_img where spId=?";
         return JdbcUtils.find(sql,spId);
+    }
+    /**获得一条景点门票信息**/
+    public List<Map<String, Object>> getTicket(String ticket_id) {
+        StringBuilder sql=new StringBuilder("select * from t_scenicspot_ticket");
+        if(ticket_id!=null&&ticket_id!=""){
+            sql.append(" ");
+        }else {
+            sql.append(" where ticket_id="+ticket_id);
+        }
+        return JdbcUtils.find(sql.toString());
     }
 }

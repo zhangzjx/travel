@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索结果</title>
+    <link rel="stylesheet" href="css/topFoot.css">
+    <link rel="stylesheet" href="css/serachResult.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/topFoot.js"></script>
+    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                console.log("userCookie存在");
+                $("#logout").show();
+
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+                //$("#account").show()
+            }
+
+        });
+    </script>
+    <style type="text/css" >
+        /************main主要内容*******************/
+        a{cursor: pointer}
+        .button-hide{display: none}
+        *{font-family: 微软雅黑;}
+        a{cursor: pointer}
+        body{background-color: #EEEEEE;}
+        .tab-pane{display:none;}
+        .active{display:block;}
+        .content-search{
+            width: 1200px;
+            height: auto;
+            margin: 30px auto;
+        }
+        /****第一部分****/
+        .search-main{
+            width: 1200px;
+            height: auto;
+        }
+        /**搜索**/
+        .search-box{height: 110px;background-color: #FFF;border-bottom: 1px  solid #e8ebf2;}
+        /***列表功能***/
+        .right-list-content{width: 860px;height:200px;margin-top:3px;background-color: #fff;}
+        .right-list-content:hover{box-shadow: #666 0px 0px 10px;}
+        .right-list-top{width: 500px;height: 100px;margin:10px 0 0 10px;line-height:50px;float: left;}
+        .right-list-top p{font-size: 10pt}
+        .right-list{width: 220px;height: 70px;margin-left:10px;float: left;}
+        .el-button{width: 160px;margin: 10px 30px}
+        .right-list-img{width: 200px;height: 200px;margin:0;border-radius:3px;;float: left}
+        .right-list h2{text-align: center;margin-top: 50px}
+        /***分页功能***/
+        .pagination{
+            width: 860px;
+            height: 40px;
+            line-height:40px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 9pt;
+            border-top: solid 1px #dddddd;
+            float: left;
+        }
+        .input-bor{padding:30px 0;background-color: #FFFFFF;}
+        .input-bor h1 {text-align: center;margin-bottom:5px }
+        .el-input{width: 300px;padding:9px;margin-top:2px;float:left;border:2px solid #7cc815 !important}
+        .el-btn{margin:2px 0 0 5px;}
+
+        //*{border: solid 1px}
+    </style>
+</head>
+<body>
+
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+        <!--
+        <ul class="app-header">
+          <li class="app-header-menuicon">
+             <i class="layui-icon layui-icon-more-vertical"></i>
+          </li>
+        </ul>
+        -->
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+        </div>
+        <div class="login" id="login" style="display:none;">
+            <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
+        </div>
+        <!--
+        <ul class="layui-nav header-down-nav">
+          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
+          <li class="layui-nav-item"><a href="case.html">案例</a></li>
+          <li class="layui-nav-item"><a href="service.html">服务</a></li>
+          <li class="layui-nav-item"><a href="about.html">关于</a></li>
+        </ul>-->
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+        </div>
+    </div>
+</div>
+<!-- end-header -->
+<!-- search -->
+<div id="search-box" class="search-box">
+    <div class="header-top">
+        <div style="margin-left: 400px;">
+            <form id="myForm"  method="post">
+                <input type="text" id="sValue" class="el-input">
+                <input type="button" id="searchGo" class="el-btn layui-btn" value="搜索">
+            </form>
+        </div>
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" style="text-align: center;line-height: 40px">
+            <a><span id="search-all">所有搜索结果</span></a>
+            <div id="line-all" style="height: 3px;background-color: #0000FF"></div>
+        </div>
+        <div class="header-foot-item" style="text-align: center;line-height: 37px">
+            <a><span id="search-at">景点</span></a>
+            <div id="line-at" style="height: 3px;display: none;background-color: #0000FF"></div>
+        </div>
+        <div class="header-foot-item" style="text-align: center;line-height: 37px">
+            <a><span id="search-ht">酒店</span></a>
+            <div id="line-ht" style="height: 3px;display: none;background-color: #0000FF"></div>
+        </div>
+    </div>
+</div>
+<!-- end-search -->
+
+<!--主要内容-->
+<div class="content-search">
+    <div class="search-main">
+        <div>
+            <div id="result_list"></div>
+            <!--分页 -->
+            <div style="background-color: #fff; margin-top: 3px" class="pagination">
+                <div style="width: 45%;text-align: left;margin-left: 20px;float: left">
+                    共找到<span id="totalSize"></span>条记录，每页<span id="pageSize"></span>条，
+                    共<span id="totalPage"></span>页，当前第<span id="currentPage"></span>页
+                </div>
+                <div style="float: left;width: 35%;">
+                    <!-- 首页 -->
+                    <a href="#result_parks" >
+                        <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
+                        <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
+                    </a>
+                    <!-- 上一页 -->
+
+                    <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
+                    <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
+
+                    <!-- 下一页 -->
+
+                    <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
+                    <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
+
+                    <!-- 尾页 -->
+
+                    <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
+                    <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
+
+                </div>
+                <div style="float: left">
+                    <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
+                    <button id="jump" type="button" class="layui-btn layui-btn-sm">确定</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div style="height: 30px"></div>
+<!--底部内容-->
+<input type="hidden" id="uI" name="uI" value="">
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;"><a href="#">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    //定义方法
+    $(document).ready(function() {
+        let myInput = localStorage.ipValue;
+        if (myInput!=null){
+            $("#sValue").val(myInput);
+            let sv = $("#sValue").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type: "POST", //请求方式
+                data:{ action:"findSearch",
+                    sValue:sv,
+                },
+                success: function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },//响应成功后的回调函数
+                error: function () {
+                    console.log("失败啦...")
+                },//表示如果请求响应出现错误，会执行的回调函数
+
+                dataType: "text"//设置接受到的响应数据的格式
+            });
+        }
+        /**搜索*/
+        $("#searchGo").click(function () {
+            $("html,body").animate({scrollTop: $("#search-box").offset().top}, 500);
+            let sv = $("#sValue").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type: "POST", //请求方式
+                data:{ action:"findSearch",
+                    sValue:sv,
+                },
+                success: function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },//响应成功后的回调函数
+                error: function () {
+                    console.log("失败啦...")
+                },//表示如果请求响应出现错误，会执行的回调函数
+
+                dataType: "text"//设置接受到的响应数据的格式
+            });
+        });
+
+        /**首页*/
+        $("#firstPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#search-box").offset().top}, 500);
+            let current = 1;
+            let sv = $("#sValue").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
+                data:{ action:"findSearch",
+                    sValue:sv,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**上一页*/
+        $("#lastPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#search-box").offset().top}, 500);
+            let currentPage = $("#currentPage").html();
+            let current = currentPage-1;
+            let sv = $("#sValue").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{ action:"findSearch",
+                    sValue:sv,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**下一页*/
+        $("#nextPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#search-box").offset().top}, 500);
+            let currentPage = $("#currentPage").html();
+            let current = parseInt(currentPage)+1;
+            let sv = $("#sValue").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{ action:"findSearch",
+                    sValue:sv,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**尾页*/
+        $("#finalPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#search-box").offset().top}, 500);
+            let current = $("#totalPage").html();
+            let sv = $("#sValue").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{ action:"findSearch",
+                    sValue:sv,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**跳页*/
+        $("#jump").click(function () {
+            $("html,body").animate({scrollTop: $("#search-box").offset().top}, 500);
+            const current = $("#num").val();
+            let sv = $("#sValue").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{ action:"findSearch",
+                    sValue:sv,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /*******8******/
+        function show(data){
+            let inputValue = $("#sValue").val();
+            localStorage.ipValue = inputValue;
+            const json = eval("(" + data + ")");
+            //将JSON对象转化为JSON字符
+            const list = JSON.stringify(json.list);
+            const j = eval("(" + list+ ")");
+
+            $("#totalSize").html(json.totalSize);
+            $("#pageSize").html(json.pageSize);
+            $("#totalPage").html(json.totalPage);
+            $("#currentPage").html(json.currentPage);
+            if (json.currentPage==1){
+
+                $("#firstPage").show();
+                $("#lastPage").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+
+                $("#firstPageClick").hide();
+                $("#lastPageClick").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+
+            } else if (json.currentPage==json.totalPage ){
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPage").show();
+                $("#finalPage").show();
+
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPageClick").hide();
+                $("#finalPageClick").hide();
+
+            } else if (json.currentPage!=1||json.currentPage!=json.totalPage ){
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+            }
+            let str = "";//定义用于拼接的字符串
+            for(let i = 0; i < 5; i++){    //遍历 数组//拼接表格的行和列
+                const ls = j[i];
+                str += "<div class='right-list-content'><img src='/atImg/"+ls.img_name+"' class='right-list-img'>" +
+                    "<div class='right-list-top'><h2><b>"+ls.spName+"</b></h2><p>"+ls.spLabel+"</p></div>" +
+                    "<div class='right-list'><a href='attractionReview.html?param="+ls.spId+"'>" +
+                    "<input type='button' class='el-button layui-btn layui-btn-warm' value='查看详情'></a></div></div>";
+                $("#result_list").html(str);
+            };
+
+        }
+
+    })
+</script>
+<script type="text/javascript">
+    $("#search-all").click(function () {
+        $("#line-all").show();
+        $("#line-at").hide();
+        $("#line-ht").hide();
+     });
+    $("#search-at").click(function () {
+        $("#line-at").show();
+        $("#line-all").hide();
+        $("#line-ht").hide();
+    });
+    $("#search-ht").click(function () {
+        $("#line-ht").show();
+        $("#line-all").hide();
+        $("#line-at").hide();
+    });
+</script>
+</html>

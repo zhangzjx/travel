@@ -62,7 +62,7 @@ a{cursor: pointer}
 .line{width: 1px;height: 20px;background-color: #d4d4d4;margin:5px 24px; }
 /*********主要内容*******/
 .content{width: 1200px;min-height: 800px;}
-.review-main{width: 1200px;min-height: 800px;margin: 30px auto 0;border: darkblue solid 1px;}
+.review-main{width: 1200px;min-height: 800px;margin: 30px auto 0; }
 /******点评精选及图片********/
 .review-evaluate{width: 1200px;height: 400px;}
 .evaluate-left{width: 340px;height: 400px;float: left;padding:0 20px;background-color: #fff;}

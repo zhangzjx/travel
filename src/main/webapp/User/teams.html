@@ -3,21 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>使用条款</title>
+    <script type="application/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="application/javascript" src="js/topFoot.js"></script>
+    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/topFoot.css">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+                console.log("userCookie存在");
+                console.log(userCookie);
+                //console.log("userCookie===="+userCookie.uid);
+                $("#logout").show();
+                $("#left-list-1").hide();
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+            }
+        });
+    </script>
     <style type="text/css">
-        body{background-color: #d4d4d4}
-        p{font-size: 10pt}
+        body{background-color:  #f0f0f0;}
+        p{font-size: 10pt;margin: 5px 0;line-height:25px;}
+        h1, h2{margin: 20px 0;font-weight: bold}
+        .teams{width: 960px;height: 1500px;margin: 30px auto;padding:1px 20px;background-color: #fff}
 
     </style>
 </head>
 <body>
-<div style="width: 960px;height: 1400px;margin: 0 auto;padding:1px 20px;background-color: #fff">
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+        <!--
+        <ul class="app-header">
+          <li class="app-header-menuicon">
+             <i class="layui-icon layui-icon-more-vertical"></i>
+          </li>
+        </ul>
+        -->
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+        </div>
+        <div class="login" id="login" style="display:none;">
+            <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
 
-<h1>Booking缤客服务协议</h1>
-    <div style="width: 960px;border: chartreuse 1px solid;"></div>
-<H2>确认和接纳</H2>
-<div></div>
-<p>途趣网信息技术(北京)有限公司（“途趣”）依照Booking缤客服务协议（包括下述所有条款和经援引而并入其中的所有隐私政策、条款和指南等）
-    （统称“本协议”），通过本网站（www.tripadvisor.cn）或移动电话、平板电脑和其他类似设备（下称“设备”）中相关的移动应用程序（统称为“我们的网站”），
+        </div>
+        <!--
+        <ul class="layui-nav header-down-nav">
+          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
+          <li class="layui-nav-item"><a href="case.html">案例</a></li>
+          <li class="layui-nav-item"><a href="service.html">服务</a></li>
+          <li class="layui-nav-item"><a href="about.html">关于</a></li>
+        </ul>-->
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+        </div>
+    </div>
+</div>
+<!-- end-header -->
+<div class="teams">
+
+    <h1>SeeWorld看世界服务协议</h1>
+    <div style="width: 960px;border: chartreuse 1px solid;">
+    </div>
+    <H2>确认和接纳</H2>
+
+
+
+<p>旅途网信息技术(北京)有限公司（“途趣”）依照SeeWorld看世界服务协议（包括下述所有条款和经援引而并入其中的所有隐私政策、条款和指南等）
+    （统称“本协议”），通过本网站（www.seeworld.cn）或移动电话、平板电脑和其他类似设备（下称“设备”）中相关的移动应用程序（统称为“我们的网站”），
     向您提供与旅游相关的网络产品或服务，包括协助客户收集旅游信息、发表旅游相关评论、参与旅游论坛的互动等（统称为“服务”）。
     除另行明确约定外，我们的网站提供的任何服务均受本协议的约束。
 </p>
@@ -68,5 +140,82 @@
     <p>(8) 符合相关法律法规规定的其他情形。</p>
 
 </div>
+
+<!-- footer -->
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="teams.html">使用条款</a> | <a href="teams.html">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
+<!-- end-footer -->
 </body>
 </html>

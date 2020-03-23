@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>旅游景点</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="application/javascript" src="js/topFoot.js"></script>
+    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/topFoot.css">
+    <link rel="stylesheet" type="text/css" href="css/attractions.css">
+    <script type="application/javascript">
+        function atCart() {
+
+            //由于是一个新的技术，你可以通过下面的代码检测你的浏览器是否支持
+            if (window.localStorage) {
+                //存储变量的值
+                localStorage.spId = $("#spId").val();
+                localStorage.ticket_id = $("#ticket_id").val();
+                localStorage.price = $("#one_price").val();
+                localStorage.quantity= $("#sum").val();
+                localStorage.sumPrice= $("#sum_price").html();
+                location.href = 'order.html';
+            } else {
+                alert("NOT SUPPORT");
+            }
+
+    }
+
+
+    $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                //if(userCookie!= null&&userCookie != ""){
+                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+                console.log("userCookie存在");
+                console.log(userCookie);
+                //console.log("userCookie===="+userCookie.uid);
+                $("#logout").show();
+
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+                //$("#account").show()
+            }
+
+        });
+    </script>
+    <style type="text/css">
+        body{background-color:  #f0f0f0}
+
+        p{margin: 5px 0}
+
+        .increment{
+            width: 30px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 20pt;
+            float: left;
+        }
+        .sum{
+            height: 30px;
+            width: 40px;
+            text-align: center;
+            line-height: 40px;
+            float: left;
+        }
+
+        /**总金额结算*/
+
+        /* 复选框 */
+        input[type="radio"] {
+            -webkit-appearance: none; /*清除复选框默认样式*/
+            border: 1px solid #627BF6;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            float: left;
+            margin-top: 15px;
+            margin-right: 0 !important;
+            border-radius: 3px;
+        }
+        input[type="radio"]:checked {
+            /* background-position: -48px 0; */
+            background: #627BF6 url(img/hotel-check.png) ; /*复选框的背景图*/
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+<input type="hidden" id="spId" name="spId"/>
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+        <!--
+        <ul class="app-header">
+          <li class="app-header-menuicon">
+             <i class="layui-icon layui-icon-more-vertical"></i>
+          </li>
+        </ul>
+        -->
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+        </div>
+        <div class="login" id="login" style="display:none;">
+            <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
+        </div>
+        <!--
+        <ul class="layui-nav header-down-nav">
+          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
+          <li class="layui-nav-item"><a href="case.html">案例</a></li>
+          <li class="layui-nav-item"><a href="service.html">服务</a></li>
+          <li class="layui-nav-item"><a href="about.html">关于</a></li>
+        </ul>-->
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+        </div>
+    </div>
+</div>
+<!-- end-header -->
+<!-- top -->
+<div class="top">
+    <div class="top-content">
+        <div class="title">
+            <a href="#">中国 </a><span>&nbsp;></span>
+            <a href="#" class="province"> </a><span>&nbsp;></span>
+
+            <a href="#"><span class="province"></span>景点</a>
+        </div>
+        <!--标题-->
+        <div class="review-title">
+            <h1><strong id="title"> </strong></h1>
+            <div class="title-inf">
+                <ul>
+                    <li class="address"> </li>
+                    <li><div style="width: 50px"><div class="line"></div></div></li>
+                    <li class="time"> </li>
+                    <li><div style="width: 50px"><div class="line"></div></div></li>
+                    <li id="label"></li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- end-top -->
+<!-- content -->
+<div class="content">
+    <div class="review-main">
+        <!--点评精选及图片-->
+        <div class="review-evaluate">
+            <div class="evaluate-left">
+                <h3><strong>点评精选</strong></h3>
+                <br>
+                <div class="evaluate-inf">
+                    <div class="evaluate-inf-top"><a href="#">“有好汉坡及长城，不要爬错地方，不然就要南北都爬ＸＤ”</a></div>
+                    <div><span class="inf-f">有好汉坡及长城，不要爬错地方，不然就要南北都爬ＸＤ
+                        一场历史与古蹟的洗礼，可以好好拍照，路上有人卖纪念品～</span><a href="#">查看更多</a>
+                    </div>
+
+                    <div class="evaluate-info">
+                        <img src="img/头像.jpg" class="img">
+                        <div class="sp">
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span>2019年11月19日的点评</span>
+                        </div>
+                        <div class="sp">sxu99</div>
+                    </div>
+                </div>
+                <div class="evaluate-inf">
+                    <div class="evaluate-inf-top"><a href="#">“八达岭”</a></div>
+                    <div><span class="inf-f">人超多哦↗明明和男朋友起的很早，却赶了个晚集，嘿嘿😬,
+                        外国友人和小朋友占的比例比较大，坡度太大，大家出行要注意安全哦</span>
+                        <a href="#">查看更多</a>
+                    </div>
+                    <div class="evaluate-info">
+                        <img src="img/头像.jpg" class="img">
+                        <div class="sp">
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span class="layui-badge-dot layui-bg-blue"></span>
+                            <span>2019年11月18日的点评</span>
+                        </div>
+                        <div class="sp">Flyer29164448125</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="evaluate-right">
+                <div id="oneAtImg"></div>
+            </div>
+        </div>
+        <!--印象，简介及联系方式-->
+        <div style="height:400px;margin-top: 30px;">
+            <div class="review-item">
+                <h3><b>旅行者印象</b></h3>
+                <span>5.0
+                <span class="layui-badge-dot layui-bg-blue"></span>
+                <span class="layui-badge-dot layui-bg-blue"></span>
+                <span class="layui-badge-dot layui-bg-blue"></span>
+                <span class="layui-badge-dot layui-bg-blue"></span>
+                <span class="layui-badge-dot layui-bg-blue"></span>
+               </span>
+                <span>23,638 条点评</span><br>
+                <div class="chart">
+                    <div id="container" style="height: 200px;width: 338px;"></div>
+                </div>
+
+            </div>
+            <div class="review-item" style="margin: 0 30px">
+                <h3><b>简介</b></h3>
+                <p id="item-inf"></p><a id="moreInf" style="cursor:pointer;">查看更多</a>
+                <div style="margin-top: 10px">
+                    卓越奖
+                </div>
+                <div style="margin: 10px 0" >正在营业
+                    <p>今日营业时间：<span class="time"></span></p>
+                    <p style="cursor: pointer"  onclick="goTime()">查看营业时间</p>
+                </div>
+                <p>建议时间：超过三小时</p>
+            </div>
+            <div class="review-item">
+                <h3><b>联系方式</b></h3>
+                <img id="position" src="" onclick="re()">
+                <div class="address" style="margin-top: 10px"></div>
+
+                <div style="margin-top: 10px"> +86 10 8500 7422</div>
+            </div>
+        </div>
+        <!--门票，优待政策及注意事项-->
+        <div class="book-tickets">
+            <!--预定门票-->
+            <div class="tickets">
+                <div id="ticket_result"></div>
+<!--
+                <div class="tickets-list" price='50'>
+                    <input name="fg" type="radio">
+                    <div class="list-item" style="width: 820px;margin-left: 10px">成人票（通票）</div>
+                    <div class="list-item" class="type_1">50</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+                       <div class="tickets-list" price='25'>
+                    <input name="fg" type="radio" >
+                    <div class="list-item" style="width: 820px;margin-left: 10px">儿童票（通票）</div>
+                    <div class="list-item" class="type_1">25</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+
+                <div class="tickets-list" price='70'>
+                    <input name="fg" type="radio" >
+                    <div class="list-item" style="width: 820px;margin-left: 10px">亲子票（1大1小）</div>
+                    <div class="list-item"  class="type_1">70</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+
+                <div class="tickets-list" price='115'>
+                    <input name="fg" type="radio" >
+                    <div class="list-item" style="width: 820px;margin-left: 10px">家庭票（2大1小）</div>
+                    <div class="list-item" class="type_1">115</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+
+                <div class="tickets-list" price='125'>
+                    <input name="fg" type="radio" >
+                    <div class="list-item" style="width: 820px;margin-left: 10px">家庭票（2大2小）</div>
+                    <div class="list-item" class="type_1">125</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+-->
+
+            </div>
+            <!--总金额结算-->
+            <div class="tickets">
+                <input id="one_price" value="">
+
+                <div class="tickets-list">
+                    <div class="list-item" style="width:130px;margin-left:800px;">
+                        <div class="amount_box" style="margin: 10px  0 0 10px;">
+                            <a href="javascript:;" class="reduce increment">-</a>
+                            <input type="text" value="1" class="sum" id="sum" name="sum" >
+                            <a href="javascript:;" class="plus increment" style="margin-left: 10px">+</a>
+                        </div>
+
+                    </div>
+                    <div class="list-item" style="width: 50px;margin: 0 50px;">
+                        <span class="sum_price" id="sum_price"></span>
+                    </div>
+
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 10px" id="atCart" onclick="atCart()">购买</button>
+                </div>
+            </div>
+
+        </div>
+        <div style="width: 1200px;height: 400px;background-color: #fff;margin-top: 30px;">
+            <div style="margin:30px 30px;">
+                <h2 style="color: #FFB800">优待政策</h2>
+
+                <p>老年人</p>
+                <p>* 70周岁(含)以上凭老年证或身份证免费； 60周岁（含）-69周岁（含）凭老年证身份证五折优惠</p>
+
+                <p>儿童</p>
+                <p>* 身高1.2米（含）以下免费； 身高1.2米（不含）-1.5米（不含）五折优惠</p>
+
+                <p>残疾人</p>
+                <p>* 凭残疾证免费</p>
+
+                <p>现役军人</p>
+                <p>* 凭军官证免费</p>
+
+                <p>离休干部</p>
+                <p>* 凭离休证免费</p>
+
+                <p>大中小学生</p>
+                <p>* 凭学生证和身份证五折优惠</p>
+
+                <p>其他</p>
+                <p>* 6周岁（不含）-18周岁（含）未成年人：凭身份证或者户口本五折优惠</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="viewName" style="display: none"></div>
+<div id="viewAddress" style="display: none" ></div>
+<!--底部内容-->
+<input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="ticket_id" name="ticket_id" value="">
+
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;"><a href="#">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/echarts.js"></script>
+<script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+<script type="text/javascript" src="js/layer.js"></script>
+<script type="text/javascript" src="js/topFoot.js"></script>
+
+<script>
+    //定义方法
+    $(document).ready(function() {
+
+        function getParams(key) {
+            const reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            const r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        };
+        console.log("参数param:"+getParams("param"));//输出aa
+        const id = getParams("param");
+        //获取景点信息
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getOneAt",
+                spId:id
+            },
+            success: function (data) {
+                console.log("信息"+data)
+                showData(data);
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        //获取景点图片信息
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getOneAtImg",
+                spId:id
+            },
+            success: function (data) {
+                const json = eval("(" + data + ")");
+
+                let atImg = json[0].img_name;
+                let atImgTwo = json[1].img_name;
+                let atImgThree = json[2].img_name;
+                let atImgFour = json[3].img_name;
+                //定义用于拼接的字符串src='/atImg/"+ls.img_name+"'
+                let str = "<img src='/atImg/"+ atImg +"' class='img'>" +
+                    "<img src='/atImg/"+ atImgTwo +"' class='img-1'>" +
+                    "<img src='/atImg/"+ atImgThree +"' class='img-1'>" +
+                    "<img src='/atImg/"+ atImgFour+"' class='img-1'>";
+                $("#oneAtImg").html(str);
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        /**获取景点价格信息*/
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getTicket",
+                spId:id
+            },
+            success: function (data) {
+                const json = eval("(" + data + ")");
+                let str = "";
+                for (const i in json) {
+                    const ls = json[i];
+                    str +="<div class='tickets-list'><input name='ticketInf' class='ticketInf' type='radio' price='"+ls.ticket_price+"' value='"+ls.ticket_id+"'>" +
+                        "<div class='list-item' style='width: 820px;margin-left: 10px'>"+ls.ticket_type+"</div>" +
+                        "<div class='ist-item' class='type_1'>"+ls.ticket_price+"</div>" +
+                        "<button class='layui-btn layui-btn-sm' style='margin: 0 0 0 50px'>查看详情</button></div>" ;
+                    $("#ticket_result").html(str);
+                }
+
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        /**价格
+        $(".tickets-list").each(function(k,v){
+            $(v).click(function(){
+                if(!$(v).is(".selected")){
+                    $(".tickets-list").removeClass("selected");
+                    $(this).addClass("selected");
+                    const pri =$(this).attr("price");
+                    $("#one_price").html(pri);
+                    //$("#sum").val(1);
+                    let pr = $("#one_price").html();
+                    $("#sum_price").html(pr);
+                    //showData();
+                }else{
+                    $(this).removeClass("selected");
+                }
+            });
+        });
+    */
+        //展示数据
+        function showData(data) {
+            const json = eval("(" + data + ")");
+            let str = "";//定义用于拼接的字符串
+            for (const i in json) {//遍历
+                const ls = json[i];
+                $("#spId").val(ls.spId);
+                $(".province").append(ls.province);
+                $("#title").html(ls.spName);
+                $("#viewName").html(ls.spName);
+                $(".address").html(ls.spAddress);
+                $("#viewAddress").html(ls.spAddress);
+                $(".time").html(ls.spTimeStart+" - "+ls.spTimeEnd);
+                $("#label").html(ls.spLabel);
+                $("#item-inf").html(ls.spFormation);
+
+                $("#item-inf").each(function(){
+                    const len = $(this).text().length;   //当前HTML对象text的长度
+                    if(len>200){
+                        let str = "";
+                        str=$(this).text().substring(0,200)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+                        $(this).html(str);                   //将替换的值赋值给当前对象
+                    }
+                });
+                $("#moreInf").click(function(){
+                    layer.open({
+                        type: 1
+                        ,title: false //不显示标题栏   title : false/标题
+                        , area: ['45%', '70%']
+                        ,shade: 0
+                        ,id: 'LAY_layui' //设定一个id，防止重复弹出
+                        ,resize: false
+                        ,content: '<div style="padding:50px">'+ls.spFormation+'</div>',
+
+                    });
+                    //alert(ls.spFormation)
+                });
+            }
+        };
+
+
+
+        //加的效果
+        $(".plus").click(function () {
+            let pr = $("#one_price").val();
+            const n = $(this).prev().val();
+            const itxt = parseInt(n) + 1;
+            if (itxt == 0) {
+                return;
+            }
+            $(this).prev().val(itxt);
+            let sum =  $("#sum").val();
+
+            let allSum = pr*sum;
+            console.log("总计"+allSum);
+
+            $("#sum_price").html(allSum);
+            let s = $("#sum_price").html()
+            console.log(s);
+        });
+        //减的效果
+        $(".reduce").click(function () {
+            let pr = $("#one_price").val();
+            const n = $(this).next().val();
+            const itxt = parseInt(n) - 1;
+            if (itxt == 0) {
+                return
+            }
+            $(this).next().val(itxt);
+            let sum =  $("#sum").val();
+            let allSum = pr*sum;
+            console.log("总计"+allSum);
+
+            $("#sum_price").html(allSum);
+            let s =  $("#sum_price").html()
+            console.log(s);
+
+
+        });
+
+
+        /**
+         * $("#atCart").click(function (){
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type: "POST", //请求方式
+                data: {
+                    action:"addAt",
+                    spId:id,
+                    uId: id,
+                    quantity: 10,
+                    price: 100,
+                },
+                success: function (data) {
+                    alert("添加成功");
+                    console.log("添加成功" + data)
+                    //const json = eval("(" + data + ")");
+                },//响应成功后的回调函数
+                error: function () {
+                    console.log("失败啦...")
+                },//表示如果请求响应出现错误，会执行的回调函数
+
+                dataType: "text"//设置接受到的响应数据的格式
+            });
+
+        });
+         */
+    });
+
+</script>
+<script>
+    window.onload = function(){
+        /**选中input*/
+        /**const inp = $('input[name="ticketInf"]:checked').val();*/
+        $('input:radio[name="ticketInf"]').change(function(){
+            const price =$(this).attr("price");
+            const v = $(this).val();
+            alert(price);
+            $("#ticket_id").val(v);
+            $("#one_price").val(price);
+        });
+
+        $(".ticketInf").click(function(){
+            const v = $(this).val();
+            alert("第二次");
+            $("#one_price").val(v);
+        });
+
+
+    }
+
+</script>
+<script type="text/javascript">
+    /**地图**/
+    const c = "116.028702, 40.363106";
+     document.getElementById("position").src = "http://api.map.baidu.com/staticimage/v2?ak=MXPc39yzvyV11CCIv4maBPmnPKdRMHC8&center="+c+"&width=340&height=150&zoom=11";
+
+    function re(){
+        let viewN = $("#viewName").html();
+
+        layer.open({
+            type: 2,
+            title: viewN,
+            shadeClose: true, //点击遮罩关闭层    
+            area : ['90%' , '90%'],
+            content:'bar.html',//弹框显示的url,对应的页面  
+
+        });
+
+    }
+    /**营业时间*/
+    function goTime() {
+        layer.open({
+            type: 1
+            ,title: "营业时间" //不显示标题栏   title : false/标题
+            ,area: '300px;'
+            ,shade: 0
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,resize: false
+            ,content: '<div style="padding: 40px; line-height: 30px; font-weight: 300;">周一 - 周五 上午7:30 - 下午5:00<br>周六 - 周日 上午7:30 - 下午6:00</div>'
+
+        });
+        /**
+         layer.open({
+           type: 1
+           ,title: "营业时间" //不显示标题栏   title : false/标题
+           ,closeBtn: true
+           ,area: '300px;'
+           ,shade: 0.8
+           ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+           ,resize: false
+           ,btn: ['火速围观', '残忍拒绝']
+           ,btnAlign: 'c'
+           ,moveType: 1 //拖拽模式，0或者1
+           ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">内容<br>内容</div>'
+           ,success: function(layero){
+               var btn = layero.find('.layui-layer-btn');
+               btn.find('.layui-layer-btn0').attr({
+                   href: 'http://www.layui.com/'
+                   ,target: '_blank'
+               });
+           }
+       });
+         */
+        //layer.alert("周一 - 周五 上午7:30 - 下午5:00<br>周六 - 周日 上午7:30 - 下午6:00");
+    };
+
+    /**用户评论展示*/
+    $(".inf-f").each(function(){
+        const len = $(this).text().length;   //当前HTML对象text的长度
+        if(len>80){
+            let str = "";
+            str=$(this).text().substring(0,80)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+            $(this).html(str);                   //将替换的值赋值给当前对象
+        }
+    });
+
+    //图表
+    const dom = document.getElementById("container");
+    const myChart = echarts.init(dom);
+    const app = {};
+    option = null;
+    app.title = '坐标轴刻度与标签对齐';
+
+    option = {
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis : [
+            {
+                type : 'category',
+                data : ['很差', '较差', '一般', '较好', '很棒', ],
+                axisTick: {
+                    show: false,
+                    alignWithLabel: true
+                },
+                axisLine: {//取消显示坐标轴
+                    show: false
+                }
+            }
+        ],
+        xAxis : [
+            {
+                show: false,//取消显示坐标轴,坐标轴刻度,坐标值(如果是y轴,默认的网格线也会取消显示)
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'评价',
+                type:'bar',
+                barWidth: '60%',
+                data:[10, 52, 200, 334, 390,]
+            }
+        ]
+    };
+
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+</html>

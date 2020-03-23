@@ -2,118 +2,121 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Layui</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
-    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
+<style>
+    body {
+        text-align: center;
+    }
+
+    #go_to {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+    }
+</style>
 <body>
+<h3 name="top">唐诗300首</h3>
+<p>《春晓》<br/>
+    作者：孟浩然<br/>
+    春眠不觉晓，处处闻啼鸟。<br/>
+    夜来风雨声，花落知多少。</p>
+<p> 《鹿柴》<br/>
+    作者：王维<br/>
+    空山不见人，但闻人语响。<br/>
+    返影入深林，复照青苔上。</p>
+<p> 《相思》<br/>
+    作者：王维<br/>
+    红豆生南国，春来发几枝。<br/>
+    愿君多采撷，此物最相思。</p>
+<p> 《杂诗》<br/>
+    作者：王维<br/>
+    君自故乡来，应知故乡事。<br/>
+    来日绮窗前，寒梅著花未。</p>
+<p> 《终南望余雪》<br/>
+    作者：祖咏 <br/>
+    终南阴岭秀，积雪浮云端。<br/>
+    林表明霁色，城中增暮寒。</p>
+<p id="jys"> 《静夜思》<br/>
+    作者：李白<br/>
+    床前明月光，疑是地上霜。<br/>
+    举头望明月，低头思故乡。</p>
+<p> 《登鹳雀楼》<br/>
+    作者：王之涣<br/>
+    白日依山尽，黄河入海流。<br/>
+    欲穷千里目，更上一层楼。</p>
+<p> 《江雪》<br/>
+    作者：柳宗元<br/>
+    千山鸟飞绝，万径人踪灭。<br/>
+    孤舟蓑笠翁，独钓寒江雪。</p>
+<p> 《登乐游原》<br/>
+    作者：李商隐 <br/>
+    向晚意不适，驱车登古原。<br/>
+    夕阳无限好，只是近黄昏。</p>
+<p> 《弹琴》<br/>
+    作者：刘长卿 <br/>
+    泠泠七弦上，静听松风寒。<br/>
+    古调虽自爱，今人多不弹。</p>
+<p> 《八阵图》<br/>
+    作者：杜甫<br/>
+    功盖三分国，名成八阵图。<br/>
+    江流石不转，遣恨失吞吴。</p>
+<p id="cao"> 《草》<br/>
+    作者：白居易<br/>
+    离离原上草，一岁一枯荣。<br/>
+    野火烧不尽，春风吹又生。<br/>
+    远芳侵古道，晴翠接荒城。 <br/>
+    又送王孙去，萋萋满别情。</p>
 
-<form class="layui-form" action="">
+<p> 《关山月》<br/>
+    作者：李白<br/>
+    明月出天山，苍茫云海间。<br/>
+    长风几万里，吹度玉门关。<br/>
+    汉下白登道，胡窥青海湾。<br/>
+    由来征战地，不见有人还。<br/>
+    戍客望边色，思归多苦颜。<br/>
+    高楼当此夜，叹息未应闲。</p>
 
+<p> 《望月怀远》<br/>
+    作者：张九龄<br/>
+    海上生明月，天涯共此时。<br/>
+    情人怨遥夜，竟夕起相思。<br/>
+    灭烛怜光满，披衣觉露滋。<br/>
+    不堪盈手赠，还寝梦佳期。</p>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">验证手机</label>
-            <div class="layui-input-inline">
-                <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">验证邮箱</label>
-            <div class="layui-input-inline">
-                <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+<p> 《送杜少府之任蜀州》<br/>
+    作者：王勃<br/>
+    城阙辅三秦，风烟望五津。<br/>
+    与君离别意，同是宦游人。<br/>
+    海内存知己，天涯若比邻。<br/>
+    无为在岐路，儿女共沾巾。</p>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">多规则验证</label>
-            <div class="layui-input-inline">
-                <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">验证日期</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">验证链接</label>
-            <div class="layui-input-inline">
-                <input type="tel" name="url" lay-verify="url" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
+<p> 《春望》<br/>
+    作者：杜 甫<br/>
+    国破山河在，城春草木深。<br/>
+    感时花溅泪，恨别鸟惊心。<br/>
+    烽火连三月，家书抵万金。<br/>
+    白头搔更短，浑欲不胜簪。</p>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">验证身份证</label>
-        <div class="layui-input-block">
-            <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">自定义验证</label>
-        <div class="layui-input-inline">
-            <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
-    </div>
-
-
-
-
-
-
-    <div class="layui-form-item" pane="">
-        <label class="layui-form-label">原始复选框</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
-            <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读">
-            <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled="">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">开关-默认关</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">开关-默认开</label>
-        <div class="layui-input-block">
-            <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">单选框</label>
-        <div class="layui-input-block">
-            <input type="radio" name="sex" value="男" title="男" checked="">
-            <input type="radio" name="sex" value="女" title="女">
-            <input type="radio" name="sex" value="禁" title="禁用" disabled="">
-        </div>
-    </div>
-
-
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
-</form>
-
-
-
-
-
+<div id="go_to">
+    <a href="#top">A、顶部</a>
+    <button onclick="goToTop();">B、顶部</button>
+    <button onclick="goToJys();">C、静夜思</button>
+    <button onclick="goToCao();">D、草</button>
+</div>
 
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    function goToTop() {
+        location.href = "#top";
+    }
+    function goToJys() {
+        $("html,body").animate({scrollTop: $("#jys").offset().top}, 500);//定位到《静夜思》
+    }
+
+    function goToCao() {
+        document.querySelector("#cao").scrollIntoView();
+        $("#cao")[0].scrollIntoView();
+    }
+</script>
 </html>

@@ -89,11 +89,11 @@ public class UserDao {
     }
     /**首页显示的商品*/
     public List<Map<String,Object>> getIndex() {
-        String sql = "select spId,spName,spStar from t_scenicspot limit 0,5";
+        String sql = "select a.spId,a.spName,b.img_id,b.img_name,b.img_priority,b.space " +
+                "from t_scenicspot a,t_scenicspot_img b where a.spId=b.spId and b.img_priority=1 limit 0,5";
+
         return JdbcUtils.find(sql);
     }
-
-
 
     /**获得个人信息**/
     public Map<String,Object> getUserInf(int uId) {
@@ -114,7 +114,6 @@ public class UserDao {
         JdbcUtils.update(sql, params);
         return user;
     }
-
     /**修改昵称**/
     public User changeNc(User user) {
         String sql="update t_customer set customerName=? where uid=?";
@@ -178,11 +177,12 @@ public class UserDao {
         JdbcUtils.insert(sql, params);
     }
     public void subOrderItem(Cart orderItem) {
-        String sql = "insert into t_orderitem values(null,?,?,?,null,?,?,null)";
+        String sql = "insert into t_orderitem values(null,?,?,?,null,?,?,?,null)";
         Object[] params = {
                 orderItem.getOid(),
                 orderItem.getId(),
                 orderItem.getQuantity(),
+                orderItem.getTicket_id(),
                 orderItem.getName(),
                 orderItem.getPrice(),
         };
@@ -208,17 +208,40 @@ public class UserDao {
     }
 
     public static List<Map<String, Object>> findAllOrder(int uid,int startIndex, int pageSize) {
-        String sql = "select a.spName,b.oid,b.ordertime,b.totalprice,b.status,c.spId,c.price,c.buycount,c.total " +
+        String sql = "select a.spName,b.oid,b.ordertime,b.totalprice,b.status,c.spId,c.price,c.buycount,c.name,c.total " +
                 "from t_scenicspot a,t_orderinf b,t_orderitem c " +
                 "where a.spId=c.spId and b.oid=c.oid and b.uid=? limit ?,?";
         return JdbcUtils.find(sql, uid, startIndex, pageSize);
     }
 
     public static List<Map<String, Object>> orderStatus(int uid, String status,int startIndex, int pageSize) {
-        String sql = "select a.spName,b.oid,b.ordertime,b.totalprice,b.status,c.spId,c.price,c.buycount,c.total " +
+        String sql = "select a.spName,b.oid,b.ordertime,b.totalprice,b.status,c.spId,c.price,c.buycount,c.name,c.total " +
                 "from t_scenicspot a,t_orderinf b,t_orderitem c " +
                 "where a.spId=c.spId and b.oid=c.oid and b.uid=? and b.status=?  limit ?,?";
         return JdbcUtils.find(sql,uid,status,startIndex, pageSize);
     }
     /***分页结束****/
+
+    /**搜索结果信息及分页*/
+    /**搜索结果总记录数*/
+    public  int findCountSearch(String svalue) {
+        StringBuilder sql=new StringBuilder("select count(*) from t_scenicspot");
+        if(svalue!=null&&svalue.length()>0){
+            //'%123%'
+            sql.append(" where spName like \"%"+svalue+"%\" ");
+        }
+        return ((Number) JdbcUtils.selectScalar(sql.toString(), (Object[]) null)).intValue();
+    }
+    /**开始记录的索引*/
+    /**开始记录的索引（搜索结果）skey代表哪一列，svalue是具体的值
+     /**select a.*,b.brand_name from goods a,goods_brand b where a.bid=b.id
+     * and a.gid like 100000001 limit 0,3 条件是a.bid=b。id和当a.gid=100000001时
+     * */
+    public  List<Map<String, Object>> findSearch(int startIndex, int pageSize,
+                                                 String svalue) {
+        String sql = "select a.spId,a.spName,a.spLabel,b.img_id,b.img_name,b.img_priority,b.space " +
+                "from t_scenicspot a,t_scenicspot_img b " +
+                " where a.spId=b.spId and b.img_priority=1 and a.spName like \"%"+svalue+"%\" limit ?,?";
+        return JdbcUtils.find(sql, startIndex, pageSize);
+    }
 }
