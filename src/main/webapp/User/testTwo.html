@@ -16,9 +16,14 @@
 
         const inp = $('input[name="fruit"]:checked').val();
 
-        $("#go").click(function () {
 
+        $("#test").oninput(function () {
+
+            let startTime = $(this).val();
+            alert(startTime);
+            // $("#startTime").val(startTime);
         })
+
 
     }
 
@@ -29,6 +34,7 @@
     <input type="radio" class="layu" name ="fruit" value="banana">香蕉
     <input type="radio" class="layu" name ="fruit" value="pear">梨
     <button id="go">迪阿尼</button>
+    <input type="text" id="test"   class="book-ep-input" >
 </form>
 </body>
 </html>

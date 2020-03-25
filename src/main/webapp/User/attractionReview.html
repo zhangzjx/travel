@@ -261,8 +261,6 @@
         <div class="book-tickets">
             <!--预定门票-->
             <div class="tickets">
-
-
                 <div class="tickets-list">
                     <input name="ticketInf" type="radio"  price='50' value="1">
                     <div class="list-item" style="width: 820px;margin-left: 10px">成人票（通票）</div>
@@ -270,14 +268,12 @@
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
 
                 </div>
-
                 <div class="tickets-list">
                     <input name="ticketInf" type="radio" price='25' value="2">
                     <div class="list-item" style="width: 820px;margin-left: 10px">儿童票（通票）</div>
                     <div class="list-item" class="type_1">25</div>
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
                 </div>
-
                 <div class="tickets-list" >
                     <input name="ticketInf" type="radio" price='70' value="3">
                     <div class="list-item" style="width: 820px;margin-left: 10px">亲子票（1大1小）</div>
@@ -298,14 +294,11 @@
                     <div class="list-item" class="type_1">125</div>
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
                 </div>
-
-
             </div>
 
             <!--总金额结算-->
             <div class="tickets">
                 <input type="hidden" id="one_price" value="">
-
                 <div class="tickets-list">
                     <div class="list-item" style="width:130px;margin-left:800px;">
                         <div class="amount_box" style="margin: 10px  0 0 10px;">
@@ -626,8 +619,7 @@
             console.log("总计"+allSum);
 
             $("#sum_price").html(allSum);
-            let s = $("#sum_price").html()
-            console.log(s);
+
         });
         //减的效果
         $(".reduce").click(function () {
@@ -643,11 +635,6 @@
             console.log("总计"+allSum);
 
             $("#sum_price").html(allSum);
-            let s =  $("#sum_price").html()
-            console.log(s);
-
-
-
             //const sum =document.getElementById('sum').value;
             // document.getElementById("sum_price").innerHTML=pr*sum;
 

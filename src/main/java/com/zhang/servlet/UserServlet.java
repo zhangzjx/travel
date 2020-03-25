@@ -372,7 +372,6 @@ public class UserServlet extends HttpServlet {
         //将Cookie加到response中
         response.addCookie(cookie);
 
-
         response.sendRedirect(request.getContextPath()+"/User/pay.jsp");
     }
     /*****添加订单第三步，付款成功，等待发货******/

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>旅游景点</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/topFoot.css">
+    <link rel="stylesheet" type="text/css" href="css/hotels.css">
+    <script type="application/javascript">
+
+        $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                //if(userCookie!= null&&userCookie != ""){
+                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+                console.log("userCookie存在");
+                console.log(userCookie);
+                //console.log("userCookie===="+userCookie.uid);
+                $("#logout").show();
+
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+                //$("#account").show()
+            }
+
+        });
+    </script>
+    <style type="text/css">
+        body{background-color:  #f0f0f0}
+        p{margin: 10px 0}
+        .increment{
+            width: 30px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 20pt;
+            float: left;
+        }
+        .sum{
+            height: 30px;
+            width: 40px;
+            text-align: center;
+            line-height: 40px;
+            float: left;
+        }
+        /* 复选框 */
+        input[type="radio"] {
+            -webkit-appearance: none; /*清除复选框默认样式*/
+            border: 1px solid #627BF6;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            float: left;
+            margin-top: 15px;
+            margin-right: 0 !important;
+            border-radius: 3px;
+        }
+        input[type="radio"]:checked {
+            /* background-position: -48px 0; */
+            background: #627BF6 url(img/hotel-check.png) ; /*复选框的背景图*/
+            background-size: contain;
+        }
+        /***顶部***/
+        .top{width: 100%;height:auto;padding:10px 0;background-color: #fff;}
+        .top-content{width: 1200px;margin: 0 auto;}
+        .top-content .title{ color: #333333; padding:10px 0;}
+        .review-title{ color: #333333; padding:10px 0;cursor: pointer;background-color: #fff; }
+        .title-inf{width: 900px;height: 30px;margin-top: 5px;}
+        .title-inf ul li{list-style: none}
+        .title-inf li{width: auto;height: 30px;line-height:30px;float: left;}
+        .line{width: 1px;height: 20px;background-color: #d4d4d4;margin:5px 24px; }
+        /******印象，简介及联系方式********/
+        .hotel-main{width: 1200px;min-height: 800px;margin: 30px auto 0; }
+        .review-main{width: 750px;height: 360px;float: left;padding:20px;margin: 0 30px 0 0;background-color: #fff;}
+        .review-main-item{width: 350px;height: 300px;float: left;padding:20px 0 20px 0;margin: 0 10px 0 10px;background-color: #fff;}
+        .review-main-item li{width: 165px;height: 30px;line-height: 30px;margin: 5px 0 5px 5px;float: left; }
+        .review-main-item li img{width: 20px;height: 20px;margin: 5px 5px 0 0;float: left;}
+        .review-item{width: 340px;height: 360px;float: left;padding:20px;background-color: #fff;}
+        .review-item h3{margin-bottom: 10px;}
+        .chart{position: relative;margin-top: -50px;}
+        .left-img{width: 340px;height: 150px;}
+        /******点评精选及图片********/
+
+        .hotel-review-evaluate{width: 1200px;height: 400px;}
+        .hotel-eva-left{width: 340px;height: 360px;float: left;padding: 20px;background-color: #fff;}
+        .hotel-eva-right{width: 790px;height: 400px;float: left;margin-left:30px;background-color: #fff;}
+        .hotel-eva-right .img{width: 600px;height: 400px;float: left;}
+        .hotel-eva-right  .img-1{width: 188px;height: 133px;margin: 1px 0 0 1px;float: left}
+
+        /******预定，优待政策及注意事项********/
+        .book-hotel{width: 1200px;height: auto;margin-top: 30px;background-color: #fff;}
+        /**选择日期***/
+        .book-top{width: 100%;height:auto;padding:10px 0;}
+        .book-top-content{width: 1000px;margin: 0 auto;height: 70px;padding:0 100px;}
+        .date-item{width: 310px;height: 50px;margin: 10px;float:left;}
+        .date-item .img{width: 20px;height: 20px;position:absolute;margin:15px;float:left;}
+        .book-el-input{width: 240px;height: 40px;border: #d4d4d4 solid 1px;padding-left:40px;border-radius:3px;float:left;margin: 5px;}
+        .date-title{height: 40px;line-height: 50px; float:left;}
+        .book-ep-input{width: 150px;height: 30px;border: #d4d4d4 solid 1px;padding-left:40px;border-radius:3px;float:left;margin: 8px;}
+        .book-days-input{width: 30px;height: 30px;text-align:center;border: #d4d4d4 solid 1px;border-radius:3px;float:left;margin: 8px;}
+        /***/
+        .book-tickets{width: 1160px;height: auto;padding:20px;}
+        .book-tickets-list{width: 1160px;height: 50px;border-top: #EEEEEE solid 1px;border-bottom: #EEEEEE solid 1px;border-left: #fff solid 1px; }
+        .book-tickets-list:hover{border:#00CC33 solid 1px}
+        .book-list-item{width: 200px;height: 50px;line-height:50px;float: left;}
+        .book-tickets h2{color: #FFB800;margin:0 0 10px 0}
+        .book-tickets p{;margin:5px 0}
+        /***顶部***/
+
+
+    </style>
+</head>
+<body>
+
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+        </div>
+        <div class="login" id="login" style="display:none;">
+            <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
+        </div>
+
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+        </div>
+    </div>
+</div>
+<!-- end-header -->
+<!-- top -->
+<div class="top">
+    <div class="top-content">
+        <div class="title">
+            <a href="#">中国 </a><span>&nbsp;></span>
+            <a href="#" class="province"> </a><span>&nbsp;></span>
+            <a href="#"><span class="province"></span>景点</a>
+        </div>
+        <!--标题-->
+        <div class="review-title">
+            <h1><strong id="title"> </strong></h1>
+            <div class="title-inf">
+                <ul>
+                    <li class="address"> </li>
+                    <li><div style="width: 50px"><div class="line"></div></div></li>
+                    <li class="time"> </li>
+                    <li><div style="width: 50px"><div class="line"></div></div></li>
+                    <li id="label"></li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- end-top -->
+<!-- content -->
+<div class="content">
+    <div class="hotel-main">
+        <!--点评精选及图片-->
+
+        <div class="hotel-review-evaluate">
+            <div class="hotel-eva-left">
+                <h3><b>简介</b></h3>
+                <p id="item-inf"></p><a id="moreInf" style="cursor:pointer;">查看更多</a>
+            </div>
+
+            <div class="hotel-eva-right">
+                <div id="oneHtImg"></div>
+            </div>
+
+        </div>
+        <!--印象，简介及联系方式-->
+        <div style="height:400px;width:1200px;margin-top: 30px; ">
+            <div class="review-main">
+                <div style="width: 690px;height: 30px;padding: 0 30px 10px 30px;border-bottom: #eeeeee solid 1px"><h2><b>关于</b></h2></div>
+                <div class="review-main-item" >
+                    <div><h3><b>酒店设施</b></h3>
+                        <ul>
+                            <li><img src="img/hotel-icon-6.png">免费停车</li>
+                            <li><img src="img/hotel-icon-11.png">免费高速WiFi</li>
+                            <li><img src="img/hotel-icon-9.png">有健身房的健身中心</li>
+                            <li><img src="img/hotel-icon-10.png">游泳池</li>
+                            <li><img src="img/hotel-icon-2.png">酒吧/酒廊</li>
+                            <li><img src="img/hotel-icon-4.png">卡拉 OK</li>
+                            <li><img src="img/hotel-icon-3.png">Spa</li>
+                            <li><img src="img/hotel-icon-7.png">会议设施</li>
+                            <li><img src="img/hotel-icon-1.png">自助早餐</li>
+                            <li><img src="img/hotel-icon-5.png">礼宾部</li>
+                            <li><img src="img/hotel-icon-8.png">干洗</li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="review-main-item"  >
+                    <div><h3><b>客房特色</b></h3>
+                        <ul>
+                            <li><img src="img/hotel-icon-12.png">无烟房</li>
+                            <li><img src="img/hotel-icon-6.png">套房</li>
+                            <li><img src="img/hotel-icon-8.png">浴衣</li>
+                            <li><img src="img/hotel-icon-17.png">空调</li>
+                            <li><img src="img/hotel-icon-13.png">办公桌</li>
+                            <li><img src="img/hotel-icon-15.png">平板电视</li>
+                            <li><img src="img/hotel-icon-16.png">咖啡机/茶壶</li>
+                            <li><img src="img/hotel-icon-14.png">吹风机</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="review-item">
+                <h3><b>联系方式</b></h3>
+                <img id="position" src="" onclick="re()">
+                <div class="address" style="margin-top: 10px"></div>
+
+                <div style="margin-top: 10px"> +86 10 8500 7422</div>
+            </div>
+        </div>
+
+        <!--预定政策及注意事项-->
+        <div class="book-hotel">
+            <div id="book-hotel-top" class="book-top">
+                <div class="book-top-content">
+                    <div class="date-item">
+                        <img src="img/hotel-calendar.png" class="img">
+                        <input type="text" id="start" class="book-el-input"  >
+                    </div>
+                    <div class="date-item">
+                        <img src="img/hotel-calendar.png" class="img">
+                        <input type="text" id="end" class="book-el-input" onchange="end();">
+
+                    </div>
+                    <div class="date-item">
+                        <img src="img/hotel-people.png" class="img">
+                        <input type="text" id="people"  class="book-el-input" >
+                    </div>
+
+                </div>
+                <div class="book-top-content" >
+                    <div class="date-item"  >
+                        <span class="date-title">入住日期 </span>
+                        <input type="text" id="startTime" readonly class="book-ep-input" >
+                    </div>
+                    <div class="date-item">
+                        <span class="date-title">退房日期</span>
+                        <input type="text" id="endTime" readonly class="book-ep-input" >
+                    </div>
+                    <div class="date-item">
+                        <span class="date-title">预订天数</span>
+                        <input type="text" id="book-days" readonly class="book-days-input">
+                    </div>
+                </div>
+            </div>
+            <div class="book-tickets">
+                <div class="book-tickets-list">
+                    <input name="ticketInf" type="radio"  price='120' value="1">
+                    <div class="book-list-item" style="width: 820px;margin-left: 10px">单人间（大床房）</div>
+                    <div class="book-list-item" class="type_1">120</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+
+                <div class="book-tickets-list" >
+                    <input name="ticketInf" type="radio" price='145' value="2">
+                    <div class="book-list-item" style="width: 820px;margin-left: 10px">双人间（1张双人床）</div>
+                    <div class="book-list-item" class="type_1">145</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+
+                <div class="book-tickets-list" >
+                    <input name="ticketInf" type="radio" price='170' value="3">
+                    <div class="book-list-item" style="width: 820px;margin-left: 10px">经济家庭房（1张单人床和1张双人床 ）</div>
+                    <div class="book-list-item" class="type_1">170</div>
+                    <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 30px">查看详情</button>
+                </div>
+
+
+            </div>
+            <!--总金额结算-->
+            <div class="tickets">
+                <input type="hidden" id="one_price" value="">
+                <div class="book-tickets-list">
+                    <div class="book-list-item" style="width:130px;margin-left:800px;">
+                        <div class="amount_box" style="margin: 10px  0 0 10px;">
+                            <a href="javascript:;" class="reduce increment">-</a>
+                            <input type="text" value="1" class="sum" id="sum" name="sum" >
+                            <a href="javascript:;" class="plus increment" style="margin-left: 10px">+</a>
+                        </div>
+
+                    </div>
+                    <div class="book-list-item" style="width: 50px;margin: 0 50px;">
+                        ￥<span class="sum_price" id="sum_price">0</span>
+                    </div>
+
+                    <button class="layui-btn layui-btn-sm layui-btn-disabled" style="margin: 10px 0 0 10px" id="atCart"  onclick="atCart()">购买</button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 1200px;height: 400px;background-color: #fff;margin-top: 30px;">
+            <div style="margin:30px 30px;">
+                <h2 style="color: #FFB800;margin-top: 30px">预订须知</h2>
+                <p>* 若在入住日的21:00后仍未到店，住宿有权取消预留客房。预计于该时间点后到店的客人，请提前直接与住宿联系，联系方式请参见订单确认信。</p>
+                <p>儿童及加床政策</p>
+                <p>* 欢迎任何年龄的儿童入住</p>
+                <p>* 如需查看确切价格和入住信息，请在搜索条件中添加同行儿童人数和年龄。</p>
+                <p>* 该住宿不提供婴儿床。</p>
+                <p>* 该住宿不提供加床。</p>
+                <p> 宠物</p>
+                <p>* 不允许携带宠物入住。</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div id="viewName" style="display: none"></div>
+<div id="viewAddress" style="display: none" ></div>
+<input type="hidden" id="ticket_id"  value="">
+<!--底部内容-->
+<input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="hId" name="hId">
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;"><a href="#">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
+</body>
+<script type="application/javascript" src="js/topFoot.js"></script>
+<script type="text/javascript" src="../res/layui/layui.all.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+
+<script>
+    //定义方法
+    $(document).ready(function() {
+
+        function getParams(key) {
+            const reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            const r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        };
+        console.log("参数param:"+getParams("param"));//输出aa
+        const id = getParams("param");
+        $("#hId").val(id);
+
+
+        /**获取景点信息*/
+        $.ajax({
+            url: "../UserHotelServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getOneHt",
+                hId:id
+            },
+            success: function (data) {
+                console.log("信息"+data)
+                showData(data);
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        /**获取酒店图片信息*/
+        $.ajax({
+            url: "../UserHotelServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getOneHtImg",
+                hId:id
+            },
+            success: function (data) {
+
+                const json = eval("(" + data + ")");
+                let htImg = json[0].img_name;
+                console.log(htImg);
+                let htImgTwo = json[1].img_name;
+                let htImgThree = json[2].img_name;
+                let htImgFour = json[3].img_name;
+                //定义用于拼接的字符串src='/atImg/"+ls.img_name+"'
+                let str = "<img src='/hotelImg/"+htImg+"' class='img'>" +
+                    "<img src='/hotelImg/"+ htImg +"' class='img-1'>" +
+                    "<img src='/hotelImg/"+ htImg +"' class='img-1'>" +
+                    "<img src='/hotelImg/"+ htImg+"' class='img-1'>";
+                $("#oneHtImg").html(str);
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getOneAtImg",
+                spId:id
+            },
+            success: function (data) {
+                console.log("dd"+data)
+                const json = eval("(" + data + ")");
+                let atImg = json[0].img_name;
+                let atImgTwo = json[1].img_name;
+                let atImgThree = json[2].img_name;
+                let atImgFour = json[3].img_name;
+                //定义用于拼接的字符串src='/atImg/"+ls.img_name+"'
+                let str = "<img src='/atImg/"+ atImg +"' class='img'>" +
+                    "<img src='/atImg/"+ atImgTwo +"' class='img-1'>" +
+                    "<img src='/atImg/"+ atImgThree +"' class='img-1'>" +
+                    "<img src='/atImg/"+ atImgFour+"' class='img-1'>";
+                $("#oneHtIm").html(str);
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+
+        /**展示数据*/
+        function showData(data) {
+            const json = eval("(" + data + ")");
+            let str = "";//定义用于拼接的字符串
+            for (const i in json) {//遍历
+                const ls = json[i];
+                $("#hId").val(ls.hId);
+                $(".province").append(ls.province);
+                $("#title").html(ls.hName);
+                $("#viewName").html(ls.hName);
+                $(".address").html(ls.hAddress);
+                $("#viewAddress").html(ls.hAddress);
+                $(".time").html(ls.hPhone);
+                $("#label").html(ls.hLabel);
+                $("#item-inf").html(ls.hFormation);
+
+                $("#item-inf").each(function(){
+                    const len = $(this).text().length;   //当前HTML对象text的长度
+                    if(len>400){
+                        let str = "";
+                        str=$(this).text().substring(0,400)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+                        $(this).html(str);                   //将替换的值赋值给当前对象
+                    }
+                });
+                $("#moreInf").click(function(){
+                    layer.open({
+                        type: 1
+                        ,title: false //不显示标题栏   title : false/标题
+                        , area: ['45%', '70%']
+                        ,shade: 0
+                        ,id: 'LAY_layui' //设定一个id，防止重复弹出
+                        ,resize: false
+                        ,content: '<div style="padding:50px">'+ls.hFormation+'</div>',
+
+                    });
+                    //alert(ls.spFormation)
+                });
+            }
+        };
+
+    });
+    function atCart() {
+
+        //由于是一个新的技术，你可以通过下面的代码检测你的浏览器是否支持
+        if (window.localStorage) {
+            //存储变量的值
+            localStorage.hId = $("#hId").val();
+            localStorage.startTime = $("#startTime").val();
+            localStorage.endTime = $("#endTime").val();
+            localStorage.bookDays = $("#book-days").val();
+            localStorage.ticket_id = $("#ticket_id").val();
+            localStorage.price = $("#one_price").val();
+            localStorage.quantity= $("#sum").val();
+            localStorage.sumPrice= $("#sum_price").html();
+            location.href = 'hotelOrder.html';
+        } else {
+            alert("NOT SUPPORT");
+        }
+
+    }
+
+</script>
+
+<script type="text/javascript">
+    /**地图**/
+    const c = "116.028702, 40.363106";
+    document.getElementById("position").src = "http://api.map.baidu.com/staticimage/v2?ak=MXPc39yzvyV11CCIv4maBPmnPKdRMHC8&center="+c+"&width=340&height=150&zoom=11";
+
+    function re(){
+        let viewN = $("#viewName").html();
+
+        layer.open({
+            type: 2,
+            title: viewN,
+            shadeClose: true, //点击遮罩关闭层
+            area : ['90%' , '90%'],
+            content:'bar.html',//弹框显示的url,对应的页面
+
+        });
+
+    }
+    /**营业时间*/
+    function goTime() {
+        layer.open({
+            type: 1
+            ,title: "营业时间" //不显示标题栏   title : false/标题
+            ,area: '300px;'
+            ,shade: 0
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,resize: false
+            ,content: '<div style="padding: 40px; line-height: 30px; font-weight: 300;">周一 - 周五 上午7:30 - 下午5:00<br>周六 - 周日 上午7:30 - 下午6:00</div>'
+
+        });
+
+        //layer.alert("周一 - 周五 上午7:30 - 下午5:00<br>周六 - 周日 上午7:30 - 下午6:00");
+    };
+
+    /**用户评论展示*/
+    $(".inf-f").each(function(){
+        const len = $(this).text().length;   //当前HTML对象text的长度
+        if(len>80){
+            let str = "";
+            str=$(this).text().substring(0,80)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+            $(this).html(str);                   //将替换的值赋值给当前对象
+        }
+    });
+
+</script>
+<script>
+
+    // 时间格式化
+    const myDate = new Date();
+    //const minDate = myDate.toLocaleDateString();
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth()+1;
+    let day =  myDate.getDate();
+    const nowDate = year+"-"+month+ "-"+day;
+    const endDate = year+"-"+month+ "-"+(day+1);//新日期
+
+    layui.use('laydate', function(){
+        const laydate = layui.laydate;
+        /**执行一个laydate实例*/
+        //开始时间时间
+        let start_a = laydate.render({
+            elem: '#start', //指定元素
+            trigger: 'click', //采用click弹出
+            theme: '#3278F0',
+            min: nowDate ,
+            showBottom: false,
+            done: function (value, date, endDate) {
+                $("#startTime").val(value);
+                console.log(typeof (value));
+                let startTime = $("#startTime").val();
+                let endTime = $("#endTime").val();
+                end.config.min = {
+                    year: date.year,
+                    month: date.month - 1,
+                    date: date.date + 1,
+                }; //开始日选好后，重置结束日的最小日期
+                end.config.value = {
+                    year: date.year,
+                    month: date.month - 1,
+                    date: date.date + 1,
+                }; //将结束日的初始值设定为开始日
+                if (startTime!=null&&startTime!=""&&endTime!=null&&endTime!=""){
+                    computeTime(startTime,endTime);
+                    changePrice();
+                };
+            }
+        });
+
+        //结束时间
+        let end = laydate.render({
+            elem: '#end',
+            trigger: 'click', //采用click弹出
+            theme: '#3278F0',
+            min: endDate, // 限定可选日期为当前系统时间
+            showBottom: false,
+            done: function (value, date, endDate) {
+                $("#endTime").val(value);
+                let startTime = $("#startTime").val();
+                let endTime = $("#endTime").val();
+                start_a.config.max = {
+                    year: date.year,
+                    month: date.month - 1,
+                    date: date.date,
+                }; //结束日选好后，重置开始日的最大日期
+                if (startTime!=null&&startTime!=""&&endTime!=null&&endTime!=""){
+                    computeTime(startTime,endTime);
+                    changePrice();
+                };
+            }
+        });
+    });
+
+    function computeTime(startTime,endTime){
+        const startDate = Date.parse(startTime.replace('/-/g', '/'));
+        const endDate = Date.parse(endTime.replace('/-/g', '/'));
+        const diffDate = (endDate - startDate) + 1 * 24 * 60 * 60 * 1000;
+        const days = (diffDate) / (1 * 24 * 60 * 60 * 1000)-1;
+        $("#book-days").val(days);
+
+        //return days;
+        /**
+        //结束时间
+        end_str = ("2014-01-01 10:15:00").replace(/-/g,"/");//一般得到的时间的格式都是：yyyy-MM-dd hh24:mi:ss，所以我就用了这个做例子，是/的格式，就不用replace了。
+        var end_date = new Date(end_str);//将字符串转化为时间
+        //开始时间
+        sta_str = ("2014-01-01 10:15:00").replace(/-/g,"/");
+        var sta_date = new Date(sta_str);
+        var num = (end_date-sta_date)/(1000*3600*24);//求出两个时间的时间差，这个是天数
+        var days = parseInt(Math.ceil(num));//转化为整天（小于零的话剧不用转了）
+         */
+    }
+    /**改变天数*/
+    function changePrice() {
+        const price =$('input:radio[name="ticketInf"]:checked').attr("price");
+        if($('input:radio[name="ticketInf"]').prop("checked")==true){
+            console.log("勾选");
+            let sum = $("#sum").val();
+            let days = $("#book-days").val();
+            let allSum = price*sum*days;
+            $("#sum_price").html(allSum);
+            removeBan();
+        } else{
+            console.log("未勾选");
+        }
+
+
+    }
+    /**选中input*/
+    /**const inp = $('input[name="ticketInf"]:checked').val();*/
+    $('input:radio[name="ticketInf"]').change(function(){
+        const price =$(this).attr("price");
+        const v = $(this).val();
+        $("#ticket_id").val(v);
+        $("#one_price").val(price);
+        let sum =  $("#sum").val();
+        let days = $("#book-days").val();
+        let allSum = price*sum*days;
+        $("#sum_price").html(allSum);
+        // $("#sum_price").html(price);
+        removeBan();
+    });
+    $("#sum").change(function(){
+        const price =$('input:radio[name="ticketInf"]:checked').attr("price");
+
+        let sum =  $("#sum").val();
+        let days = $("#book-days").val();
+        let allSum = price*sum*days;
+        $("#sum_price").html(allSum);
+        removeBan();
+    });
+
+
+    //加的效果
+    $(".plus").click(function () {
+        let pr = $("#one_price").val();
+        const n = $(this).prev().val();
+        const itxt = parseInt(n) + 1;
+        if (itxt == 0) {
+            return;
+        }
+        $(this).prev().val(itxt);
+        let sum =  $("#sum").val();
+        let days =  $("#book-days").val();
+        let allSum = pr*sum*days;
+        console.log("总计"+allSum);
+        $("#sum_price").html(allSum);
+        removeBan();
+    });
+    //减的效果
+    $(".reduce").click(function () {
+        let pr = $("#one_price").val();
+        const n = $(this).next().val();
+        const itxt = parseInt(n) - 1;
+        if (itxt == 0) {
+            return
+        }
+        $(this).next().val(itxt);
+        let sum =  $("#sum").val();
+        let days =  $("#book-days").val();
+        let allSum = pr*sum*days;
+        console.log("总计"+allSum);
+        $("#sum_price").html(allSum);
+        removeBan();
+    });
+    function removeBan(){
+        const r =  $("#sum_price").html();
+        if (r!=null&&r!=""&&r!=0){
+            $("#atCart").removeClass("layui-btn-disabled");
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>确认订单信息</title>
+    <link rel="stylesheet" href="css/orderTwo.css">
+    <link rel="stylesheet" href="css/topFoot.css">
+    <script type="application/javascript" src="js/topFoot.js"></script>
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+    <style type="text/css">
+        a{color: #000000;}
+        a:link {color: #000000;
+            text-transform:none;
+            /**清除下划线*/
+            text-decoration:none;}
+        a:hover {color: #7cc815; text-decoration:none;}
+        a:visited {text-decoration:none;}
+        a:active {text-decoration:underline;}
+
+        /******确认订单信息******/
+        .order{
+            width: 1200px;
+            margin: 0 auto;
+        }
+        .all-order{
+            width: 1200px;
+            height: 600px;
+        }
+        .all-order h2{text-align: center;margin: 10px;}
+        .order-main{
+            width: 1200px;
+            height: auto;
+            border: solid 1px;
+        }
+        .main-list{
+            width: 1140px;
+            height: auto;
+            margin-left: 30px;
+            padding-bottom: 60px;
+            border-bottom: #d4d4d4 solid 1px;
+        }
+        .main-list-item{
+            height: 30px;
+            line-height:30px;
+            margin:10px 0 0 10px;
+            text-align: center;
+            float: left;
+        }
+        .order-base{
+            width: 1200px;
+            height: 150px;
+            margin-top: 50px;
+        }
+        .base-item{
+            width:1150px;
+            height: 60px;
+            font-size: 10pt;
+            line-height: 60px;
+            padding-right: 50px;
+            background-color: #FFCDE0;
+            text-align: right;
+        }
+        .base-item-sub{
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
+            margin-top: 15px;
+            background-color: #fff137;
+            text-align: center;
+            float: right;
+        }
+        /*****选中对号******/
+        .check-box{
+            width: 120px;
+            height: 30px;
+            border: 2px solid #FF3333;
+            position: relative;
+            transition: all 0.5s ease;}
+        .check-box::after {
+            content: '✔';
+            display: block;
+            height: 0px;
+            width: 0px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            color:#fff;
+            /**对号大小*/
+            font-size: 14px;
+            line-height: 10px;
+            border: 10px solid;
+            border-color: transparent #FF3333 #FF3333 transparent;;
+        }
+
+
+        .t3-item{
+            width: 160px;
+            height: 80px;
+            float: left;
+            text-align: center;
+            line-height:80px;
+        }
+    </style>
+    <script type="application/javascript">
+
+        $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+
+                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+                console.log("userCookie===="+userCookie.uid);
+                $("#uid").val(userCookie.uid);
+                $("#logout").show();
+
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+                //$("#account").show()
+            }
+
+            $("#xianshang").click(function(){
+                $(this).addClass('check-box')
+                $("#xianxia").removeClass('check-box');
+            });
+            $("#xianxia").click(function(){
+                $(this).addClass('check-box')
+                $("#xianshang").removeClass('check-box');
+            });
+
+        });
+    </script>
+</head>
+<body>
+<!-- 头部栏位 -->
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+        </div>
+        <div class="login" id="login" style="display:none;">
+            <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
+        </div>
+
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+        </div>
+    </div>
+</div>
+<!-- end-header -->
+<!--所有商品-->
+<div class="order">
+    <div class="all-order">
+        <h2 >核对订单信息</h2>
+
+            <form id="myForm" action="../UserServlet?action=subOrder" method="post" >
+                <input type="hidden" id="uid" name="uid" value=""}>
+                <input type="hidden" id="receiver" name="receiver" value="">
+                <input type="hidden" id="phone" name="phone" value="">
+                <input type="hidden" id="hid" name="hid" value="">
+                <input type="hidden" id="hName" name="hName" value="">
+
+                <input type="hidden" id="startTime" name="startTime" value="">
+                <input type="hidden" id="endTime" name="endTime" value="">
+                <input type="hidden" id="bookDays" name="bookDays" value="">
+                <input type="hidden" id="price" name="price" value="">
+                <input type="hidden" id="quantity" name="quantity" value="">
+                <input type="hidden" id="totalPrice" name="totalPrice" value="">
+                <input type="hidden" id="status" name="status" value=1>
+
+                <input type="hidden" id="ticket_id" name="ticket_id" value="">
+                <input type="hidden" id="ticket_type" name="ticket_type" value="">
+                <div class="order-main">
+                    <div class="main-list">
+                        <span>收件人信息</span><br>
+                        <!--从数据库获取收货地址信息，把信息存入数组，根据数组下标设置点击事件，改变样式-->
+                        <div id="payName" class="main-list-item" style="cursor:pointer;width: 120px;text-align: center;border: #d3d4d6 solid 1px;"></div>
+                        <div id="payPhone" class="main-list-item" style="width: 150px;"></div>
+                    </div>
+                    <div class="main-list">
+                        <span>支付方式</span><br><!--鼠标悬浮标手指形状-->
+                        <div id="xianshang" class="main-list-item check-box" style="cursor:pointer;width: 120px;text-align: center;border: #d3d4d6 solid 1px;">
+                            在线支付</div>
+                        <div id="xianxia" class="main-list-item" style="cursor:pointer;width: 120px;text-align: center;border: #d3d4d6 solid 1px;">
+                            货到付款</div>
+                    </div>
+                    <div class="main-list">
+                        <span>订单详情</span><br>
+                        <div class="t3" style="height: 80px;border: #d4d4d4 solid 1px;margin-top: 30px">
+                            <div class="t3-item" id="main-img"></div>
+                            <div id="payhName" class="t3-item" ></div>
+                            <div class="t3-item" id="payTicket"></div>
+                            <div class="t3-item">￥<span id="payPrice" ></span></div>
+                            <div id="payQuantity" class="t3-item"></div>
+                            <div class="t3-item">￥<span class="payTotalPrice" ></span></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="order-base">
+                    <div class="base-item">
+                        应付金额：￥<span class="total_text payTotalPrice">总价</span>
+                    </div>
+                    <input type="submit" id="sub-order" class="base-item-sub el-button" value="提交订单">
+                </div>
+            </form>
+
+    </div>
+</div>
+<!-- footer -->
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
+<!-- end-footer -->
+</body>
+<script>
+    //定义方法
+    $(document).ready(function() {
+
+        const hId = localStorage["hId"];
+        const startTime = localStorage["startTime"];
+        const endTime = localStorage["endTime"];
+        const bookDays = localStorage["bookDays"];
+        const ticket_id = localStorage["ticket_id"];
+        const price = localStorage["price"];
+        const quantity = localStorage["quantity"];
+        const sumPrice = localStorage["sumPrice"];
+        //let sumPrice = price*quantity ;
+
+        console.log("hId"+hId);
+        console.log("ticket_id"+ticket_id);
+        console.log("价格"+price);
+        console.log("数量"+quantity);
+        console.log("总价"+ sumPrice);
+        const uid =  $("#uid").val();
+        $("#startTime").val(startTime);
+        $("#endTime").val(endTime);
+        $("#bookDays").val(bookDays);
+        $("#price").val(price);
+        $("#quantity").val(quantity);
+        $("#totalPrice").val(sumPrice);
+        $("#payPrice").html(price);
+        $("#payQuantity").html(quantity);
+        $(".payTotalPrice").html(sumPrice);
+
+
+
+        //获得用户信息
+        $.ajax({
+            url: "../UserServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getUserInf",
+                uid:uid
+            },
+            success: function (data) {
+                console.log("dd"+data)
+                const json = eval("(" + data + ")");
+                $("#payName").html(json.username);
+                $("#payPhone").html(json.phone);
+                $("#receiver").val(json.username);
+                $("#phone").val(json.phone);
+
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        //获得酒店信息
+        $.ajax({
+            url: "../UserHotelServlet", // 请求路径
+            type: "POST", //请求方式
+            data: {
+                action:"getOneHt",
+                hId:hId,
+            },
+            success: function (data) {
+                const json = eval("(" + data + ")");
+                let st = "";
+                for (const i in json) {//遍历
+                    const ls = json[i];
+                    $("#hid").val(ls.hId);
+                    $("#payhName").html(ls.hName);
+                    $("#hName").val(ls.hName);
+                    st = "<img src='/hotelImg/"+ls.img_name+"' style='width: 80px;height: 80px'>";
+                    $("#main-img").html(st);
+
+                }
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+
+        /**获取景点价格信息*/
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getTicket",
+                ticket_id:ticket_id,
+            },
+            success: function (data) {
+                const json = eval("(" + data + ")");
+                let str = "";
+                for (const i in json) {
+                    const ls = json[i];
+                    $("#ticket_type").val(ls.ticket_type);
+                    $("#ticket_id").val(ls.ticket_id);
+                    $("#payTicket").html(ls.ticket_type);
+                }
+
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        //提交订单
+        /**
+        $("#sub-order").click(function (){
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type: "POST", //请求方式
+                data: {
+                    action:"subHotelOrder",
+                    spId:id,
+                    uId: id,
+                    quantity: 10,
+                    price: 100,
+                },
+                success: function (data) {
+                    alert("添加成功");
+                    console.log("添加成功" + data)
+                    //const json = eval("(" + data + ")");
+                },//响应成功后的回调函数
+                error: function () {
+                    console.log("失败啦...")
+                },//表示如果请求响应出现错误，会执行的回调函数
+
+                dataType: "text"//设置接受到的响应数据的格式
+            });
+
+        });
+*/
+
+
+    })
+</script>
+</html>
