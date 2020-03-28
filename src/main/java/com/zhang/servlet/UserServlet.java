@@ -33,7 +33,7 @@ public class UserServlet extends HttpServlet {
     public static final String REGIST = "register";
     public static final String VALIDATE_NAME = "validate";
     public static final String LOGIN = "login";
-    public static final String ADD_HOTEL = "addHotel";
+
     public static final String GET_INDEX = "getIndex";
     public static final String GET_IMG = "getImg";
     public static final String ADD_AT_CART = "addAt";
@@ -49,6 +49,11 @@ public class UserServlet extends HttpServlet {
     public static final String ONE = "1";
     public static final String TWO = "2";
     public static final String FIND_SEARCH = "findSearch";
+    public static final String SUB_HOTEL_ORDER = "subHotelOrder";
+    public static final String FIND_ALL_ORDER_HOTEL = "findAllOrderHotel";
+    public static final String PAY_ORDER_HOTEL = "payOrderHotel";
+    public static final String GET_ONE_ORDER_HT = "getOneOrderHt";
+    public static final String GET_ONE_ORDER_AT = "getOneOrderAt";
 
 
     private AdminHotelService adminHotelService = new AdminHotelService();
@@ -75,7 +80,9 @@ public class UserServlet extends HttpServlet {
             getIndex(request,response);
         }else if(GET_IMG.equals(action)){
             getImg(request,response);
-        }else if(REGIST.equals(action)){
+        } else if(FIND_SEARCH.equals(action)){
+            findSearch(request, response);
+        } else if(REGIST.equals(action)){
             regist(request,response);
         } else if(VALIDATE_NAME.equals(action)){
             validateName(request, response);
@@ -87,6 +94,10 @@ public class UserServlet extends HttpServlet {
             subOrder(request, response);
         } else if(PAY_ORDER.equals(action)){
             payOrder(request, response);
+        } else if(SUB_HOTEL_ORDER.equals(action)){
+            subHotelOrder(request, response);
+        } else if(PAY_ORDER_HOTEL.equals(action)){
+            payOrderHotel(request, response);
         } else if(GET_USER_INF.equals(action)){
             getUserInf(request, response);
         } else if(CHANGE_MY_INF.equals(action)){
@@ -101,8 +112,14 @@ public class UserServlet extends HttpServlet {
             findAllOrder(request, response);
         } else if(ORDER_STATUS.equals(action)){
             orderStatus(request, response);
-        } else if(FIND_SEARCH.equals(action)){
-            findSearch(request, response);
+        } else if(FIND_ALL_ORDER_HOTEL.equals(action)){
+            findAllOrderHotel(request, response);
+        } else if(ORDER_STATUS.equals(action)){
+            orderStatusHotel(request, response);
+        } else if(GET_ONE_ORDER_HT.equals(action)){
+            getOneOrderHt(request, response);
+        } else if(GET_ONE_ORDER_AT.equals(action)){
+            getOneOrderAt(request, response);
         }
     }
 
@@ -184,8 +201,9 @@ public class UserServlet extends HttpServlet {
 
         } catch (UserException e) {
             request.setAttribute("error", e.getMessage());
+            response.getWriter().print(1);
             //两个页面合到一起jsp:.forwrad
-            response.sendRedirect(request.getContextPath()+"/User/login.html");
+            //response.sendRedirect(request.getContextPath()+"/User/login.html");
         }
     }
     private void addAtCart(HttpServletRequest request,
@@ -386,6 +404,89 @@ public class UserServlet extends HttpServlet {
         userService.payOrder(order);
         response.sendRedirect(request.getContextPath()+"/User/paySuccess.html");
     }
+    /*****添加订单第二步，提交商品信息，等待付款******/
+    private void subHotelOrder(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String phone = request.getParameter("phone");
+        String receiver = request.getParameter("receiver");
+
+        int hotelId = Integer.parseInt(request.getParameter("hid"));
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        int bookDays = Integer.parseInt(request.getParameter("bookDays"));
+
+        String hotelName = request.getParameter("hName");
+        int roomId = Integer.parseInt(request.getParameter("room_id"));
+        String roomStandard = request.getParameter("room_standard");
+        String ticketName = hotelName+roomStandard;
+        double price = Double.parseDouble(request.getParameter("price"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
+        int status = Integer.parseInt(request.getParameter("status"));
+
+        System.out.println(uid+" "+quantity+" "+totalPrice+" "+phone+" "+receiver+" "+status);
+
+        Cart order = new Cart();
+        Cart orderItem = new Cart();
+        //oid存入session
+        HttpSession session = request.getSession();
+
+        try {
+            String oid = DateUtils.nowTimeName();
+            order.setOid(oid);
+            orderItem.setOid(oid);
+            session.setAttribute("oid", oid);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        order.setUid(uid);
+        order.setPhone(phone);
+        order.setReceiver(receiver);
+        order.setTotalPrice(totalPrice);
+        order.setStatus(status);
+        try {
+            order.setAddTime(DateUtils.nowTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        orderItem.setHotelId(hotelId);
+        orderItem.setBookDays(bookDays);
+        orderItem.setStartTime(startTime);
+        orderItem.setEndTime(endTime);
+        orderItem.setRoomId(roomId);
+        orderItem.setName(ticketName);
+        orderItem.setPrice(price);
+        orderItem.setQuantity(quantity);
+
+        userService.subOrderHotel(order);
+        userService.subOrderHotelItem(orderItem);
+        session.setAttribute("totalPrice", totalPrice);
+        //返回添加成功的信息
+        //创建Cookie
+        String payPrice = String.valueOf(totalPrice);;
+        Cookie cookie = new Cookie("totalPrice", payPrice);
+        //设置Cookie的最大生命周期,否则浏览器关闭后Cookie即失效
+        cookie.setMaxAge(Integer.MAX_VALUE);
+        //将Cookie加到response中
+        response.addCookie(cookie);
+
+        response.sendRedirect(request.getContextPath()+"/User/payHotel.jsp");
+    }
+    /*****添加订单第三步，付款成功，等待发货******/
+    private void payOrderHotel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String oid = request.getParameter("oid");
+        String status = request.getParameter("status");
+        System.out.println("状态"+oid+status);
+        Cart order = new Cart();
+
+        order.setOid(oid);
+        order.setStatus(Integer.parseInt(status));
+        userService.payOrderHotel(order);
+        response.sendRedirect(request.getContextPath()+"/User/paySuccess.html");
+    }
     /*****查看所有订单******/
     private void findAllOrder(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
@@ -429,13 +530,50 @@ public class UserServlet extends HttpServlet {
             response.getWriter().print(json);
         }
     }
+    /*****查看酒店所有订单******/
+    private void findAllOrderHotel(HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String current = request.getParameter("currentPage");
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        PageOther page = userService.findAllOrderHotel(uid, currentPage);
+        String json= JSON.toJSONString(page);
+        response.getWriter().print(json);
+
+    }
+
+    /********查看酒店订单状态**********/
+    private void orderStatusHotel(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String status = request.getParameter("status");
+        String current = request.getParameter("currentPage");
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        if(ONE.equals(status)) {
+            PageOther page = userService.orderStatusHotel(uid, status,currentPage);
+            String json= JSON.toJSONString(page);
+            response.getWriter().print(json);
+        } else if(TWO.equals(status)) {
+            PageOther page = userService.orderStatusHotel(uid, status,currentPage);
+            String json= JSON.toJSONString(page);
+            response.getWriter().print(json);
+        }
+    }
     /**查询数据并分页
      * 根据关键词查找数据并传递到另一个页面(搜索功能)
      */
     private void findSearch(HttpServletRequest request,
                                     HttpServletResponse response) throws IOException {
-
-
         String svalue=request.getParameter("sValue");
         String current = request.getParameter("currentPage");
         System.out.println("跳转的页数"+svalue);
@@ -452,9 +590,24 @@ public class UserServlet extends HttpServlet {
         //System.out.println("json"+json);
         response.getWriter().print(json);
 
+    }
+    /**获得一条酒店订单信息**/
+    private void getOneOrderHt(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        String orderId = request.getParameter("orderId");
+        Map<String,Object> result= userService.getOneOrderHt(orderId);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
 
-
-
+    }
+    /**获得一条门票订单信息**/
+    private void getOneOrderAt(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        String orderId = request.getParameter("orderId");
+        System.out.println("输出"+orderId);;
+        Map<String,Object> result= userService.getOneOrderAt(orderId);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
     }
     private void changeHInf(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {

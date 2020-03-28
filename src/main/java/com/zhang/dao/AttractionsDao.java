@@ -2,6 +2,7 @@ package com.zhang.dao;
 
 import com.zhang.domain.Attractions;
 import com.zhang.domain.Hotel;
+import com.zhang.utils.DateUtils;
 import com.zhang.utils.JdbcUtils;
 
 import java.util.LinkedHashMap;
@@ -15,11 +16,11 @@ public class AttractionsDao {
     /**添加景点信息
      * @return*/
     public Attractions addAttractions(Attractions attractions) {
-        String sql = "insert into t_scenicspot values(null,?,null,null,?,?,?,null,?,?,?,?,?,null)";
+        String sql = "insert into t_scenicspot values(null,?,?,null,?,?,?,null,?,?,?,?,?,null)";
         Object[] params ={
                 //占位
                 attractions.getAttractionsName(),
-                //占位
+                attractions.getAttractionsPrice(),
                 //占位
                 attractions.getAttractionsAddress(),
 
@@ -54,8 +55,7 @@ public class AttractionsDao {
      * */
     public  List<Map<String, Object>> findAllAttractions(int startIndex, int pageSize,
                                                          String skey, String svalue) {
-        StringBuilder sql=new StringBuilder("select s.* from" +
-                " t_scenicspot s");
+        StringBuilder sql=new StringBuilder("select s.* from  t_scenicspot s");
         if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
             sql.append("  where s."+skey+" like \"%"+svalue+"%\" limit ?,?");
         }else{
@@ -109,5 +109,57 @@ public class AttractionsDao {
         };
         JdbcUtils.update(sql, params);
         return attractions;
+    }
+
+    /**查询所有酒店信息并分页*/
+    /**搜索结果总记录数*/
+    public  int findCountOrderAt(String skey, String svalue) {
+        StringBuilder sql=new StringBuilder("select count(*) from t_orderinf");
+        if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+            //'%123%'
+            sql.append(" where "+skey+" like \"%"+svalue+"%\" ");
+        }
+        return ((Number) JdbcUtils.selectScalar(sql.toString(), (Object[]) null)).intValue();
+    }
+    public  List<Map<String, Object>> findAllOrderAt(int startIndex, int pageSize,
+                                                         String skey, String svalue) {
+        StringBuilder sql=new StringBuilder("select a.spName,b.*,c.spId,c.price,c.buycount,c.name,c.total" +
+                " from  t_scenicspot a,t_orderinf b,t_orderitem c where a.spId=c.spId and b.oid=c.oid ");
+        if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+            sql.append(" and  b."+skey+" like \"%"+svalue+"%\" limit ?,?");
+        }else{
+            sql.append(" limit ?,?");
+        }
+
+        return JdbcUtils.find(sql.toString(), startIndex, pageSize);
+    }
+    /**获得一条订单信息**/
+    public Map<String,Object> getOneOrderHt(String orderId) {
+        String sql = "select a.*,b.* from t_order_hotel_inf a,t_order_hotel_item b " +
+                "where a.oid=b.order_id and  a.oid=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql,orderId);
+        return list.get(0);
+    }
+    /**获得一条订单信息**/
+    public Map<String,Object> getOneOrderAt(String orderId) {
+        String sql = "select a.*,b.* from t_orderinf a,t_orderitem b " +
+                "where a.oid=b.oid and  a.oid=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql,orderId);
+        return list.get(0);
+    }
+    /**删除一条订单*/
+    public void delOrderAt(String orderId){
+        String sql = "DELETE a,b FROM t_orderinf AS a LEFT JOIN t_orderitem AS b ON a.oid=b.oid WHERE a.oid=?";
+        System.out.println("order      "+orderId);
+        JdbcUtils.update(sql,orderId);
+        //return attractions;
+    }
+    /**删除多条订单*/
+    public  void delOrderAtMore(String[] ids) {
+        String sql = "DELETE a,b FROM t_orderinf AS a LEFT JOIN t_orderitem AS b ON a.oid = b.oid WHERE a.oid=?";
+        for (int i = 0; i < ids.length; i++) {
+            System.out.println("删除数据的id为" + ids[i]);
+            JdbcUtils.update(sql, ids[i]);
+        }
     }
 }

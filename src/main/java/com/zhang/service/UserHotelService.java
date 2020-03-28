@@ -13,14 +13,16 @@ import java.util.Map;
  */
 public class UserHotelService {
     UserHotelDao userHtDao = new UserHotelDao();
-
+    /**获得首页信息**/
+    public List<Map<String,Object>> getIndexHt(){
+        return userHtDao.getIndexHt();
+    }
 
     /**获得所有景点信息**/
-    public PageOther getAllHotelInf(int currentPage) {
-
+    public PageOther getAllHotelInf(int currentPage, String sort) {
         int totalSize = userHtDao.findCountHt();
         PageOther page = new PageOther(currentPage,totalSize);
-        List<Map<String,Object>> list = userHtDao.getAllHotelInf(page.getStartIndex(),page.getPageSize());
+        List<Map<String,Object>> list = userHtDao.getAllHotelInf(sort,page.getStartIndex(),page.getPageSize());
         page.setList(list);
         //System.out.println("页码"+page.getCurrentPage());
         return page;
@@ -34,7 +36,7 @@ public class UserHotelService {
         return userHtDao.getOneHtImg(hIdId);
     }
     /**获得一条景点门票信息**/
-    public List<Map<String, Object>> getTicket(String ticket_id) {
-        return userHtDao.getTicket(ticket_id);
+    public List<Map<String, Object>> getRoom(String room_id) {
+        return userHtDao.getRoom(room_id);
     }
 }

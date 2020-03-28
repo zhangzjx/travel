@@ -153,8 +153,7 @@
     <div class="top-content">
         <div class="title">
             <a href="#">中国 </a><span>&nbsp;></span>
-            <a href="#" class="province"> </a><span>&nbsp;></span>
-            <a href="#"><span class="province"></span>景点</a>
+            <a href="#" class="province"> </a>
         </div>
         <!--标题-->
         <div class="review-title">
@@ -311,7 +310,7 @@
                         ￥<span class="sum_price" id="sum_price">0</span>
                     </div>
 
-                    <button class="layui-btn layui-btn-sm layui-btn-disabled" style="margin: 10px 0 0 10px" id="atCart"  onclick="atCart()">购买</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-disabled" style="margin: 10px 0 0 10px" id="atCart"  onclick="atCart()">预订</button>
                 </div>
             </div>
         </div>
@@ -463,54 +462,21 @@
                 hId:id
             },
             success: function (data) {
-
                 const json = eval("(" + data + ")");
                 let htImg = json[0].img_name;
-                console.log(htImg);
-                let htImgTwo = json[1].img_name;
-                let htImgThree = json[2].img_name;
-                let htImgFour = json[3].img_name;
                 //定义用于拼接的字符串src='/atImg/"+ls.img_name+"'
                 let str = "<img src='/hotelImg/"+htImg+"' class='img'>" +
                     "<img src='/hotelImg/"+ htImg +"' class='img-1'>" +
                     "<img src='/hotelImg/"+ htImg +"' class='img-1'>" +
                     "<img src='/hotelImg/"+ htImg+"' class='img-1'>";
                 $("#oneHtImg").html(str);
-            },//响应成功后的回调函数
-            error: function () {
-                console.log("失败啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-
-            dataType: "text"//设置接受到的响应数据的格式
-        });
-        $.ajax({
-            url: "../UserAttractionsServlet", // 请求路径
-            type: "POST", //请求方式
-            //async:false,
-            data: {
-                action:"getOneAtImg",
-                spId:id
             },
-            success: function (data) {
-                console.log("dd"+data)
-                const json = eval("(" + data + ")");
-                let atImg = json[0].img_name;
-                let atImgTwo = json[1].img_name;
-                let atImgThree = json[2].img_name;
-                let atImgFour = json[3].img_name;
-                //定义用于拼接的字符串src='/atImg/"+ls.img_name+"'
-                let str = "<img src='/atImg/"+ atImg +"' class='img'>" +
-                    "<img src='/atImg/"+ atImgTwo +"' class='img-1'>" +
-                    "<img src='/atImg/"+ atImgThree +"' class='img-1'>" +
-                    "<img src='/atImg/"+ atImgFour+"' class='img-1'>";
-                $("#oneHtIm").html(str);
-            },//响应成功后的回调函数
             error: function () {
                 console.log("失败啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-
-            dataType: "text"//设置接受到的响应数据的格式
+            },
+            dataType: "text"
         });
+
 
         /**展示数据*/
         function showData(data) {
@@ -562,7 +528,7 @@
             localStorage.startTime = $("#startTime").val();
             localStorage.endTime = $("#endTime").val();
             localStorage.bookDays = $("#book-days").val();
-            localStorage.ticket_id = $("#ticket_id").val();
+            localStorage.room_id = $("#ticket_id").val();
             localStorage.price = $("#one_price").val();
             localStorage.quantity= $("#sum").val();
             localStorage.sumPrice= $("#sum_price").html();

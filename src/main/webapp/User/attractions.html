@@ -190,7 +190,7 @@
 </div>
 <!-- end-content -->
 <!--底部内容-->
-<input type="hidden" id="uI" name="uI" value="">
+
 <div class="bottom-foot" >
     <h2>热门目的地</h2>
     SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
@@ -269,9 +269,7 @@
 <script>
     //定义方法
     $(document).ready(function() {
-        const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-        const uid = userCookie.uid;
-        $("#uI").val(uid);
+
 
         /**获取热门景点信息，使用$.ajax()发送异步请求*/
         $.ajax({

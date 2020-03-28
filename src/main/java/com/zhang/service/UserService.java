@@ -62,6 +62,17 @@ public class UserService {
     public void payOrder(Cart order) {
         userDao.payOrder(order);
     }
+    /*****添加订单第二步，提交商品信息及地址信息******/
+    public void subOrderHotel(Cart order) {
+        userDao.subOrderHotel(order);
+    }
+    public void subOrderHotelItem(Cart orderItem) {
+        userDao.subOrderHotelItem(orderItem);
+    }
+    /*****添加订单第三步，付款成功，等待发货******/
+    public void payOrderHotel(Cart order) {
+        userDao.payOrderHotel(order);
+    }
     /******查看所有订单*****/
     public PageOther findAllOrder(int uid, int currentPage) {
         String status=null;
@@ -77,6 +88,25 @@ public class UserService {
         int totalSize = userDao.findCountOrder(uid,status);
         PageOther page = new PageOther(currentPage,totalSize);
         List<Map<String,Object>> list = UserDao.orderStatus(uid,status,page.getStartIndex(),page.getPageSize());
+        page.setList(list);
+        System.out.println("页码"+page.getCurrentPage());
+        return page;
+    }
+    /******查看酒店所有订单*****/
+    public PageOther findAllOrderHotel(int uid, int currentPage) {
+        String status=null;
+        int totalSize = userDao.findCountOrderHotel(uid,status);
+        PageOther page = new PageOther(currentPage,totalSize);
+        List<Map<String,Object>> list = UserDao.findAllOrderHotel(uid,page.getStartIndex(),page.getPageSize());
+        page.setList(list);
+        System.out.println("页码"+page.getCurrentPage());
+        return page;
+    }
+    /******查看酒店所有订单状态*****/
+    public PageOther orderStatusHotel(int uid, String status,int currentPage) {
+        int totalSize = userDao.findCountOrderHotel(uid,status);
+        PageOther page = new PageOther(currentPage,totalSize);
+        List<Map<String,Object>> list = UserDao.orderStatusHotel(uid,status,page.getStartIndex(),page.getPageSize());
         page.setList(list);
         System.out.println("页码"+page.getCurrentPage());
         return page;
@@ -134,6 +164,13 @@ public class UserService {
         page.setList(list);
         return page;
     }
-
+    /**获得一条订单信息**/
+    public Map<String,Object> getOneOrderHt(String orderId){
+        return userDao.getOneOrderHt(orderId);
+    }
+    /**获得一条订单信息**/
+    public Map<String,Object> getOneOrderAt(String orderId){
+        return userDao.getOneOrderAt(orderId);
+    }
 
 }

@@ -91,7 +91,6 @@ public class UserDao {
     public List<Map<String,Object>> getIndex() {
         String sql = "select a.spId,a.spName,b.img_id,b.img_name,b.img_priority,b.space " +
                 "from t_scenicspot a,t_scenicspot_img b where a.spId=b.spId and b.img_priority=1 limit 0,5";
-
         return JdbcUtils.find(sql);
     }
 
@@ -188,9 +187,48 @@ public class UserDao {
         };
         JdbcUtils.insert(sql, params);
     }
+
     /*****添加订单第三步，付款成功，等待发货******/
     public void payOrder(Cart order) {
         String sql="update t_orderinf set status=? where oid=?";
+        Object []params={
+                order.getStatus(),
+                order.getOid(),
+        };
+        JdbcUtils.update(sql, params);
+    }
+    /*****添加订单第二步，提交商品信息及地址信息，等待付款******/
+    public void subOrderHotel(Cart order) {
+        String sql = "insert into t_order_hotel_inf values(?,?,?,?,?,?,?,null)";
+        Object[] params = {
+                order.getOid(),
+                order.getUid(),
+                order.getReceiver(),
+                order.getPhone(),
+                order.getTotalPrice(),
+                order.getAddTime(),
+                order.getStatus(),
+        };
+        JdbcUtils.insert(sql, params);
+    }
+    public void subOrderHotelItem(Cart orderItem) {
+        String sql = "insert into t_order_hotel_item values(null,?,?,?,?,?,?,?,?,?,null)";
+        Object[] params = {
+                orderItem.getOid(),
+                orderItem.getHotelId(),
+                orderItem.getStartTime(),
+                orderItem.getEndTime(),
+                orderItem.getBookDays(),
+                orderItem.getQuantity(),
+                orderItem.getRoomId(),
+                orderItem.getName(),
+                orderItem.getPrice(),
+        };
+        JdbcUtils.insert(sql, params);
+    }
+    /*****添加订单第三步，付款成功，等待发货******/
+    public void payOrderHotel(Cart order) {
+        String sql="update t_order_hotel_inf set status=? where oid=?";
         Object []params={
                 order.getStatus(),
                 order.getOid(),
@@ -206,7 +244,6 @@ public class UserDao {
         }
         return ((Number) JdbcUtils.selectScalar(sql.toString(), (Object[]) null)).intValue();
     }
-
     public static List<Map<String, Object>> findAllOrder(int uid,int startIndex, int pageSize) {
         String sql = "select a.spName,b.oid,b.ordertime,b.totalprice,b.status,c.spId,c.price,c.buycount,c.name,c.total " +
                 "from t_scenicspot a,t_orderinf b,t_orderitem c " +
@@ -221,7 +258,29 @@ public class UserDao {
         return JdbcUtils.find(sql,uid,status,startIndex, pageSize);
     }
     /***分页结束****/
+    /*******查看酒店所有订单状态*******/
+    /***分页开始****/
+    public int findCountOrderHotel(int uid,String status) {
+        StringBuilder sql=new StringBuilder("select count(*) from t_order_hotel_inf  where uid="+uid+" ");
+        if(status!=null&&status.length()>0){
+            sql.append(" and status="+status);
+        }
+        return ((Number) JdbcUtils.selectScalar(sql.toString(), (Object[]) null)).intValue();
+    }
+    public static List<Map<String, Object>> findAllOrderHotel(int uid,int startIndex, int pageSize) {
+        String sql = "select a.hName,b.oid,b.ordertime,b.totalprice,b.status,c.hotel_id,c.price,c.buycount,c.name,c.photo " +
+                "from t_hotel a,t_order_hotel_inf b,t_order_hotel_item c  " +
+                "where a.hId=c.hotel_id and b.oid=c.order_id and b.uid=? limit ?,?";
+        return JdbcUtils.find(sql, uid, startIndex, pageSize);
+    }
 
+    public static List<Map<String, Object>> orderStatusHotel(int uid, String status,int startIndex, int pageSize) {
+        String sql = "select a.hName,b.oid,b.ordertime,b.totalprice,b.status,c.hotel_id,c.price,c.buycount,c.name,c.photo " +
+                "from t_hotel a,t_order_hotel_inf b,t_order_hotel_item c  " +
+                "where a.hId=c.hotel_id and b.oid=c.order_id and b.uid=? and b.status=?  limit ?,?";
+        return JdbcUtils.find(sql,uid,status,startIndex, pageSize);
+    }
+    /***分页结束****/
     /**搜索结果信息及分页*/
     /**搜索结果总记录数*/
     public  int findCountSearch(String svalue) {
@@ -244,4 +303,20 @@ public class UserDao {
                 " where a.spId=b.spId and b.img_priority=1 and a.spName like \"%"+svalue+"%\" limit ?,?";
         return JdbcUtils.find(sql, startIndex, pageSize);
     }
+
+    /**获得一条订单信息**/
+    public Map<String,Object> getOneOrderHt(String orderId) {
+        String sql = "select a.*,b.* from t_order_hotel_inf a,t_order_hotel_item b " +
+                "where a.oid=b.order_id and  a.oid=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql,orderId);
+        return list.get(0);
+    }
+    /**获得一条订单信息**/
+    public Map<String,Object> getOneOrderAt(String orderId) {
+        String sql = "select a.*,b.* from t_orderinf a,t_orderitem b " +
+                "where a.oid=b.oid and  a.oid=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql,orderId);
+        return list.get(0);
+    }
+
 }

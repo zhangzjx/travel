@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>缤客</title>
+  <title>看世界</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <script type="application/javascript" src="js/jquery-3.4.1.min.js"></script>
@@ -33,6 +33,7 @@
   </script>
 
   <style type="text/css">
+    *{}
   </style>
 
   <!--加载meta IE兼容文件-->
@@ -128,38 +129,33 @@
             <input type="button" id="searchGo" class="el-btn layui-btn" value="搜索">
           </div>
         </div>
-        <div class="content-main">
+        <div class="content-main"  >
           <div class="content-left">
             <div id="left-list-1" class="left-list-1">
               <img src="img/v1.png" class="left-img">
               <h2>解锁网站的全部功能</h2><br>
               <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;收藏你喜欢的旅行灵感，并在地图上查看</h3>
-              <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;接收价格通知和优惠资讯，然后以自己喜欢的方式旅游</h3>
               <h3><span class="layui-badge-dot layui-bg-black"></span>&nbsp;&nbsp;向像你一样的旅行者提问并寻求答案</h3>
               <input type="button" onclick="reg()" class="register-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠"/>
             </div>
             <div class="left-list-2">
               <h2>分享您的旅行建议</h2><br>
-
               <h3><a href="#">撰写点评</a> </h3>
             </div>
+            <img src="img/ad-2.png" class="left-list-3">
             <img src="img/ad-1.jpg" class="left-list-3">
 
           </div>
           <div class="content-center">
-            <h1>为您推荐</h1>
-
+            <h1>为您推荐</h1><br>
             <div id="result_1">
-              <h2>热门景点</h2>
-
+              <h2><b>热门景点</b></h2>
             </div>
             <div id="result_2">
-              <h2>热门海滩</h2>
-
+              <h2><b>热门海滩</b></h2>
             </div>
-
             <div id="result_3">
-              <h2>热门海滩</h2>
+              <h2><b>热门酒店</b></h2>
               <!-- <div class="center-item">
                 <img src="img/j-1.jpg" class="center-img">
                 <p><a href="#">巴黎勒布里斯托酒店</a></p>
@@ -176,27 +172,34 @@
 
           </div>
           <div class="content-right">
-            <h2>精选目的地</h2>
+            <h3><b>精选目的地</b></h3>
             <div>
-              <img src="img/w-1.jpg" class="right-img"/>
-              <span class="info">法国巴黎</span>
+              <img src="img/w-2.jpg" class="right-img"/>
+              <span class="info">中国北京</span>
             </div>
             <div>
-              <img src="img/w-1.jpg" class="right-img"/>
-              <span class="info">法国巴黎</span>
+              <img src="img/w-3.jpg" class="right-img"/>
+              <span class="info">中国上海</span>
             </div>
             <div>
-              <img src="img/w-1.jpg" class="right-img"/>
-              <span class="info">法国巴黎</span>
+              <img src="img/w-4.jpg" class="right-img"/>
+              <span class="info">中国广州</span>
             </div>
-
+            <div>
+              <img src="img/w-5.jpg" class="right-img"/>
+              <span class="info">中国深圳</span>
+            </div>
+            <div>
+              <img src="img/w-5.jpg" class="right-img"/>
+              <span class="info">中国海南</span>
+            </div>
           </div>
         </div>
         <div class="main-inf">
-          <h1>精彩下一站，灵感这里找</h1>
+          <h1><b>精彩下一站，灵感这里找</b></h1>
           <div class="inf-item-1">
             <img src="img/l-1.jpg" class="img">
-            <h2>情迷美利坚|美妙自然风光</h2>
+            <h2>美妙自然风光</h2>
           </div>
           <div class="inf-item-1">
             <img src="img/l-2.jpg" class="img">
@@ -349,7 +352,7 @@
         action:"getIndex"
       },
       success: function (data) {
-        console.log("cc"+data)
+
         const json = eval("(" + data + ")");
         let str = "";//定义用于拼接的字符串
         //for(let i = 0; i < data.length; i++){    //遍历 数组
@@ -363,6 +366,30 @@
           str = "<div class='center-item'><a href='attractionReview.html?param="+ls.spId+"'><img src='/atImg/"+ls.img_name+"' class='center-img'><p>"+ls.spName+"</a></p></div>";
           $("#result_1").append(str);
           $("#result_2").append(str);
+        }
+        //form.render();//菜单渲染 把内容加载进去
+      },//响应成功后的回调函数
+      error: function () {
+        console.log("失败啦...")
+      },//表示如果请求响应出现错误，会执行的回调函数
+
+      dataType: "text"//设置接受到的响应数据的格式
+    });
+
+    /***热门酒店**/
+    $.ajax({
+      url: "../UserHotelServlet", // 请求路径
+      type: "POST", //请求方式
+      data: {
+        action:"getIndexHt",
+      },
+      success: function (data) {
+
+        const json = eval("(" + data + ")");
+        let str = "";//定义用于拼接的字符串
+        for(let i = 0; i < 3; i++){   
+          const ls = json[i];
+          str = "<div class='center-item'><a href='hotelReview.html?param="+ls.hId+"'><img src='/hotelImg/"+ls.img_name+"' class='center-img'><p>"+ls.hName+"</a></p></div>";
           $("#result_3").append(str);
         }
         //form.render();//菜单渲染 把内容加载进去

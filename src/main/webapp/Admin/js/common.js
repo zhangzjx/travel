@@ -18,11 +18,11 @@ function initRouter() {
     if (url.indexOf("#/") > -1) {
         router = url.substring(url.indexOf('#/') + 2);
         if (router === '') {
-            router = 'index.html';
+            router = 'main.html';
         }
         $('#iframeParent').attr('src', 'html/' + router);
     } else {
-        $('#iframeParent').attr('src', 'html/index.html');
+        $('#iframeParent').attr('src', 'html/main.html');
         history.replaceState(null, null, '#/');
     }
     //地址栏修改不刷新的解决方案

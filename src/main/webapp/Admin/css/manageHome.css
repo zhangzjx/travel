@@ -1,0 +1,237 @@
+/*************************首页**************************************/
+/*************公用样式*************/
+a:link {color: #000000;
+    text-transform:none;
+    /**清除下划线*/
+    text-decoration:none;}
+a:hover {color: #7cc815; text-decoration:none;}
+a:visited {text-decoration:none;}
+a:active {text-decoration:underline;}
+*{
+    font-family: 微软雅黑;
+}
+
+.manage-main{
+    width: 1100px;
+    margin: 20px auto 100px;
+}
+/*************系统首页*************/
+.home-top{
+    width: 1100px;
+    height: 110px;
+    margin: 20px 0 0 0;
+    border: solid 1px red;
+}
+.top_item{
+    width: 240px;
+    height: 100px;
+    margin-left: 26px;
+    cursor: pointer;
+    float: left;
+}
+.item-img{
+    width: 50px;
+    height: 50px;
+    margin: 25px 10px;
+    float: left;
+}
+.item-inf{
+    height: 20px;
+    margin: 25px 0 10px;
+    float: left;
+}
+.item-num{
+    height: 20px;
+    margin: 15px 0 0 -98px ;
+    font-size: 13pt;
+    float: left;
+
+}
+/*****待处理事务******/
+.home-pending{
+    width: 1100px;
+    height: 200px;
+    margin: 20px 0 0 0;
+    font-size: 11pt;
+    border: solid 1px red;
+}
+.pending-top{
+    width: 1100px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #d2d2d2;
+}
+.pending-item{
+    width: 260px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 10pt;
+    list-style-type: none;
+    margin: 3px 0 0 50px;
+    padding: 0 20px 0 20px;
+    float: left;
+    border-bottom: solid 1px #d4d4d4;
+}
+/*****运营快捷入口******/
+.home-operation{
+    width: 1100px;
+    height: 200px;
+    font-size: 11pt;
+    margin: 20px 0 0 0;
+    border: solid 1px red;
+}
+.operation-item{
+    width: 120px;
+    height: 130px;
+    font-size: 10pt;
+    list-style-type: none;
+    margin: 10px 0 10px 32px;
+    text-align: center;
+    float: left;
+
+}
+.operation-img{
+    width: 50px;
+    height: 50px;
+    margin: 25px 35px;
+    float: left;
+}
+/*****商品及用户总览******/
+.home-overview{
+    width: 1100px;
+    height: 200px;
+    margin: 20px 0 0 0;
+}
+.overview-goods{
+    width: 540px;
+    height: 200px;
+    font-size: 10pt;
+    border: solid 1px #d4d4d4 ;
+    float: left;
+}
+.overview-top{
+    width: 540px;
+    height: 50px;
+    font-size: 11pt;
+    line-height: 50px;
+    background-color: #d2d2d2;
+    border-bottom: #d4d4d4 solid 1px;
+}
+.overview-item{
+    width: 110px;
+    height: 100px;
+    line-height: 30px;
+    padding-top: 30px;
+    cursor: pointer;
+    list-style-type: none;
+    border: #fff solid 1px;
+    margin: 10px 0 10px 20px;
+    text-align: center;
+    float: left;
+}
+.overview-item:hover{
+    border: cornflowerblue solid 1px;
+}
+/*****订单统计******/
+.home-count{
+    width: 1100px;
+    height: 350px;
+    font-size: 11pt;
+    margin: 20px 0 0 0;
+    border: solid 1px #d4d4d4 ;
+}
+.count-left{
+    width: 120px;
+    height: 240px;
+    text-align: center;
+    padding: 30px 20px;
+    border: cornflowerblue solid 1px;
+    float: left;
+}
+.count-right{
+    width: 900px;
+    height: 300px;
+    border: cornflowerblue solid 1px;
+    float: left;
+}
+.count-right-top{
+    width: 860px;
+    height: 40px;
+    font-size: 10pt;
+    line-height: 40px;
+    padding: 0 20px;
+    border: cornflowerblue solid 1px;
+}
+
+/*************账户设置*************/
+.account-top{
+    width: 1102px;
+    height: 50px;
+    font-size: 11pt;
+    line-height: 50px;
+    background-color: #d2d2d2;
+}
+.account-main{
+    width: 1100px;
+    height: 600px;
+    font-size: 10pt;
+    margin: 0 auto;
+    border: #d4d4d4 solid 1px;
+}
+.account-img{
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    margin: 70px 0 0 475px;
+    border: cornflowerblue solid 1px;
+}
+.account-left{
+    width: 150px;
+    height: 300px;
+    text-align: right;
+    margin-left: 250px;
+
+    float: left;
+}
+.account-right{
+    width: 430px;
+    height: 300px;
+    padding-left: 20px;
+
+    float: left;
+}
+.left-list{
+    height: 50px;
+    line-height: 50px;
+}
+.right-list{
+    width: 300px;
+    height: 30px;
+    line-height: 30px;
+    margin: 10px 0;
+}
+/*************登录信息*************/
+/*************登录日志*************/
+.loginInf-top{
+    width: 1102px;
+    height: 50px;
+    font-size: 11pt;
+    line-height: 50px;
+    background-color: #d2d2d2;
+    border-bottom: #d4d4d4 solid 1px;
+}
+.loginInf-head{
+    width: 1100px;
+    height: 50px;
+    line-height: 50px;
+}
+.head-item{
+    width: 274px;
+    height: 50px;
+    font-size: 10pt;
+    text-align: center;
+    line-height: 50px;
+    border-right: #d4d4d4 solid 1px;
+    border-bottom: #d4d4d4 solid 1px;
+    float: left;
+}

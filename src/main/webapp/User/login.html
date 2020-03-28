@@ -92,11 +92,14 @@
             type:"POST" , //请求方式
             data:$('#myForm').serialize(),// 序列化表单值
             success:function (data) {
-                //alert(data);
-                $.cookie('userCookie', data, {expires: 1, path: '/'});
-               // window.location.replace("index.html")
-                window.parent.location.href="index.html"
+                if (data==1){
+                    alert("该用户不存在或密码不正确");
+                }else {
+                    $.cookie('userCookie', data, {expires: 1, path: '/'});
+                    // window.location.replace("index.html")
+                    window.parent.location.href="index.html"
 
+                }
             },//响应成功后的回调函数
             error:function () {
                 alert("出错啦...")

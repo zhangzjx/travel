@@ -1,0 +1,33 @@
+.operating{width: 94.5%;height: 30px;margin: 10px 0;padding: 10px 30px;background-color:#f2f2f2}
+.table{width: 100%;}
+.pagination{width: 100%;height: 40px;line-height:40px;text-align: center;font-family: 微软雅黑;font-size: 9pt;border-bottom: solid 1px #dddddd;border-left: solid 1px #dddddd;border-right: solid 1px #dddddd;float: left;}
+.el-input{width: 200px;height: 35px;margin-top: 10px;}
+#tit li{margin: 10px 0}
+#result li{margin: 10px 0}
+#tab th{text-align: center}
+td{/**对超出容器的部分强制截取，高度不确定则换行*/
+	height: 50px;
+	text-align: center;
+	overflow: hidden;
+	/**显示省略符号来代表被修剪的文本。*/
+	text-overflow: ellipsis;
+	/**禁止换行*/
+	white-space: nowrap;}
+/* 复选框 */
+input[type="checkbox"] {
+	-webkit-appearance: none; /*清除复选框默认样式*/
+	border: 1px solid #627BF6;
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin-top: 0;
+	margin-left: 3px;
+	margin-right: 0 !important;
+	border-radius: 3px;
+}
+input[type="checkbox"]:checked {
+	/* background-position: -48px 0; */
+	background: #627BF6 url(../image/hotel-check.png) ; /*复选框的背景图*/
+	background-size: contain;
+}

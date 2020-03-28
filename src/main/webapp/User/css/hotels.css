@@ -46,7 +46,7 @@ input[type="checkbox"]:checked {
 
 /***右侧***/
 .hotels-right{width: 870px;height: auto;margin:0 0 0 30px;float: left;}
-.right-top{width: 870px;height: 40px;background-color: #fff;}
+.right-top{width: 870px;height: 60px;background-color: #fff;}
 .top-left{width: 300px;height: 40px;float: left;line-height: 40px}
 .top-right{width:200px;height: 40px;float: left;margin-left: 350px;line-height: 40px}
 .el-select{width: 100px;height: 40px;font-size: 10pt;margin-top: 10px;}

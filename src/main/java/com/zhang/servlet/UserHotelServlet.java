@@ -23,7 +23,9 @@ public class UserHotelServlet extends HttpServlet {
     public static final String GET_ALL_HOTEL_INF = "getAllHotelInf";
     public static final String GET_ONE_HT = "getOneHt";
     public static final String GET_ONE_HT_IMG = "getOneHtImg";
-    public static final String GET_TICKET = "getTicket";
+    public static final String GET_ROOM = "getRoom";
+    public static final String GET_INDEX_HT = "getIndexHt";
+
 
     private UserHotelService userHtService = new UserHotelService();
 
@@ -45,23 +47,32 @@ public class UserHotelServlet extends HttpServlet {
             getOneHt(request,response);
         } else if(GET_ONE_HT_IMG.equals(action)){
             getOneHtImg(request,response);
-        } else if(GET_TICKET.equals(action)){
-            getTicket(request,response);
+        } else if(GET_ROOM.equals(action)){
+            getRoom(request,response);
+        } else if(GET_INDEX_HT.equals(action)){
+            getIndexHt(request,response);
         }
 
+    }
+    /**获得首页信息**/
+    private void getIndexHt(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        List<Map<String,Object>> result= userHtService.getIndexHt();
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
     }
     /**获得所有酒店信息**/
     private void getAllHotelInf(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
         String current = request.getParameter("currentPage");
-
+        String sort = request.getParameter("sort");
         int currentPage = 1;
         try{
             currentPage = Integer.parseInt(current);
         }catch(Exception e){
             currentPage = 1;
         }
-        PageOther page = userHtService.getAllHotelInf(currentPage);
+        PageOther page = userHtService.getAllHotelInf(currentPage,sort);
 
         String json= JSON.toJSONString(page);
         //System.out.println("json"+json);
@@ -92,12 +103,12 @@ public class UserHotelServlet extends HttpServlet {
     }
 
     /**获得本酒店价格信息**/
-    private void getTicket(HttpServletRequest request,
+    private void getRoom(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
-         String ticket_id = request.getParameter("ticket_id");
+         String room_id = request.getParameter("room_id");
         //System.out.println(spId);
 
-        List<Map<String,Object>> result= userHtService.getTicket(ticket_id);
+        List<Map<String,Object>> result= userHtService.getRoom(room_id);
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
     }

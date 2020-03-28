@@ -1,5 +1,6 @@
 package com.zhang.servlet;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.dao.Page;
 import com.zhang.domain.Attractions;
@@ -25,23 +26,24 @@ import java.util.Map;
 @WebServlet(name = "AdminHotelServlet", urlPatterns="/AdminHotelServlet")
 public class AdminHotelServlet extends HttpServlet {
 
-    public static final String LOGIN = "login";
     public static final String ADD_HOTEL = "addHotel";
     public static final String FIND_ALL_HOTEL = "findAllHotel";
-    public static final String DEL_HOTEL = "delHotel";
-    public static final String VALIDATE_NAME = "validateName";
-    public static final String FIND_LIST_HOTEL = "findListHotel";
-    public static final String FIND_JSON_HOTEL = "findJsonHotel";
     public static final String SEARCH_GO = "searchGo";
+    public static final String VALIDATE_NAME = "validateName";
     public static final String ADD_HOTEL_INF = "addHotelInf";
     public static final String GET_PROVINCE = "getProvince";
     public static final String GET_HOTEL_INF = "getHotelInf";
     public static final String GET_HOTEL = "getHotel";
-    public static final String FIND_HOTEL = "findHotel";
     public static final String DELETE_H = "deleteH";
     public static final String DEL_H_MORE = "delHMore";
     public static final String FIND_ONE_H = "findOneH";
     public static final String CHANGE_H_INF = "changeHInf";
+    public static final String FIND_ALL_ORDER_HT = "findAllOrderHt";
+    public static final String SEARCH_ORDER_HT_GO = "searchOrderHtGo";
+    public static final String GET_ONE_ORDER_HT = "getOneOrderHt";
+    public static final String DELETE_ORDER_HT = "deleteOrderHt";
+    public static final String DELETE_ORDER_HT_MORE = "deleteOrderHtMore";
+
 
 
     private static final ServletRequest SESSION = null;
@@ -76,12 +78,6 @@ public class AdminHotelServlet extends HttpServlet {
                 validateName(request, response);
             } else if(FIND_ALL_HOTEL.equals(action)||SEARCH_GO.equals(action)){
                 findAllHotel(request, response);
-            } else if(FIND_JSON_HOTEL.equals(action)){
-                findJsonHotel(request, response);
-            } else if(FIND_LIST_HOTEL.equals(action)){
-                findListHotel(request, response);
-            } else if(FIND_HOTEL.equals(action)){
-                findHotel(request, response);
             } else if(DELETE_H.equals(action)){
                 deleteH(request, response);
             } else if(DEL_H_MORE.equals(action)) {
@@ -90,6 +86,14 @@ public class AdminHotelServlet extends HttpServlet {
                 findOneH(request, response);
             } else if(CHANGE_H_INF.equals(action)) {
                 changeHInf(request, response);
+            } else if(FIND_ALL_ORDER_HT.equals(action)||SEARCH_ORDER_HT_GO.equals(action)) {
+                findAllOrderHt(request, response);
+            } else if(GET_ONE_ORDER_HT.equals(action)){
+                getOneOrderHt(request, response);
+            } else if(DELETE_ORDER_HT.equals(action)){
+                deleteOrderHt(request, response);
+            } else if(DELETE_ORDER_HT_MORE.equals(action)){
+                deleteOrderHtMore(request, response);
             }
         }
 
@@ -149,48 +153,19 @@ public class AdminHotelServlet extends HttpServlet {
         Boolean result = adminHotelService.delete(Integer.parseInt(id));;
         //返回添加成功的信息
         response.getWriter().print(result);
-        //findAllAttractions(request,response);
+
 
     }
     private void delHMore(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //获取前台的ids
         String[] ids = request.getParameter("ids").split(",");
-        adminHotelService.delMore(ids);
-        findAllHotel(request,response);
+        Boolean result = adminHotelService.delMore(ids);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
 
     }
 
-
-
-
-
-    public void findHotel(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        /**1.获取当前页码，如无当前页码默认为1
-         * 2.获取商品列表，调用Service的findAll方法
-         *   2.1调用Service层根据页码来获取Page对象
-         * 3.将获取的商品列表保存到request中
-         *   3.1将Page对象保存到request中
-         * 4.将请求转发到jsp页面
-         */
-        String skey = request.getParameter("sKey");
-        String svalue=request.getParameter("sValue");
-        String current = request.getParameter("currentPage");
-        System.out.println("跳转的页数"+current);
-        int currentPage = 1;
-        try{
-            currentPage = Integer.parseInt(current);
-        }catch(Exception e){
-            currentPage = 1;
-        }
-        Page page = adminHotelService.findAll(currentPage,skey,svalue);
-        /**request.setAttribute("myList",page);*/
-        System.out.println("结果为"+page.getList());
-        request.getSession().setAttribute("myList",page);
-        response.sendRedirect(request.getContextPath()+"/Admin/html/hotelList.jsp");
-        //request.getRequestDispatcher("/Admin/html/ts.jsp").forward(request, response);
-    }
 
     /*******获得省份信息*******/
     private void getProvince(HttpServletRequest request,
@@ -286,27 +261,61 @@ public class AdminHotelServlet extends HttpServlet {
                 currentPage = 1;
             }
             Page page = adminHotelService.findAll(currentPage,skey,svalue);
+
+            String json= JSON.toJSONString(page);
+            response.getWriter().print(json);
             /**request.setAttribute("myList",page);*/
-            System.out.println("结果为"+page.getList());
-            request.getSession().setAttribute("myList",page);
+            /**request.getSession().setAttribute("myList",page);
             response.sendRedirect(request.getContextPath()+"/Admin/html/hotelList.jsp");
             //request.getRequestDispatcher("/Admin/html/ts.jsp").forward(request, response);
-        }
-        /**生成json*/
-        private void findJsonHotel(HttpServletRequest request,
-                                  HttpServletResponse response) throws IOException {
-
-            List<Map<String,Object>> result = adminHotelService.findAllHotel();
-            //创建Jackson的核心对象  ObjectMapper
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(response.getWriter(),result);
-
-
-            System.out.println(result);
-
-            //response.getWriter().print(result);
+             */
         }
 
+    /*****查看所有订单******/
+    private void  findAllOrderHt(HttpServletRequest request,
+                                 HttpServletResponse response) throws IOException {
+        String skey = request.getParameter("sKey");
+        String svalue=request.getParameter("sValue");
+        String current = request.getParameter("currentPage");
+        /** System.out.println("关键字"+skey+"关键字"+svalue+"跳转的页数"+current);*/
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        Page page = adminHotelService.findAllOrderHt(currentPage,skey,svalue);
+        String json= JSON.toJSONString(page);
+        response.getWriter().print(json);
+
+    }
+    /**获得一条门票订单信息**/
+    private void getOneOrderHt(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        String orderId = request.getParameter("orderId");
+        //System.out.println("输出"+orderId);;
+        Map<String,Object> result= adminHotelService.getOneOrderHt(orderId);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+
+
+    /**删除一条订单**/
+    private void deleteOrderHt(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        String orderId = request.getParameter("orderId");
+        System.out.println("删除的id为："+orderId);
+        Boolean result = adminHotelService.delOrderHt(orderId);
+        response.getWriter().print(result);
+    }
+    /**删除多条订单**/
+    private void deleteOrderHtMore(HttpServletRequest request,
+                                   HttpServletResponse response) throws IOException {
+        String[] ids = request.getParameter("ids").split(",");
+        Boolean result = adminHotelService.delOrderHtMore(ids);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
         /**生成固定格式json*/
         private void findListHotel(HttpServletRequest request,
                                    HttpServletResponse response) throws IOException {

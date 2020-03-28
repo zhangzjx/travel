@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单中心</title>
+    <link rel="stylesheet" href="css/order.css">
+    <link rel="stylesheet" href="css/topFoot.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/topFoot.js"></script>
+    <script type="text/javascript" src="js/order.js"></script>
+
+    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+    <script>
+        $(document).ready(function(){
+            // 页面加载后任何需要执行的js特效
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                console.log("userCookie存在");
+                $("#logout").show();
+
+            } else {
+                console.log("userCookie不存在");
+                $("#login").show()
+                //$("#account").show()
+            }
+
+        });
+    </script>
+    <style type="text/css" >
+
+        body{background-color: #EEEEEE;}
+
+    </style>
+</head>
+<body>
+<div id="ss"></div>
+<!--页面顶部-->
+<!-- header -->
+<div class="header-box">
+    <div class="header-top">
+
+        <div class="logo">
+            <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
+        </div>
+        <div class="login" id="login" style="display:none;">
+            <input type="button" onclick="reg()" class="login-btn layui-btn layui-btn-primary" value="注册" title="成为会员，享受专属优惠">
+            <input type="button" onclick="log()" class="login-btn layui-btn layui-btn-primary" value="登录" title="登录后搜索结果更贴心">
+        </div>
+        <div class="login" id="logout" style="display:none;" >
+            <div class="account" >
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
+            </div>
+            <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
+
+        </div>
+
+    </div>
+    <div class="header-foot">
+        <div class="header-foot-item" >
+            <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span class="foot-img-name">住宿</span></a>
+        </div>
+        <div class="header-foot-item">
+            <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
+        </div>
+    </div>
+</div>
+<!-- end-header -->
+
+<!--主要内容-->
+<div class="content">
+    <!--主要内容-->
+    <div class="content-main">
+        <!--左侧主内容-->
+        <div class="content-left">
+            <div class="content-left-main">
+                <div style="font-size: 12pt;text-align: center;margin-bottom: 15px;">订单中心</div>
+                <ul>
+                    <li><a href="centerOrder.html">我的景点订单</a></li>
+                    <li><a href="centerOrderHotel.html">我的酒店订单</a></li>
+                    <li><a href="centerOrderPay.html">待付款</a></li>
+
+
+                    <li><a onclick="orderEvaluate()" href="#">待评价</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <!--右侧主内容-->
+        <div class="content-right">
+            <div class="right-top">
+                <div class="right-top-list" style="width: 175px">订单编号</div>
+                <div class="right-top-list" style="width: 175px">商品名称</div>
+                <div class="right-top-list" >单价</div>
+                <div class="right-top-list" >数量</div>
+                <div class="right-top-list" >商品操作</div>
+                <div class="right-top-list" >实付款</div>
+                <div class="right-top-list" >交易状态</div>
+                <div class="right-top-list" >交易操作</div>
+            </div>
+
+            <div id="right-main" class="right-main" >
+
+            </div>
+            <!--分页 -->
+            <div class="pagination">
+                <div style="width: 45%;text-align: left;margin-left: 20px;float: left">
+                    共找到<span id="totalSize"></span>条记录，每页<span id="pageSize"></span>条，
+                    共<span id="totalPage"></span>页，当前第<span id="currentPage"></span>页
+                </div>
+                <div style="float: left;width: 35%;">
+                    <!-- 首页 -->
+                    <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">首页</button>
+                    <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm">首页</button>
+                    <!-- 上一页 -->
+                    <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
+                    <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm">上一页</button>
+                    <!-- 下一页 -->
+                    <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
+                    <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm">下一页</button>
+                    <!-- 尾页 -->
+                    <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
+                    <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm">尾页</button>
+
+                </div>
+                <div style="float: left">
+                    <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
+                    <button id="jump" type="button" class="layui-btn layui-btn-sm">确定</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--底部内容-->
+<input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="orderId" value="">
+<div class="bottom-foot" >
+    <h2>热门目的地</h2>
+    SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
+    浏览超过 2 亿条点评和评论以及酒店、餐厅和景点等照片。
+    您还可以查找低价机票、免费旅行指南、全球度假租屋名录以及热门论坛，它们提供有关每个目的地的建议等信息。
+    有如此之多的用户在每次旅行之前都会首先访问 Booking 网站也不足为奇。
+    <h2>全球领先的旅行信息平台。</h2>
+    SeeWorld 每月帮助近五亿名旅行者尽享每次旅行。
+    使用 SeeWorld 网站和 App 浏览数亿条点评和建议，内容涵盖住宿、餐厅、体验、航空公司和邮轮。
+    无论是在计划还是在路上，旅行者都可以通过SeeWorld  比较酒店、航班和邮轮的超低价格、预订热门游览和景点并在绝佳餐厅订位。
+    终极旅行伴侣 SeeWorld 服务范围涵盖 49 个市场，支持 28 种语言。
+    <div class="bottom">
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">热门地区</div><br>
+            <div class="bottom-main-list"><a href="#">北京市</a></div>
+            <div class="bottom-main-list"><a href="#">香港特别行政区</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">上海市</a></div>
+            <div class="bottom-main-list"><a href="#">广东省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">中部地区</div><br>
+            <div class="bottom-main-list"><a href="#">山西省</a></div>
+            <div class="bottom-main-list"><a href="#">河南省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖北省</a></div>
+            <div class="bottom-main-list"><a href="#">湖南省</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">北方地区</div><br>
+            <div class="bottom-main-list"><a href="#">黑龙江省</a></div>
+            <div class="bottom-main-list"><a href="#">吉林省</a></div>
+            <div class="bottom-main-list"><a href="#">辽宁省</a></div>
+            <div class="bottom-main-list"><a href="#">河北省</a></div>
+            <div class="bottom-main-list"><a href="#">山东省</a></div>
+
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;">西南地区</div><br>
+            <div class="bottom-main-list"><a href="#">四川省</a></div>
+            <div class="bottom-main-list"><a href="#">贵州省</a></div>
+            <div class="bottom-main-list"><a href="#">云南省</a></div>
+            <div class="bottom-main-list"><a href="#">重庆市</a></div>
+            <div class="bottom-main-list"><a href="#">西藏自治区</a></div>
+        </div>
+        <div class="bottom-main">
+            <div class="bottom-main-list" style="font-size: 13pt;font-weight: bold;"><a href="#">西北地区</a></div><br>
+            <div class="bottom-main-list"><a href="#">陕西省</a></div>
+            <div class="bottom-main-list"><a href="#">甘肃省</a></div>
+            <div class="bottom-main-list"><a href="#">青海省</a></div>
+            <div class="bottom-main-list"><a href="#">宁夏回族自治区</a></div>
+            <div class="bottom-main-list"><a href="#">新疆维吾尔自治区</a></div>
+        </div>
+    </div>
+    <div class="foot">
+        <ul>
+            <li><a href="#"> 关于我们</a></li>
+            <li><a href="#"> 新闻动态</a></li>
+            <li><a href="#"> 工作机会</a></li>
+            <li><a href="#"> 商务合作</a></li>
+            <li><a href="#"> 会员中心</a></li>
+            <li><a href="#"> 常见问题</a></li>
+            <li><a href="#"> 意见反馈</a></li>
+            <li><a href="#"> 联系我们</a></li>
+            <li><a href="#"> 营业执照</a></li>
+        </ul>
+        <div >
+            © 2020 SeeWorld 版权所有。<a href="#">使用条款</a> | <a href="#">隐私政策</a> | <a href="#">网站工作原理</a>
+            * SeeWorld不是旅行社，也不是旅游预订服务代理商。我们提供免费、客观、公正的旅游资讯服务。
+        </div>
+        <div > 京ICP证080678号京ICP备09040564号京公网安备11010502036828号
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    $(document).ready(function(){
+        const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+        const uid = userCookie.uid;
+        $("#uI").val(uid);
+
+        /**获取所有订单数据信息*/
+        //document.location = "../UserServlet?action=findAllOrder&uid="+uid;
+        $.ajax({
+            url: "../UserServlet", // 请求路径
+            type:"Get" , //请求方式
+            dataType:"text",//设置接受到的响应数据的格式
+            data:{
+                action:"findAllOrderHotel",
+                uid:uid,
+            },
+            success:function (data) {
+                console.log("dd"+data);
+                show(data);
+            },
+            error:function () {
+                console.log("出错啦...")
+            },
+        });
+
+        /**首页*/
+        $("#firstPageClick").click(function () {
+            let current = 1;
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                    //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
+                data:{action:"findAllOrder",
+                    uid:uid,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**上一页*/
+        $("#lastPageClick").click(function () {
+            let currentPage = $("#currentPage").html();
+            let current = currentPage-1;
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{action:"findAllOrder",
+                    uid:uid,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**下一页*/
+        $("#nextPageClick").click(function () {
+            let currentPage = $("#currentPage").html();
+            let current = parseInt(currentPage)+1;
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{action:"findAllOrder",
+                    uid:uid,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**尾页*/
+        $("#finalPageClick").click(function () {
+            let current = $("#totalPage").html();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                data:{action:"findAllOrder",
+                    uid:uid,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**跳页*/
+        $("#jump").click(function () {
+            const current = $("#num").val();
+            $.ajax({
+                url: "../UserServlet", // 请求路径
+                type:"Get" , //请求方式
+                dataType:"text",//设置接受到的响应数据的格式
+                //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
+                data:{action:"findAllOrder",
+                    uid:uid,
+                    currentPage:current,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /*******8******/
+        function show(data){
+            const json = eval("(" + data + ")");
+            //将JSON对象转化为JSON字符
+            const list = JSON.stringify(json.list);
+            const j = eval("(" + list+ ")");
+
+            $("#totalSize").html(json.totalSize);
+            $("#pageSize").html(json.pageSize);
+            $("#totalPage").html(json.totalPage);
+            $("#currentPage").html(json.currentPage);
+            if (json.currentPage==1){
+
+                $("#firstPage").show();
+                $("#lastPage").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+
+                $("#firstPageClick").hide();
+                $("#lastPageClick").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+
+            } else if (json.currentPage==json.totalPage ){
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPage").show();
+                $("#finalPage").show();
+
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPageClick").hide();
+                $("#finalPageClick").hide();
+
+            } else if (json.currentPage!=1||json.currentPage!=json.totalPage ){
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+            }
+            let str = "";//定义用于拼接的字符串
+            for(let i = 0; i < 5; i++){    //遍历 数组//拼接表格的行和列
+                const ls = j[i];
+                let timestamp = ls.ordertime;
+                let ordertime = timestampToTime(timestamp);//时间戳转换
+                //str += "<li>"+ls.oid+"</li>";
+                str += "<div class='right-main-top'>" +
+                    "<div class='main-top-list' >订单时间："+ordertime+"</div>" +
+                    "<div class='main-top-list' >订单编号："+ls.oid+"</div>" +
+                    "<div class='main-top-list' style='width: 400px;'>名称："+ls.name+"</div></div>" +
+                    "<div class='main-content'>" +
+                    "<div class='main-content-list' style='width: 172px'>"+ls.oid+"</div>" +
+                    "<div class='main-content-list' title='"+ls.name+"' style='width: 172px'>"+ls.name+"</div>" +
+                    "<div class='main-content-list'>"+ls.price+"</div>" +
+                    "<div class='main-content-list'>"+ls.buycount+"</div>" +
+                    "<div class='main-content-list'>已完成订单</div>" +
+                    "<div class='main-content-list'>"+ls.totalprice+"</div>" +
+                    "<div class='main-content-list'>待评价</div>" +
+                    "<div class='main-content-list' style='line-height: 35px;'>" +
+                    "<button type='button' value='"+ls.oid+"' class='look-inf layui-btn layui-btn-xs'>查看详情</button>" +
+                    "<br><button type='button' class='layui-btn layui-btn-xs'>评价</button></div></div>";
+
+                $("#right-main").html(str);
+                lookInf();
+            };
+        }
+        function lookInf(){
+            /**获取信息*/
+            $(".look-inf").click(function() {
+                let orderId= $(this).val();
+                $("#orderId").val(orderId);
+                layer.open({
+                    type: 2,
+                    title: '订单详情',
+                    offset: '50px',//弹窗位置
+                    shade: 0.2,
+                    shadeClose: true, //点击遮罩关闭层    
+                    area: ['50%', '70%'],
+                    // id:'nfghK',
+                    content:'orderHotelDetail.html',//弹框显示的url,对应的页面  
+                    success: function (layero, index) {
+                        //找到它的子窗口的body
+                        let body = layer.getChildFrame('body', index);  //巧妙的地方在这里哦
+                        //为子窗口元素赋值
+                        body.contents().find("#orderId").val(orderId);
+                    },
+
+                });
+            });
+        }
+    });
+
+    /**时间戳转换**/
+    function timestampToTime(timestamp) {
+        const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        const Y = date.getFullYear() + '-';
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        const D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+        const h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':';
+        const m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+        const s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+        return Y + M + D + h + m + s;
+    }
+
+
+</script>
+</html>

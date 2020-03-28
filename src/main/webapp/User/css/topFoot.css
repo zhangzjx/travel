@@ -8,7 +8,7 @@ a:visited {text-decoration:none;}
 a:active {text-decoration:underline;}
 
 
-/******顶部********/
+/******顶部********#003399*/
 .header-box{height: 110px;background-color: #003399;border-bottom: 1px  solid #e8ebf2;}
 .header-box span{color: #fff;}
 .header-top{max-width: 1200px; margin:0 auto 0;padding-top: 15px; position: relative; height: 50px;}
@@ -16,7 +16,7 @@ a:active {text-decoration:underline;}
 .logo{width: 500px;float: left}
 .login{width: 150px;float: left;color: #fff;padding-left: 540px}
 .login-btn{height: 35px;line-height: 35px;font-size:11pt;float: left}
-.logo-img{width: 200px;height: 25px;text-align: right}
+.logo-img{width:160px;height: 40px;text-align: right}
 .account{float:left;width: 75px;height: 40px;text-align: center;cursor:pointer;}
 .header-foot-item{width: 120px;height: 40px;float: left;}
 .foot-img{width: 30px;height: 30px;margin: 10px 10px 10px 0}

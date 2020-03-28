@@ -14,7 +14,7 @@ public class HotelDao {
     /**添加酒店信息
      * @return*/
     public static Hotel addHotel(Hotel hotel) {
-        String sql = "insert into t_hotel values(null,?,?,?,?,?,?,?,?,null)";
+        String sql = "insert into t_hotel values(null,?,?,?,?,?,null,?,?,?,null)";
         Object[] params ={
                 hotel.getHotelName(),
                 hotel.getHotelLabel(),
@@ -82,8 +82,7 @@ public class HotelDao {
      * */
     public static List<Map<String, Object>> findAllHotel(int startIndex, int pageSize,
                                                          String skey,String svalue) {
-        StringBuilder sql=new StringBuilder("select h.* from" +
-                " t_hotel h");
+        StringBuilder sql=new StringBuilder("select h.* from  t_hotel h");
         if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
             sql.append("  where h."+skey+" like \"%"+svalue+"%\" limit ?,?");
         }else{
@@ -147,4 +146,50 @@ public class HotelDao {
         };
         JdbcUtils.update(sql, params);
     }
+    /**查询所有酒店信息并分页*/
+    /**搜索结果总记录数*/
+    public  int findCountOrderHt(String skey, String svalue) {
+        StringBuilder sql=new StringBuilder("select count(*) from t_order_hotel_inf");
+        if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+            //'%123%'
+            sql.append(" where "+skey+" like \"%"+svalue+"%\" ");
+        }
+        return ((Number) JdbcUtils.selectScalar(sql.toString(), (Object[]) null)).intValue();
+    }
+    public  List<Map<String, Object>> findAllOrderHt(int startIndex, int pageSize,
+                                                     String skey, String svalue) {
+        StringBuilder sql=new StringBuilder("select a.hName,b.*,c.hotel_id,c.price,c.buycount,c.name,c.photo" +
+                " from  t_hotel a,t_order_hotel_inf b,t_order_hotel_item c where a.hId=c.hotel_id and b.oid=c.order_id ");
+        if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+            sql.append(" and  b."+skey+" like \"%"+svalue+"%\" limit ?,?");
+        }else{
+            sql.append(" limit ?,?");
+        }
+
+        return JdbcUtils.find(sql.toString(), startIndex, pageSize);
+    }
+    /**获得一条订单信息**/
+    public Map<String,Object> getOneOrderHt(String orderId) {
+        String sql = "select a.*,b.* from t_order_hotel_inf a,t_order_hotel_item b " +
+                "where a.oid=b.order_id and  a.oid=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql,orderId);
+        return list.get(0);
+    }
+
+    /**删除一条订单*/
+    public void delOrderHt(String orderId){
+        String sql = "DELETE a,b FROM t_order_hotel_inf AS a LEFT JOIN t_order_hotel_item AS b ON a.oid=b.order_id WHERE a.oid=?";
+        System.out.println("order      "+orderId);
+        JdbcUtils.update(sql,orderId);
+        //return attractions;
+    }
+    /**删除多条订单*/
+    public  void delOrderHtMore(String[] ids) {
+        String sql = "DELETE a,b FROM  t_order_hotel_inf AS a LEFT JOIN t_order_hotel_item AS b ON a.oid=b.order_id WHERE a.oid=?";
+        for (int i = 0; i < ids.length; i++) {
+            System.out.println("删除数据的id为" + ids[i]);
+            JdbcUtils.update(sql, ids[i]);
+        }
+    }
+
 }

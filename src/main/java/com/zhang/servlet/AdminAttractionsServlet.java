@@ -1,7 +1,9 @@
 package com.zhang.servlet;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.dao.Page;
+import com.zhang.dao.PageOther;
 import com.zhang.domain.Attractions;
 import com.zhang.domain.Hotel;
 import com.zhang.service.AdminAttractionsService;
@@ -32,6 +34,11 @@ public class AdminAttractionsServlet extends HttpServlet {
     public static final String FIND_ONE_AT = "findOneAt";
     public static final String FIND_ALL_ATTRACTIONS = "findAllAttractions";
     public static final String CHANGE_AT_INF = "changeAtInf";
+    public static final String FIND_ALL_ORDER_AT = "findAllOrderAt";
+    public static final String GET_ONE_ORDER_AT = "getOneOrderAt";
+    public static final String SEARCH_ORDER_GO = "searchOrderGo";
+    public static final String DELETE_ORDER_AT = "deleteOrderAt";
+    public static final String DELETE_ORDER_AT_MORE = "deleteOrderAtMore";
 
     private AdminAttractionsService adminAttractionsService = new AdminAttractionsService();
     @Override
@@ -58,10 +65,38 @@ public class AdminAttractionsServlet extends HttpServlet {
             findOneAt(request, response);
         } else if(CHANGE_AT_INF.equals(action)) {
             changeAtInf(request, response);
+        } else if(FIND_ALL_ORDER_AT.equals(action)||SEARCH_ORDER_GO.equals(action)){
+            findAllOrderAt(request, response);
+        } else if(GET_ONE_ORDER_AT.equals(action)){
+            getOneOrderAt(request, response);
+        } else if(DELETE_ORDER_AT.equals(action)){
+            deleteOrderAt(request, response);
+        } else if(DELETE_ORDER_AT_MORE.equals(action)){
+            deleteOrderAtMore(request, response);
         }
 
     }
 
+
+    /*****查看所有订单******/
+    private void  findAllOrderAt(HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+        String skey = request.getParameter("sKey");
+        String svalue=request.getParameter("sValue");
+        String current = request.getParameter("currentPage");
+        System.out.println("关键字"+skey+"关键字"+svalue+"跳转的页数"+current);
+        /**System.out.println("跳转的页数"+current);*/
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        Page page = adminAttractionsService.findAllOrderAt(currentPage,skey,svalue);
+        String json= JSON.toJSONString(page);
+        response.getWriter().print(json);
+
+    }
     private void changeAtInf(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
         int spId = Integer.parseInt(request.getParameter("spId"));
@@ -120,7 +155,7 @@ public class AdminAttractionsServlet extends HttpServlet {
         //1.获取id
         String id = request.getParameter("spId");
         System.out.println("删除的id为："+id);
-        Boolean result = adminAttractionsService.delete(Integer.parseInt(id));;
+        Boolean result = adminAttractionsService.delete(Integer.parseInt(id));
         //返回添加成功的信息
         response.getWriter().print(result);
         //findAllAttractions(request,response);
@@ -130,8 +165,10 @@ public class AdminAttractionsServlet extends HttpServlet {
             throws ServletException, IOException {
         //获取前台的ids
         String[] ids = request.getParameter("ids").split(",");
-        adminAttractionsService.delMore(ids);
-        findAllAttractions(request,response);
+        Boolean result = adminAttractionsService.delMore(ids);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+        // findAllAttractions(request,response);
 
     }
 
@@ -150,6 +187,7 @@ public class AdminAttractionsServlet extends HttpServlet {
         String skey = request.getParameter("sKey");
         String svalue=request.getParameter("sValue");
         String current = request.getParameter("currentPage");
+        System.out.println("关键字"+skey+"关键字"+svalue+"跳转的页数"+current);
         /**System.out.println("跳转的页数"+current);*/
         int currentPage = 1;
         try{
@@ -158,11 +196,40 @@ public class AdminAttractionsServlet extends HttpServlet {
             currentPage = 1;
         }
         Page page = adminAttractionsService.findAllAt(currentPage,skey,svalue);
+
+        String json= JSON.toJSONString(page);
+        response.getWriter().print(json);
         /**request.setAttribute("myList",page);*/
         /**System.out.println("结果为"+page.getList());*/
-        request.getSession().setAttribute("myList",page);
-        response.sendRedirect(request.getContextPath()+"/Admin/html/attractionsList.jsp");
-        //request.getRequestDispatcher("/Admin/html/ts.jsp").forward(request, response);
+
+
+    }
+
+    /**获得一条门票订单信息**/
+    private void getOneOrderAt(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        String orderId = request.getParameter("orderId");
+        //System.out.println("输出"+orderId);;
+        Map<String,Object> result= adminAttractionsService.getOneOrderAt(orderId);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+
+    /**删除一条订单**/
+    private void deleteOrderAt(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        String orderId = request.getParameter("orderId");
+        System.out.println("删除的id为："+orderId);
+        Boolean result = adminAttractionsService.delOrderAt(orderId);
+        response.getWriter().print(result);
+    }
+    /**删除多条订单**/
+    private void deleteOrderAtMore(HttpServletRequest request,
+                                   HttpServletResponse response) throws IOException {
+        String[] ids = request.getParameter("ids").split(",");
+        Boolean result = adminAttractionsService.delOrderAtMore(ids);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
     }
 
     private void addAttractions(HttpServletRequest request,
@@ -182,13 +249,14 @@ public class AdminAttractionsServlet extends HttpServlet {
 
         Attractions attractions = new Attractions();
         attractions.setAttractionsName(name);
-        attractions.setTime(time);
         attractions.setAttractionsPrice(price_min);
-        attractions.setAttractionsLabel(label);
         attractions.setAttractionsAddress(address);
-        attractions.setAttractionsStar(star);
-        attractions.setAttractionsInf(content);
+        attractions.setAttractionsLabel(label);
         attractions.setAttractionsPhone(phone);
+        attractions.setTimeStart(time_start);
+        attractions.setTimeEnd(time_end);
+        attractions.setAttractionsInf(content);
+        attractions.setAttractionsStar(star);
         attractions.setEntryTime(DateUtils.StrTime());
         //4.调用Service中add方法添加一条新闻
         Boolean result = adminAttractionsService.addAttractions(attractions);

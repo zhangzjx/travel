@@ -190,14 +190,14 @@
 
         </div>
         <div class="hotels-right">
-            <div class="right-top">
+            <div class="right-top" >
                 <div class="top-left"></div>
                 <div class="top-right">
                     <span style="font-size: 11pt">排序方式：</span>
                     <select id="sKey" name="sKey" class="el-select">
-                        <option value="gid">价格升序</option>
-                        <option value="goods_name">价格降序</option>
-                        <option value="Categories_two">超值排序</option>
+                        <option value="">超值排序</option>
+                        <option value="asc">价格升序</option>
+                        <option value="desc">价格降序</option>
                     </select>
                 </div>
             </div>
@@ -233,10 +233,10 @@
                     </div>
                     <div style="float: left;width: 35%;">
                         <!-- 首页 -->
-                        <a href="#result_parks" >
+
                             <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
                             <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
-                        </a>
+
                         <!-- 上一页 -->
 
                         <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
@@ -346,8 +346,6 @@
 <script>
     //定义方法
     $(document).ready(function() {
-
-
     /**查询所有信息*/
     $.ajax({
         url: "../UserHotelServlet", // 请求路径
@@ -366,10 +364,31 @@
 
         dataType: "text"//设置接受到的响应数据的格式
     });
+        /**排序*/
+        $('select[name=sKey]').change(function(){
+            let skey = $('select[name=sKey] option:selected').val();
+            $.ajax({
+                url: "../UserHotelServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{ action:"getAllHotelInf",
+                    sort:skey,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+
+        });
 
     /**首页*/
     $("#firstPageClick").click(function () {
         $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+        let skey = $('select[name=sKey] option:selected').val();
         let current = 1;
         $.ajax({
             url: "../UserHotelServlet", // 请求路径
@@ -378,6 +397,7 @@
             //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
             data:{ action:"getAllHotelInf",
                 currentPage:current,
+                sort:skey,
             },
             success:function (data) {
                 console.log("dd"+data);
@@ -391,6 +411,7 @@
     /**上一页*/
     $("#lastPageClick").click(function () {
         $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+        let skey = $('select[name=sKey] option:selected').val();
         let currentPage = $("#currentPage").html();
         let current = currentPage-1;
         $.ajax({
@@ -399,6 +420,7 @@
             dataType:"text",
             data:{ action:"getAllHotelInf",
                 currentPage:current,
+                sort:skey,
             },
             success:function (data) {
                 console.log("dd"+data);
@@ -412,6 +434,7 @@
     /**下一页*/
     $("#nextPageClick").click(function () {
         $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+        let skey = $('select[name=sKey] option:selected').val();
         let currentPage = $("#currentPage").html();
         let current = parseInt(currentPage)+1;
         $.ajax({
@@ -420,6 +443,7 @@
             dataType:"text",
             data:{ action:"getAllHotelInf",
                 currentPage:current,
+                sort:skey,
             },
             success:function (data) {
                 console.log("dd"+data);
@@ -433,6 +457,7 @@
     /**尾页*/
     $("#finalPageClick").click(function () {
         $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+        let skey = $('select[name=sKey] option:selected').val();
         let current = $("#totalPage").html();
         $.ajax({
             url: "../UserHotelServlet",
@@ -440,6 +465,7 @@
             dataType:"text",
             data:{ action:"getAllHotelInf",
                 currentPage:current,
+                sort:skey,
             },
             success:function (data) {
                 console.log("dd"+data);
@@ -460,6 +486,7 @@
             dataType:"text",
             data:{ action:"getAllHotelInf",
                 currentPage:current,
+                sort:skey,
             },
             success:function (data) {
                 console.log("dd"+data);
@@ -537,17 +564,7 @@
     }
 </script>
 <script>
-    //评分
-    layui.use('rate', function(){
-        const rate = layui.rate;
-        //渲染
-        const ins1 = rate.render({
-            elem: '.f', //绑定元素
-            value: 5,
-            half: true,
-            readonly: true,
-        });
-    });
+
     // 时间格式化
     const myDate = new Date();
     //const minDate = myDate.toLocaleDateString();

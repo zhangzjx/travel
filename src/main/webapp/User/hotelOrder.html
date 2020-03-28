@@ -173,7 +173,7 @@
     <div class="all-order">
         <h2 >核对订单信息</h2>
 
-            <form id="myForm" action="../UserServlet?action=subOrder" method="post" >
+            <form id="myForm" action="../UserServlet?action=subHotelOrder" method="post" >
                 <input type="hidden" id="uid" name="uid" value=""}>
                 <input type="hidden" id="receiver" name="receiver" value="">
                 <input type="hidden" id="phone" name="phone" value="">
@@ -188,8 +188,8 @@
                 <input type="hidden" id="totalPrice" name="totalPrice" value="">
                 <input type="hidden" id="status" name="status" value=1>
 
-                <input type="hidden" id="ticket_id" name="ticket_id" value="">
-                <input type="hidden" id="ticket_type" name="ticket_type" value="">
+                <input type="hidden" id="room_id" name="room_id" value="">
+                <input type="hidden" id="room_standard" name="room_standard" value="">
                 <div class="order-main">
                     <div class="main-list">
                         <span>收件人信息</span><br>
@@ -211,15 +211,22 @@
                             <div id="payhName" class="t3-item" ></div>
                             <div class="t3-item" id="payTicket"></div>
                             <div class="t3-item">￥<span id="payPrice" ></span></div>
-                            <div id="payQuantity" class="t3-item"></div>
-                            <div class="t3-item">￥<span class="payTotalPrice" ></span></div>
+                            <div class="t3-item" style="line-height: 40px;">
+                                入住日期：<span id="pay_startTime"></span><br>
+                                退房日期：<span id="pay_endTime"></span>
+                            </div>
+                            <div class="t3-item" style="line-height: 40px;">
+                                房间数：<span id="pay_quantity"></span>&nbsp;间<br>
+                                预订天数：<span id="pay_days"></span>&nbsp;晚
+                            </div>
+                            <div class="t3-item">￥<span class="pay_totalPrice" ></span></div>
 
                         </div>
                     </div>
                 </div>
                 <div class="order-base">
                     <div class="base-item">
-                        应付金额：￥<span class="total_text payTotalPrice">总价</span>
+                        应付金额：￥<span class="total_text pay_totalPrice"></span>
                     </div>
                     <input type="submit" id="sub-order" class="base-item-sub el-button" value="提交订单">
                 </div>
@@ -312,14 +319,14 @@
         const startTime = localStorage["startTime"];
         const endTime = localStorage["endTime"];
         const bookDays = localStorage["bookDays"];
-        const ticket_id = localStorage["ticket_id"];
+        const room_id = localStorage["room_id"];
         const price = localStorage["price"];
         const quantity = localStorage["quantity"];
         const sumPrice = localStorage["sumPrice"];
         //let sumPrice = price*quantity ;
 
         console.log("hId"+hId);
-        console.log("ticket_id"+ticket_id);
+        console.log("room_id"+room_id);
         console.log("价格"+price);
         console.log("数量"+quantity);
         console.log("总价"+ sumPrice);
@@ -331,12 +338,13 @@
         $("#quantity").val(quantity);
         $("#totalPrice").val(sumPrice);
         $("#payPrice").html(price);
-        $("#payQuantity").html(quantity);
-        $(".payTotalPrice").html(sumPrice);
+        $("#pay_quantity").html(quantity);
+        $(".pay_totalPrice").html(sumPrice);
+        $("#pay_startTime").html(startTime);
+        $("#pay_endTime").html(endTime);
+        $("#pay_days").html(bookDays);
 
-
-
-        //获得用户信息
+        /**获得用户信息*/
         $.ajax({
             url: "../UserServlet", // 请求路径
             type: "POST", //请求方式
@@ -360,7 +368,7 @@
 
             dataType: "text"//设置接受到的响应数据的格式
         });
-        //获得酒店信息
+         /**获得酒店信息*/
         $.ajax({
             url: "../UserHotelServlet", // 请求路径
             type: "POST", //请求方式
@@ -388,23 +396,23 @@
             dataType: "text"//设置接受到的响应数据的格式
         });
 
-        /**获取景点价格信息*/
+        /**获取酒店价格信息*/
         $.ajax({
-            url: "../UserAttractionsServlet", // 请求路径
+            url: "../UserHotelServlet", // 请求路径
             type: "POST", //请求方式
             //async:false,
             data: {
-                action:"getTicket",
-                ticket_id:ticket_id,
+                action:"getRoom",
+                room_id:room_id,
             },
             success: function (data) {
                 const json = eval("(" + data + ")");
                 let str = "";
                 for (const i in json) {
                     const ls = json[i];
-                    $("#ticket_type").val(ls.ticket_type);
-                    $("#ticket_id").val(ls.ticket_id);
-                    $("#payTicket").html(ls.ticket_type);
+                    $("#room_standard").val(ls.room_standard);
+                    $("#room_id").val(ls.room_id);
+                    $("#payTicket").html(ls.room_standard);
                 }
 
             },//响应成功后的回调函数
@@ -413,34 +421,6 @@
             },//表示如果请求响应出现错误，会执行的回调函数
             dataType: "text"//设置接受到的响应数据的格式
         });
-        //提交订单
-        /**
-        $("#sub-order").click(function (){
-            $.ajax({
-                url: "../UserServlet", // 请求路径
-                type: "POST", //请求方式
-                data: {
-                    action:"subHotelOrder",
-                    spId:id,
-                    uId: id,
-                    quantity: 10,
-                    price: 100,
-                },
-                success: function (data) {
-                    alert("添加成功");
-                    console.log("添加成功" + data)
-                    //const json = eval("(" + data + ")");
-                },//响应成功后的回调函数
-                error: function () {
-                    console.log("失败啦...")
-                },//表示如果请求响应出现错误，会执行的回调函数
-
-                dataType: "text"//设置接受到的响应数据的格式
-            });
-
-        });
-*/
-
 
     })
 </script>

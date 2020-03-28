@@ -70,9 +70,9 @@ public class UserAttractionsDao {
     public List<Map<String, Object>> getTicket(String ticket_id) {
         StringBuilder sql=new StringBuilder("select * from t_scenicspot_ticket");
         if(ticket_id!=null&&ticket_id!=""){
-            sql.append(" ");
-        }else {
             sql.append(" where ticket_id="+ticket_id);
+        }else {
+            sql.append(" ");
         }
         return JdbcUtils.find(sql.toString());
     }

@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="css/order.css">
     <link rel="stylesheet" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
     <script type="text/javascript" src="js/topFoot.js"></script>
     <script type="text/javascript" src="js/order.js"></script>
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+
     <script src="js/jquery.cookie.js" charset="utf-8"></script>
     <script>
         $(document).ready(function(){
@@ -90,7 +92,8 @@
             <div class="content-left-main">
                 <div style="font-size: 12pt;text-align: center;margin-bottom: 15px;">订单中心</div>
                 <ul>
-                    <li><a href="centerOrder.html">我的订单</a></li>
+                    <li><a href="centerOrder.html">我的景点订单</a></li>
+                    <li><a href="centerOrderHotel.html">我的酒店订单</a></li>
                     <li><a href="centerOrderPay.html">待付款</a></li>
                     <li><a onclick="orderEvaluate()" href="#">待评价</a></li>
                 </ul>
@@ -146,6 +149,7 @@
 
 <!--底部内容-->
 <input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="orderId" value="">
 <div class="bottom-foot" >
     <h2>热门目的地</h2>
     SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
@@ -245,38 +249,7 @@
                 console.log("出错啦...")
             },
         });
-        /**获取待付款订单数据信息*/
-        $.ajax({
-            url: "../UserServlet", // 请求路径
-            type:"Get" , //请求方式
-            dataType:"text",//设置接受到的响应数据的格式
-            data:{action:"findAllOrder",
-                uid:uid,
-            },
-            success:function (data) {
-                console.log("dd"+data);
-                show(data);
-            },
-            error:function () {
-                console.log("出错啦...")
-            },
-        });
-        /**获取待评价订单数据信息*/
-        $.ajax({
-            url: "../UserServlet", // 请求路径
-            type:"Get" , //请求方式
-            dataType:"text",//设置接受到的响应数据的格式
-            data:{action:"findAllOrder",
-                uid:uid,
-            },
-            success:function (data) {
-                console.log("dd"+data);
-                show(data);
-            },
-            error:function () {
-                console.log("出错啦...")
-            },
-        });
+
         /**首页*/
         $("#firstPageClick").click(function () {
             let current = 1;
@@ -444,10 +417,39 @@
                     "<div class='main-content-list'>已完成订单</div>" +
                     "<div class='main-content-list'>"+ls.totalprice+"</div>" +
                     "<div class='main-content-list'>待评价</div>" +
-                    "<div class='main-content-list'><a href='#'>评价</a></div></div>";
+                    "<div class='main-content-list' style='line-height: 35px;'>" +
+                    "<button type='button' value='"+ls.oid+"' class='look-inf layui-btn layui-btn-xs'>查看详情</button>" +
+                    "<br><button type='button' class='layui-btn layui-btn-xs'>评价</button></div></div>";
 
                 $("#right-main").html(str);
+                lookInf();
+
             };
+
+        }
+        function lookInf(){
+            /**获取信息*/
+            $(".look-inf").click(function() {
+                let orderId= $(this).val();
+                $("#orderId").val(orderId);
+                layer.open({
+                    type: 2,
+                    title: '订单详情',
+                    offset: '50px',//弹窗位置
+                    shade: 0.2,
+                    shadeClose: true, //点击遮罩关闭层    
+                    area: ['50%', '70%'],
+                    // id:'nfghK',
+                    content:'orderDetail.html',//弹框显示的url,对应的页面  
+                    success: function (layero, index) {
+                        //找到它的子窗口的body
+                        let body = layer.getChildFrame('body', index);  //巧妙的地方在这里哦
+                        //为子窗口元素赋值
+                        body.contents().find("#orderId").val(orderId);
+                    },
+
+                });
+            });
         }
 
     });

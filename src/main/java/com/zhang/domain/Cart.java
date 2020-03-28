@@ -118,6 +118,16 @@ public class Cart {
         this.ticket_id = ticket_id;
     }
 
+    private int ticket_id;
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +
@@ -125,6 +135,8 @@ public class Cart {
                 ", uid=" + uid +
                 ", cid=" + cid +
                 ", ticket_id=" + ticket_id +
+                ", roomId=" + roomId +
+                ", hotelId=" + hotelId +
                 ", oid='" + oid + '\'' +
                 ", receiver='" + receiver + '\'' +
                 ", name='" + name + '\'' +
@@ -132,12 +144,24 @@ public class Cart {
                 ", price=" + price +
                 ", totalPrice=" + totalPrice +
                 ", addTime=" + addTime +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", bookDays=" + bookDays +
                 ", phone='" + phone + '\'' +
                 ", status=" + status +
                 '}';
     }
 
-    private int ticket_id;
+    private int roomId;
+    public int getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    private int hotelId;
     private String oid;
     private String receiver;
     private String name;
@@ -145,7 +169,37 @@ public class Cart {
     private double price;
     private double totalPrice;
     private Date addTime;
+    private String startTime;
+    private String endTime;
+    private int bookDays;
     private String phone ;
     private int status;
+
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getBookDays() {
+        return bookDays;
+    }
+
+    public void setBookDays(int bookDays) {
+        this.bookDays = bookDays;
+    }
+
+
 
 }

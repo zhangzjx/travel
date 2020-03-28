@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/allList.css">
+    <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+
+</head>
+<body style="margin: 0 20px 100px 0;">
+<div>
+    <form class="layui-form" style="height:60px;" action="" method="post">
+        <div style="float:left;margin: 10px 30px 0 0">
+            <span style="font-size: 12pt">条件：</span>
+            <div class="layui-input-inline">
+                <select id="sKey" name="sKey">
+                    <option value=""></option>
+                    <option value="oid">订单编号</option>
+                    <!--
+                    <option value="name">景点名称</option>
+                    -->
+
+                </select>
+            </div>
+        </div>
+
+        <div style="float:left;">
+            <span style="font-size: 12pt">输入搜索：</span>
+            <input type="text" id="sValue" name="sValue" class="el-input" placeholder="订单编号">
+            <input type="button" class="layui-btn" style="height: 36px" id="searchGo" value="搜索">
+        </div>
+
+    </form>
+    <div class="operating">
+        <button class="layui-btn layui-btn-sm" id="delMore" onclick="delMore()">批量删除</button>
+    </div>
+    <table class="layui-table table" style="table-layout:fixed;" id="tab">
+        <colgroup>
+            <col width="60">
+            <col width="150">
+            <col width="150">
+            <col width="200">
+            <col width="80">
+
+            <col width="100">
+            <col width="100">
+            <col width="100">
+            <col width="140">
+        </colgroup>
+        <thead>
+        <tr>
+            <th> </th>
+            <th>订单编号</th>
+            <th>创建时间</th>
+            <th>订单名称</th>
+            <th>单价</th>
+
+            <th>数量</th>
+            <th>订单金额</th>
+            <th>订单状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="result_list"></tbody>
+
+    </table>
+
+    <!--分页 -->
+    <div class="pagination">
+        <div style="width: 45%;text-align: left;margin-left: 20px;float: left">
+            共找到<span id="totalSize"></span>条记录，每页<span id="pageSize"></span>条，
+            共<span id="totalPage"></span>页，当前第<span id="currentPage"></span>页
+        </div>
+        <div style="float: left;width: 35%;">
+            <!-- 首页 -->
+
+            <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
+            <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
+
+            <!-- 上一页 -->
+
+            <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
+            <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
+
+            <!-- 下一页 -->
+
+            <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
+            <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
+
+            <!-- 尾页 -->
+
+            <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
+            <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
+
+        </div>
+        <div style="float: left">
+            <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
+            <button id="jump" type="button" class="layui-btn layui-btn-sm">确定</button>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/html" id="detailDialog">
+    <div style="padding: 50px 0 0 150px;" >
+        <ul>
+            <li><span>订单编号：</span><span id="order_id"></span></li>
+            <li><span>创建订单时间：</span><span id="order_time"></span></li>
+            <li><span>商品名称：</span><span id="name"></span></li>
+            <li><span>商品单价：</span><span id="price"></span></li>
+            <li><span>商品数量：</span><span id="total"></span></li>
+            <li><span>订单总价：</span><span id="total_price"></span><span>&nbsp;￥</span></li>
+        </ul>
+    </div>
+</script>
+<script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
+
+<script>
+    $(document).ready(function(){
+
+        /**查询所有信息*/
+        $.ajax({
+            url: "../../AdminAttractionsServlet",
+            type: "POST",
+            data: {
+                action:"findAllOrderAt",
+            },
+            success: function (data) {
+                console.log("所有"+data);
+                show(data);
+            },//响应成功后的回调函数
+            error: function () {
+                console.log("失败啦...")
+            },//表示如果请求响应出现错误，会执行的回调函数
+
+            dataType: "text"//设置接受到的响应数据的格式
+        });
+        /**搜索*/
+        $("#searchGo").click(function () {
+            let sv = $("#sValue").val();
+            let sk = $("#sKey").val();
+            $.ajax({
+                url: "../../AdminAttractionsServlet",
+                type: "POST",
+                data: {
+                    action:"searchOrderGo",
+                    sKey:sk,
+                    sValue:sv,
+                },
+                success: function (data) {
+                    console.log("搜索"+data);
+                    show(data);
+                },
+                error: function () {
+                    console.log("失败啦...")
+                },
+                dataType: "text"
+            });
+        });
+        /**首页*/
+        $("#firstPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#sValue").offset().top}, 500);
+            let sv = $("#sValue").val();
+            let sk = $("#sKey").val();
+            let current = 1;
+            $.ajax({
+                url: "../../AdminAttractionsServlet",
+                type:"Get" ,
+                dataType:"text",
+                //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
+                data:{
+                    action:"findAllOrderAt",
+                    currentPage:current,
+                    sKey:sk,
+                    sValue:sv,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**上一页*/
+        $("#lastPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#sValue").offset().top}, 500);
+            let currentPage = $("#currentPage").html();
+            let current = currentPage-1;
+            let sv = $("#sValue").val();
+            let sk = $("#sKey").val();
+            $.ajax({
+                url: "../../AdminAttractionsServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderAt",
+                    currentPage:current,
+                    sKey:sk,
+                    sValue:sv,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**下一页*/
+        $("#nextPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#sValue").offset().top}, 500);
+            let currentPage = $("#currentPage").html();
+            let current = parseInt(currentPage)+1;
+            let sv = $("#sValue").val();
+            let sk = $("#sKey").val();
+            $.ajax({
+                url: "../../AdminAttractionsServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderAt",
+                    currentPage:current,
+                    sKey:sk,
+                    sValue:sv,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**尾页*/
+        $("#finalPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#sValue").offset().top}, 500);
+            let current = $("#totalPage").html();
+            let sv = $("#sValue").val();
+            let sk = $("#sKey").val();
+            $.ajax({
+                url: "../../AdminAttractionsServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderAt",
+                    currentPage:current,
+                    sKey:sk,
+                    sValue:sv,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**跳页*/
+        $("#jump").click(function () {
+            $("html,body").animate({scrollTop: $("#sValue").offset().top}, 500);
+            const current = $("#num").val();
+            let sv = $("#sValue").val();
+            let sk = $("#sKey").val();
+            $.ajax({
+                url: "../../AdminAttractionsServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderAt",
+                    currentPage:current,
+                    sKey:sk,
+                    sValue:sv,
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /*******8******/
+        function show(data){
+            const json = eval("(" + data + ")");
+            //将JSON对象转化为JSON字符
+            const list = JSON.stringify(json.list);
+            const j = eval("(" + list+ ")");
+
+            $("#totalSize").html(json.totalSize);
+            $("#pageSize").html(json.pageSize);
+            $("#totalPage").html(json.totalPage);
+            $("#currentPage").html(json.currentPage);
+            if (json.currentPage==1){
+
+                $("#firstPage").show();
+                $("#lastPage").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+
+                $("#firstPageClick").hide();
+                $("#lastPageClick").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+
+            } else if (json.currentPage==json.totalPage ){
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPage").show();
+                $("#finalPage").show();
+
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPageClick").hide();
+                $("#finalPageClick").hide();
+
+            } else if (json.currentPage!=1||json.currentPage!=json.totalPage ){
+                $("#firstPage").hide();
+                $("#lastPage").hide();
+                $("#nextPage").hide();
+                $("#finalPage").hide();
+                $("#firstPageClick").show();
+                $("#lastPageClick").show();
+                $("#nextPageClick").show();
+                $("#finalPageClick").show();
+            }
+            let str = "";//定义用于拼接的字符串
+            for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
+                const ls = j[i];
+                let timestamp = ls.ordertime;
+                let ordertime = timestampToTime(timestamp);//时间戳转换
+                str += "<tr><td><input type='checkbox' name='number' value='"+ls.oid+"'></td>" +
+                    "<td>"+ls.oid+"</td><td title='"+ordertime+"'>"+ordertime+"</td>" +
+                    "<td title='"+ls.name+"'>"+ls.name+"</td>" +
+                    "<td title='"+ls.price+"'>"+ls.price+"</td>" +
+                    "<td title='"+ls.buycount+"'>"+ls.buycount+"</td>" +
+                    "<td title='"+ls.totalprice+"'>"+ls.totalprice+"</td>" +
+                    "<td title='"+ls.totalprice+"'>"+ls.totalprice+"</td>" +
+                    "<td><div id='op'>" +
+                    "<button class='layui-btn layui-btn-xs detail' value='"+ls.oid+"'>查看</button>" +
+                    "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.oid+"'>删除</button>" +
+                    "</div></td></tr>";
+
+                $("#result_list").html(str);
+                detailData();
+
+            };
+
+        }
+        function detailData() {
+            layui.use(['form'], function() {
+                const form = layui.form
+                    , layer = layui.layer;
+                /**查看详情*/
+                $(".detail").click(function() {
+                    const orderId = $(this).val();
+                    /**获取单条数据信息*/
+                    $.ajax({
+                        url: "../../AdminAttractionsServlet",
+                        type:"Get" ,
+                        dataType:"text",
+                        data:{
+                            action:"getOneOrderAt",
+                            orderId:orderId,
+                        },
+                        success:function (data) {
+                            const json = eval("(" + data + ")");
+                            $("#order_id").html(json.oid);
+                            $("#name").html(json.name);
+                            $("#total").html(json.buycount);
+                            $("#price").html(json.price);
+                            $("#total_price").html(json.totalprice);
+                            let timestamp = json.ordertime
+                            let ordertime = timestampToTime(timestamp);//时间戳转换
+                            $("#order_time").html(ordertime);
+
+                            //location.reload();
+                        },//响应成功后的回调函数
+                        error:function () {
+                            alert("出错啦...")
+                        },//表示如果请求响应出现错误，会执行的回调函数
+                    });
+
+                    /**打开弹窗*/
+                    layer.open({
+                        type: 1,
+                        title: '详细信息',
+                        area: ['50%', '60%'],
+                        shade: 0.2,
+                        shadeClose: true, //点击遮罩关闭层    
+                        offset: '10px',//弹窗位置
+                        content: $('#detailDialog').html(), //这里content是一个普通的String
+                    });
+                });
+            });
+            /**删除一条*/
+            $(".del").click(function(){
+                const orderId = $(this).val();
+                const msg = "确定要删除吗？\n请确认！";
+                if (confirm(msg)==true){
+                    $.ajax({
+                        type: "post",
+                        url: "../../AdminAttractionsServlet",
+                        data:{
+                            action:"deleteOrderAt",
+                            orderId:orderId,
+                        },
+                        dataType: "text",
+                        success: function(data){
+                                alert("删除成功");
+                                window.location.reload();
+                        }, error: function(){
+                            alert("删除失败");
+                        }
+                    })
+                }else{
+                    return false;
+                }
+            });
+
+        }
+        /**时间戳转换**/
+        function timestampToTime(timestamp) {
+            const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            const Y = date.getFullYear() + '-';
+            const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            const D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+            const h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':';
+            const m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+            const s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+            return Y + M + D + h + m + s;
+        }
+    });
+    /**删除多条记录*/
+    function delMore() {
+        //获取所有名字为ck的编号组件
+        const ck = document.getElementsByName("number");
+        //ids字符串
+        let s = "";
+        //循环ck数组
+        for(let i = 0 ; i < ck.length ; i ++)
+        {   //如果被选择的选中
+            if(ck[i].checked) {//编号字符串累加
+                s+=ck[i].value+",";
+            }
+        }
+        if (s==""){
+            alert("请至少选择一条数据");
+            return false;
+        }
+        //确认选项
+        let ok = window.confirm("确定要删除["+s+"] 记录吗？");
+        //如果确认选择
+        if(ok) {
+                //把ids传入后台调用servlet
+                $.ajax({
+                    type: "post",
+                    url: "../../AdminAttractionsServlet",
+                    data:{
+                        action:"deleteOrderAtMore",
+                        ids:s,
+                    },
+                    dataType: "text",
+                    success: function(data){
+                        alert("删除成功");
+                        window.location.reload();
+                    }, error: function(){
+                        alert("删除失败");
+                    }
+                })
+
+            }
+
+    };
+
+</script>
+
+</html>

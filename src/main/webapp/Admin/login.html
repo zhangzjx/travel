@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="../res/layui/css/layui.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
         html,body{
@@ -21,30 +21,63 @@
 <body>
 <div class="login-div">
     <h1>登录</h1>
-    <form id="login-form" action="#">
+    <form id="login-form"  action="#">
         <div class="login-form-item">
-            <input name="username" placeholder="用户名">
+            <input id="username" name="username" placeholder="用户名">
         </div>
         <div class="login-form-item">
-            <input name="password" type="password" placeholder="密码">
+            <input id="password" name="password" type="password" placeholder="密码">
         </div>
-        <button class="btn-login" type="submit">登录</button>
+        <button class="btn-login" type="button" onclick="login()">登录</button>
     </form>
 </div>
 </body>
 </html>
-<script src="js/jquery.min.js"></script>
-<script src="layui/layui.all.js"></script>
-<script src="js/common.js"></script>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="../res/layui/layui.all.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+
 <script>
+    function login(){
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
+        if(username==""||username==null||password==""||password==null){
+            alert("请填写完整内容");
+            $(this).next('input').focus();
+            return false;
+        }
+        //$("#myForm").submit();
+        $.ajax({
+            url:"../AdminServlet?action=login" , // 请求路径
+            type:"POST" , //请求方式
+            data:$('#login-form').serialize(),// 序列化表单值
+            success:function (data) {
+                if (data==1){
+                    alert("该用户不存在或密码不正确");
+                    window.location.reload();
+                }else {
+                    $.cookie('adminCookie', data, {expires: 1, path: '/'});
+                    window.parent.location.href="admin.html#/main.html";
+                    console.log(data);
+                }
+            },
+            error:function () {
+                console.log("出错啦...")
+            },
+
+            dataType:"text"//设置接受到的响应数据的格式
+        });
+        return true;//跳转
+    }
+    /**
     layuiModules=['layer','form'];
-
     function mounted(){
         $('#login-form').submit(function () {
             location.href="index.html";
             return false;
         })
     }
+    */
 
 </script>
