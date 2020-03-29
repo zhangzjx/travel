@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <title>main</title>
     <link rel="stylesheet" href="../css/manageHome.css">
-    <link rel="stylesheet" href="../css/popup.css">
+
+    <style type="text/css">
+
+    </style>
 </head>
 <body >
 
 <!--主要内容-->
 <div class="manage-main" >
     <div class="home-top">
-        <div class="top_item" onclick="toast()">
+        <div class="top_item">
 
             <img src="../image/home-1.png" class="item-img">
             <span class="item-inf">今日订单总数</span><br><br>
-            <strong class="item-num">200</strong>
+            <strong class="item-num" id="count_day"></strong>
         </div>
-        <div class="top_item" onclick="toast()">
+        <div class="top_item">
             <img src="../image/home-2.png" class="item-img">
             <span class="item-inf">今日销售总额</span><br><br>
-            <strong class="item-num">￥5000</strong>
+            <strong class="item-num">￥<span  id="count_money"></span></strong>
         </div>
-        <div class="top_item" onclick="toast()">
+        <div class="top_item">
             <img src="../image/home-3.png" class="item-img">
             <span class="item-inf">昨日销售总额</span><br><br>
-            <strong class="item-num">￥5200</strong>
+            <strong class="item-num">￥<span  id="last_money"></span></strong>
         </div>
-        <div class="top_item" onclick="toast()">
+        <div class="top_item">
             <img src="../image/home-4.png" class="item-img">
             <span class="item-inf">近7天销售总额</span><br><br>
-            <strong class="item-num">￥56400</strong>
+            <strong class="item-num">￥<span  id="week_money"></span></strong>
         </div>
     </div>
     <!--运营快捷入口-->
@@ -40,37 +43,41 @@
         </div>
         <li class="operation-item">
             <a href="addAttractions.html">
-                <img src="img/home-5.png" class="operation-img">
-                <span>添加景点</span>
+                <img src="../image/home-5.png" class="operation-img">
+                <span>录入景点信息</span>
             </a>
         </li>
         <li class="operation-item">
-            <a href="<c:url value='/ProductServlet?action=findAllOrder'/>">
+            <a href="addHotel.html">
+                <img src="../image/home-5.png" class="operation-img">
+                <span>录入酒店信息</span>
+            </a>
+        </li>
+        <li class="operation-item"  >
+            <img src="../image/home-7.png" class="operation-img">
+            <span>用户管理</span>
+        </li>
+        <li class="operation-item" >
+            <a href="#pending-top">
+            <img src="../image/home-8.png" class="operation-img">
+            <span>交易统计</span>
+            </a>
+        </li>
+        <li class="operation-item" >
+            <img src="../image/home-9.png" class="operation-img">
+            <span>广告管理</span>
+        </li>
+        <li class="operation-item"  >
+            <a href="addHotel.html">
                 <img src="../image/home-6.png" class="operation-img">
                 <span>订单列表</span>
             </a>
         </li>
-        <li class="operation-item" onclick="toast()">
-            <img src="../image/home-7.png" class="operation-img">
-            <span>用户管理</span>
-        </li>
-        <li class="operation-item" onclick="toast()">
-            <img src="../image/home-8.png" class="operation-img">
-            <span>交易统计</span>
-        </li>
-        <li class="operation-item" onclick="toast()">
-            <img src="../image/home-9.png" class="operation-img">
-            <span>广告管理</span>
-        </li>
-        <li class="operation-item" onclick="toast()">
+        <li class="operation-item"  >
             <a href="addHotel.html">
-                <img src="../image/home-10.png" class="operation-img">
-                <span>短信营销</span>
-            </a>
-        </li>
-        <li class="operation-item" onclick="toast()">
             <img src="../image/home-11.png" class="operation-img">
             <span>添加酒店</span>
+            </a>
         </li>
     </div>
     <!--运营快捷入口-->
@@ -78,43 +85,6 @@
         <div class="pending-top">
             <span style="margin-left: 25px">运营快捷入口2</span>
         </div>
-
-        <li class="pending-item" >
-            <a href="hotelList.html">
-                <span style="float: left">待付款订单</span>
-                <span style="float: right">(10)</span>
-            </a>
-        </li>
-        <li class="pending-item">
-            <a href="<c:url value='/ProductServlet?action=orderStatus&status=4'/>">
-                <span style="float: left">已完成订单</span>
-                <span style="float: right">(10)</span>
-            </a>
-        </li>
-        <li class="pending-item">
-            <a href="#">
-                <span style="float: left">待确认退货订单</span>
-                <span style="float: right">(10)</span>
-            </a>
-        </li>
-        <li class="pending-item">
-            <a href="<c:url value='/ProductServlet?action=orderStatus&status=2'/>">
-                <span style="float: left">待发货订单</span>
-                <span style="float: right">(10)</span>
-            </a>
-        </li>
-        <li class="pending-item">
-            <a href="attractionsList.html">
-                <span style="float: left">景点列表</span>
-                <span style="float: right">(10)</span>
-            </a>
-        </li>
-        <li class="pending-item">
-            <a href="#">
-                <span style="float: left">待处理退款申请</span>
-                <span style="float: right"> </span>
-            </a>
-        </li>
         <li class="pending-item">
             <a href="hotelList.html">
                 <span style="float: left">酒店列表</span>
@@ -122,97 +92,332 @@
             </a>
         </li>
         <li class="pending-item">
-            <a href="#" onclick="toast()">
-                <span style="float: left">待处理退货订单</span>
-                <span style="float: right">(10)</span>
+            <a href="attractionsList.html">
+                <span style="float: left">景点列表</span>
+                <span style="float: right"></span>
+            </a>
+        </li>
+        <li class="pending-item" >
+            <a href="">
+                <span style="float: left">待付款订单</span>
+                <span style="float: right"></span>
             </a>
         </li>
         <li class="pending-item">
-            <a href="#" onclick="toast()">
-                <span style="float: left">广告位即将到期</span>
-                <span style="float: right">(10)</span>
+            <a href="hotelOrderList.html">
+                <span style="float: left">酒店订单</span>
+                <span style="float: right"> </span>
             </a>
         </li>
+
+        <li class="pending-item">
+            <a href="attractionsOrderList.html">
+                <span style="float: left">景点门票订单</span>
+                <span style="float: right"></span>
+            </a>
+        </li>
+        <li class="pending-item">
+            <a href="">
+                <span style="float: left">已完成订单</span>
+                <span style="float: right"></span>
+            </a>
+        </li>
+        <li class="pending-item">
+            <a href="">
+                <span style="float: left">待确认退款订单</span>
+                <span style="float: right"></span>
+            </a>
+        </li>
+
+
     </div>
 
-    <!--商品及用户总览-->
-    <div class="home-overview">
-        <div class="overview-goods">
-            <div class="overview-top">
-                <span style="margin-left: 25px">商品总览</span>
-            </div>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >已上架</span>
-            </li>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >已下架</span>
-            </li>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >库存紧张</span>
-            </li>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >全部商品</span>
-            </li>
-        </div>
-        <div class="overview-goods" style="margin-left: 16px">
-            <div class="overview-top">
-                <span style="margin-left: 25px">用户总览</span>
-            </div>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >今日新增</span>
-            </li>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >昨日新增</span>
-            </li>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >本月新增</span>
-            </li>
-            <li class="overview-item">
-                <span style="font-size: 13pt;">100</span><br>
-                <span >会员总数</span>
-            </li>
-        </div>
-    </div>
+
     <!--订单统计-->
     <div class="home-count">
-        <div class="pending-top">
+        <div class="pending-top" id="pending-top">
             <span style="margin-left: 25px">订单统计</span>
         </div>
-        <div class="count-left">
-            <span style="font-size: 8pt">本月订单总数</span> <br>
-            <span style="font-size: 20pt">10000</span> <br>
-            <br> <br>
-            <span style="font-size: 8pt">本周订单数量</span>
-            <span style="font-size: 20pt">1000</span> <br>
-        </div>
-        <div class="count-right">
-            <div class="count-right-top">
-                <span style="float: left;">近一周订单统计</span>
-                <span style="margin-left: 600px;float: left;">今日</span>
-                <span style="margin-left: 20px;float: left;">本周</span>
-                <span style="margin-left: 20px;float: left;">本月</span>
+
+            <div class="count-left">
+                <span style="font-size: 8pt">本月订单总数</span> <br>
+                <span style="font-size: 20pt" id="count_month"></span> <br>
+                <br> <br>
+                <span style="font-size: 8pt">本周订单数量</span> <br>
+                <span style="font-size: 20pt" id="count_week"></span> <br>
             </div>
-            <div class="count-right-main">图表</div>
-
-        </div>
+            <div class="count-right">
+                <div class="count-right-top">
+                    <span style="float: left;">近一周订单统计</span>
+                    <a><span style="margin-left: 680px;float: left; " id="this_week">本周</span></a>
+                    <a><span style="margin-left: 20px;float: left; " id="this_month">本月</span></a>
+                </div>
+                <div class="count-right-main">
+                    <div class="chart">
+                        <div id="container" style="height: 250px;width: 940px;"></div>
+                    </div>
+                </div>
+            </div>
     </div>
-
 </div>
 
 </body>
-<script type="application/javascript" src="../js/popup.js"></script>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
+<script src="../js/echarts.js"></script>
 <script type="text/javascript">
-    const Popup = new Popup();
+    /**查询一天订单总数*/
+    $.ajax({
+        url: "../../AdminServlet",
+        type: "POST",
+        data: {
+            action:"dayCountOrderAt",
+        },
+        success: function (data) {
+            console.log("day"+data);
+            $("#count_day").html(data)
+        },
+        error: function () {
+            console.log("失败啦...")
+        },
+        dataType: "text"
+    });
+    /**查询一周订单总数*/
+    $.ajax({
+        url: "../../AdminServlet",
+        type: "POST",
+        data: {
+            action:"weekCountOrderAt",
+        },
+        success: function (data) {
+            console.log("week"+data);
+            $("#count_week").html(data)
+        },
+        error: function () {
+            console.log("失败啦...")
+        },
+        dataType: "text"
+    });
+    /**查询一个月订单总数*/
+    $.ajax({
+        url: "../../AdminServlet",
+        type: "POST",
+        data: {
+            action:"monthCountOrderAt",
+        },
+        success: function (data) {
+            console.log("count_month"+data);
+            $("#count_month").html(data)
+        },
+        error: function () {
+            console.log("失败啦...")
+        },
+        dataType: "text"
+    });
+    /**查询今日销售总额*/
+    $.ajax({
+        url: "../../AdminServlet",
+        type: "POST",
+        data: {
+            action:"dayCountMoneyAt",
+        },
+        success: function (data) {
+            const json = eval("(" + data + ")");
+            console.log("count_money"+data);
+            let s = 0;//定义用于拼接的字符串
+            for (const i in json) {//遍历
+                const ls = json[i];
+                s += parseFloat(ls.totalprice);
+                $("#count_money").html(s);
+            }
+        },
+        error: function () {
+            console.log("失败啦...")
+        },
+        dataType: "text"
+    });
+    /**查询昨日销售总额*/
+    $.ajax({
+        url: "../../AdminServlet",
+        type: "POST",
+        data: {
+            action:"lastCountMoneyAt",
+        },
+        success: function (data) {
+            const json = eval("(" + data + ")");
+            let s = 0;//定义用于拼接的字符串
+            for (const i in json) {//遍历
+                const ls = json[i];
+                s += parseFloat(ls.totalprice);
+                $("#last_money").html(s);
+            }
+        },
+        error: function () {
+            console.log("失败啦...")
+        },
+        dataType: "text"
+    });
+    /**近七天销售总额*/
+    $.ajax({
+        url: "../../AdminServlet",
+        type: "POST",
+        data: {
+            action:"weekCountMoneyAt",
+        },
+        success: function (data) {
+            const json = eval("(" + data + ")");
 
-    function toast() {
-        Popup.toast('正在完善中',2);
+            let s = 0;//定义用于拼接的字符串
+            for (const i in json) {//遍历
+                const ls = json[i];
+                s += parseFloat(ls.totalprice);
+                $("#week_money").html(s);
+            }
+        },
+        error: function () {
+            console.log("失败啦...")
+        },
+        dataType: "text"
+    });
+
+    /**echarts查询7天信息*/
+    $.ajax({
+        url: "../../AdminServlet",
+        type: "POST",
+        data: {
+            action:"echartsCountOrderAt",
+        },
+        success: function (data) {
+            console.log("所有"+data);
+            const json = eval("(" + data + ")");
+            const week_obj = [];
+            const week_inf = [];
+            $.each(json, function (key, value) {
+                week_obj.unshift(key);
+                week_inf.unshift(value);
+            });
+            show(week_obj,week_inf);
+        },
+        error: function () {
+            console.log("失败啦...")
+        },
+        dataType: "text"
+    });
+    /**echarts查询7天信息*/
+    $("#this_week").click(function () {
+        let days = 7;
+        $.ajax({
+            url: "../../AdminServlet",
+            type: "POST",
+            data: {
+                action:"echartsCountOrderAt",
+                days:days,
+            },
+            success: function (data) {
+                console.log("所有"+data);
+                const json = eval("(" + data + ")");
+                const week_obj = [];
+                const week_inf = [];
+                $.each(json, function (key, value) {
+                    week_obj.unshift(key);
+                    week_inf.unshift(value);
+                });
+                show(week_obj,week_inf);
+            },
+            error: function () {
+                console.log("失败啦...")
+            },
+            dataType: "text"
+        });
+    });
+    /**echarts查询一个月信息*/
+    $("#this_month").click(function () {
+        let days = 30;
+        $.ajax({
+            url: "../../AdminServlet",
+            type: "POST",
+            data: {
+                action:"echartsCountOrderAt",
+                days:days,
+            },
+            success: function (data) {
+                console.log("所有"+data);
+                const json = eval("(" + data + ")");
+                const week_obj = [];
+                const week_inf = [];
+                $.each(json, function (key, value) {
+                    week_obj.unshift(key);
+                    week_inf.unshift(value);
+                });
+                show(week_obj,week_inf);
+            },
+            error: function () {
+                console.log("失败啦...")
+            },
+            dataType: "text"
+        });
+    });
+    //图表
+    function show(week_obj,week_inf) {
+
+        const dom = document.getElementById("container");
+        const myChart = echarts.init(dom);
+        const app = {};
+        option = null;
+        app.title = '坐标轴刻度与标签对齐';
+
+        option = {
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: week_obj,
+                    //data: [oneDate, twoDate, threeDate, fourDate, fiveDate, sixDate, sevenDate],
+                    //data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLine: {//取消显示坐标轴
+                        show: false
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    // show: false,//取消显示坐标轴,坐标轴刻度,坐标值(如果是y轴,默认的网格线也会取消显示)
+                }
+            ],
+            series: [
+                {
+                    name: '订单数',
+                    type: 'bar',
+                    barWidth: '60%',
+                    //data: [10, 52, 200, 334, 390, 330, 220]
+                    data:week_inf
+                }
+            ]
+
+        };
+
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+
     }
+
+
 </script>
 </html>

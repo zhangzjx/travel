@@ -1,12 +1,17 @@
 package com.zhang.dao;
 
 
+import com.alibaba.fastjson.JSON;
 import com.zhang.domain.Admin;
 import com.zhang.domain.User;
+import com.zhang.utils.DateUtils;
 import com.zhang.utils.JdbcUtils;
 
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author prayers
@@ -155,7 +160,147 @@ public class AdminDao {
 		};
 		JdbcUtils.update(sql, params);
 	}
+	/*****查询7日内每天订单数量
+	 * @return******/
+	public LinkedHashMap<String, Integer> echartsCountOrderAt(int days) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		LinkedHashMap<String, Integer> map = new LinkedHashMap<String, Integer>();
+		for (int i = 0; i < days; i++){
+			c.setTime(new Date());
+			c.add(Calendar.DATE, - i);
+			Date d = c.getTime();
+			String day_value = format.format(d);
+			String sql = "select count(*) from t_orderinf where ordertime like \"%"+day_value+"%\" ";
+			int num =  ((Number) JdbcUtils.selectScalar(sql, (Object[]) null)).intValue();
+			map.put(day_value, num);
+			//System.out.println(map);
+		}
+		return map;
+	}
+	/**一个月订单总数**/
+	public int monthCountOrderAt() {
+		int i = 30;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, - i);
+		Date d = c.getTime();
+		String start_day = format.format(d);
+		String sql = "SELECT count(*) FROM t_orderinf where ordertime > '"+start_day+"' ";
+		//String sql = "SELECT count(*) FROM t_orderinf where ordertime Between \"%"+start_day+"%\" AND '2020-04-01' ";
+		int num = ((Number) JdbcUtils.selectScalar(sql, (Object[]) null)).intValue();
+		return num;
+	}
+	/**一周订单总数**/
+	public int weekCountOrderAt() {
+	 	int i = 6;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, - i);
+		Date d = c.getTime();
+		String start_day = format.format(d);
+		String sql = "SELECT count(*) FROM t_orderinf where ordertime > '"+start_day+"' ";
+		int num = ((Number) JdbcUtils.selectScalar(sql, (Object[]) null)).intValue();
+		return num;
+	}
+	/**本日订单数**/
+	public int dayCountOrderAt() {
+		int i = 0;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, - i);
+		Date d = c.getTime();
+		String start_day = format.format(d);
+		String sql = "select count(*) from t_orderinf where ordertime > '"+start_day+"' ";
+		int num = ((Number) JdbcUtils.selectScalar(sql, (Object[]) null)).intValue();
+		return num;
+	}
+	/**本日销售额**/
+	public  List<Map<String, Object>> dayCountMoneyAt() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, - 0);
+		Date d = c.getTime();
+		String start_day = format.format(d);
+		String sql = "select totalprice,emp from t_orderinf where ordertime > '"+start_day+"' ";
+		return JdbcUtils.find(sql);
+	}
+	/**查询昨天销售总额**/
+	public  List<Map<String, Object>> lastCountMoneyAt() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, - 1);
+		Date d = c.getTime();
+		String start_day = format.format(d);
+		Calendar e = Calendar.getInstance();
+		e.setTime(new Date());
+		e.add(Calendar.DATE, -0);
+		Date date = e.getTime();
+		String end_day = format.format(date);
+		String sql = "select totalprice,emp from t_orderinf where ordertime > '"+start_day+"' and ordertime < '"+end_day+"' ";
+		return JdbcUtils.find(sql);
+	}
+	/**近七天销售总额**/
+	public  List<Map<String, Object>> weekCountMoneyAt() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, - 7);
+		Date d = c.getTime();
+		String start_day = format.format(d);
+		String sql = "select totalprice,emp from t_orderinf where ordertime > '"+start_day+"' ";
+		return JdbcUtils.find(sql);
+	}
+	/**获取景点评论信息**/
+	/**查询所有酒店信息并分页*/
+	/**搜索结果总记录数*/
+	public  int findCountComment(String skey, String svalue) {
+		StringBuilder sql=new StringBuilder("select count(*) from t_scenicspot_comment");
+		if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+			//'%123%'
+			sql.append(" where "+skey+" like \"%"+svalue+"%\" ");
+		}
+		return ((Number) JdbcUtils.selectScalar(sql.toString(), (Object[]) null)).intValue();
+	}
+	public  List<Map<String, Object>> getAllComment(int startIndex, int pageSize,
+													 String skey, String svalue) {
 
+		StringBuilder sql=new StringBuilder("select a.*,b.spName,c.customerName,c.jf from t_scenicspot_comment a,t_scenicspot b,t_customer c" +
+				" where a.user_id=c.uid and a.scenicspot_id=b.spId ");
+		if(skey!=null&&skey.length()>0&&svalue!=null&&svalue.length()>0){
+			sql.append(" and a."+skey+" like \"%"+svalue+"%\" limit ?,?");
+		}else{
+			sql.append(" limit ?,?");
+		}
+
+		return JdbcUtils.find(sql.toString(), startIndex, pageSize);
+	}
+	/**获得一条评论信息**/
+	public Map<String, Object> getOneComment(int comment_id) {
+		String sql = "select a.*,b.spName,c.customerName,c.jf from t_scenicspot_comment a,t_scenicspot b,t_customer c " +
+				" where a.user_id=c.uid and a.scenicspot_id=b.spId and comment_id=?";
+		List<Map<String, Object>> list=JdbcUtils.find(sql, comment_id);
+		return list.get(0);
+	}
+	/**删除一条评论信息*/
+	public void delete(int comment_id){
+		String sql = "delete from t_scenicspot_comment where comment_id=?";
+		JdbcUtils.update(sql,comment_id);
+		//return attractions;
+	}
+	/**删除多条数据*/
+	public  void delMore(String[] ids) {
+		String sql = "delete from t_scenicspot_comment where comment_id=?";
+		for (int i = 0; i < ids.length; i++) {
+			System.out.println("删除数据的id为" + ids[i]);
+			JdbcUtils.update(sql, ids[i]);
+		}
+	}
 	/**
 	public User login(User user) {
 		List<User> list = (List<User>) this.getHibernateTemplate().find("from User where user_code=? and user_password=?", user.getUser_code(),user.getUser_password());//查询数据库，验证用户是否存在

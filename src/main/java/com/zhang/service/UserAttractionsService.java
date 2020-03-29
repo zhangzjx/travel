@@ -55,4 +55,8 @@ public class UserAttractionsService {
     public List<Map<String, Object>> getTicket(String ticket_id) {
         return userAtDao.getTicket(ticket_id);
     }
+    /**获取景点评论信息**/
+    public List<Map<String, Object>> getAllComment(int sc_id) {
+        return userAtDao.getAllComment(sc_id);
+    }
 }

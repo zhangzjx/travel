@@ -45,7 +45,7 @@ public class HotelDao {
     }
     /**上传酒店照片信息*/
     public static void addHotelImg(Photo photo) {
-        String sql = "insert into t_hotel_img values(null,?,?,?,null)";
+        String sql = "insert into t_hotel_img values(null,null,?,?,?,null,null)";
         Object[] params ={
                 photo.gethName(),
                 photo.getPhotoName(),

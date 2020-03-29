@@ -3,10 +3,7 @@ package com.zhang.servlet;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.dao.PageOther;
-import com.zhang.domain.Attractions;
-import com.zhang.domain.Cart;
-import com.zhang.domain.Hotel;
-import com.zhang.domain.User;
+import com.zhang.domain.*;
 import com.zhang.exception.UserException;
 import com.zhang.service.AdminHotelService;
 import com.zhang.service.UserService;
@@ -54,6 +51,8 @@ public class UserServlet extends HttpServlet {
     public static final String PAY_ORDER_HOTEL = "payOrderHotel";
     public static final String GET_ONE_ORDER_HT = "getOneOrderHt";
     public static final String GET_ONE_ORDER_AT = "getOneOrderAt";
+    public static final String WRITE_COMMENT = "writeComment";
+    public static final String GET_ONE_COMMENT = "getOneComment";
 
 
     private AdminHotelService adminHotelService = new AdminHotelService();
@@ -120,8 +119,13 @@ public class UserServlet extends HttpServlet {
             getOneOrderHt(request, response);
         } else if(GET_ONE_ORDER_AT.equals(action)){
             getOneOrderAt(request, response);
+        } else if(WRITE_COMMENT.equals(action)){
+            writeComment(request, response);
+        } else if(GET_ONE_COMMENT.equals(action)){
+            getOneComment(request, response);
         }
     }
+
 
     /**注册*/
     private void regist(HttpServletRequest request,HttpServletResponse response)
@@ -499,13 +503,8 @@ public class UserServlet extends HttpServlet {
             currentPage = 1;
         }
         PageOther page = userService.findAllOrder(uid, currentPage);
-        //request.getSession().setAttribute("order",page);
-        //response.sendRedirect(request.getContextPath() + "/User/centerOrder.html");
-
         String json= JSON.toJSONString(page);
-        //System.out.println("json"+json);
         response.getWriter().print(json);
-
     }
 
     /********查看订单状态**********/
@@ -587,7 +586,6 @@ public class UserServlet extends HttpServlet {
         /**request.setAttribute("myList",page);*/
         /**System.out.println("结果为"+page.getList());*/
         String json= JSON.toJSONString(page);
-        //System.out.println("json"+json);
         response.getWriter().print(json);
 
     }
@@ -604,8 +602,42 @@ public class UserServlet extends HttpServlet {
     private void getOneOrderAt(HttpServletRequest request,
                                HttpServletResponse response) throws IOException {
         String orderId = request.getParameter("orderId");
-        System.out.println("输出"+orderId);;
         Map<String,Object> result= userService.getOneOrderAt(orderId);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    /*******撰写点评*******/
+    private void writeComment(HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+        String comment_title = request.getParameter("comment_title");
+        String comment_content = request.getParameter("comment_content");
+        int sc_id = Integer.parseInt(request.getParameter("sc_id"));
+
+        System.out.println(user_id+" "+comment_title+" "+comment_content);
+
+        Comment comment = new Comment();
+        comment.setUser_id(user_id);
+        comment.setComment_title(comment_title);
+        comment.setComment_content(comment_content);
+        comment.setScenicspot_id(sc_id);
+        try {
+            comment.setComment_time(DateUtils.nowTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Boolean result= userService.writeComment(comment);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+        response.getWriter().print(result);
+
+    }
+    /**查看一条评论**/
+    private void getOneComment(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        String comment_id = request.getParameter("comment_id");
+        System.out.println("hflahfja"+comment_id);
+        Map<String,Object> result= userService.getOneComment(Integer.parseInt(comment_id));
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
     }
@@ -637,83 +669,6 @@ public class UserServlet extends HttpServlet {
     }
 
 
-    /**根据id查看一条数据并传递到另一个页面**/
-    private void findOneH(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String id = request.getParameter("hId");
-        Map<String, Object> result = adminHotelService.findOneH(Integer.parseInt(id));
-        //创建Jackson的核心对象  ObjectMapper
-        ObjectMapper mapper = new ObjectMapper();
-        //返回页面参数
-        mapper.writeValue(response.getWriter(),result);
-        System.out.println(result);
-
-        //request.setAttribute("map",map);
-        //request.getRequestDispatcher("/Admin/goodsDes.jsp").forward(request, response);
-    }
-
-    private void deleteH(HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
-        /**1.获取id
-         * 2.调用Service进行删除
-         * 3.获取商品列表，直接调用findAll方法
-         */
-        //1.获取id
-        String id = request.getParameter("hId");
-        System.out.println("删除的id为："+id);
-        Boolean result = adminHotelService.delete(Integer.parseInt(id));;
-        //返回添加成功的信息
-        response.getWriter().print(result);
-        //findAllAttractions(request,response);
-
-    }
-    private void delHMore(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //获取前台的ids
-        String[] ids = request.getParameter("ids").split(",");
-        adminHotelService.delMore(ids);
-
-
-    }
-    /*******获得省份信息*******/
-    private void getProvince(HttpServletRequest request,
-                             HttpServletResponse response) throws IOException {
-        List<Map<String,Object>> result= adminHotelService.findProvince();
-        //创建Jackson的核心对象  ObjectMapper
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getWriter(),result);
-        //System.out.println(result);
-
-    }
-
-    private void addHotel(HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
-
-        String name = request.getParameter("hotel_name");
-        String label = request.getParameter("hotel_label");
-        String province = request.getParameter("province");
-        String address = request.getParameter("hotel_address");
-        String star = request.getParameter("hotel_star");
-        String phone = request.getParameter("hotel_phone");
-        String content = request.getParameter("content");
-
-        //3.封装到goods对象中
-        Hotel hotel = new Hotel();
-        hotel.setHotelName(name);
-        hotel.setHotelLabel(label);
-        hotel.setProvince(province);
-        hotel.setHotelAddress(address);
-        hotel.setHotelStar(star);
-
-        hotel.setHotelPhone(phone);
-        hotel.setHotelContent(content);
-        //goods.setBid(Integer.parseInt(bid));
-        hotel.setEntryTime(DateUtils.StrTime());
-        //4.调用Service中add方法添加一条新闻
-        Boolean result = adminHotelService.addHotel(hotel);
-        //返回添加成功的信息
-        response.getWriter().print(result);
-    }
 
 
     private void validate(HttpServletRequest request,

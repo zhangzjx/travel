@@ -16,51 +16,44 @@
             <div class="layui-input-inline">
                 <select id="sKey" name="sKey">
                     <option value=""></option>
-                    <option value="hName">酒店名称</option>
-                    <option value="hStar">酒店星级</option>
-                    <option value="province">省份</option>
-                    <option value="hAddress">酒店地址</option>
+                    <option value="comment_title">评论标题</option>
+
                 </select>
             </div>
         </div>
 
         <div style="float:left;">
             <span style="font-size: 12pt">输入搜索：</span>
-            <input type="text" id="sValue" name="sValue" class="el-input" placeholder="酒店名称/酒店地址">
+            <input type="text" id="sValue" name="sValue" class="el-input" placeholder="评论标题">
             <input type="button" class="layui-btn" style="height: 36px" id="searchGo" value="搜索">
         </div>
 
     </form>
     <div class="operating">
-        <button class="layui-btn layui-btn-sm" onclick="goAdd()">添加</button>
         <button class="layui-btn layui-btn-sm" id="delMore" onclick="delMore()">批量删除</button>
     </div>
     <table class="layui-table table" style="table-layout:fixed;" id="tab">
         <colgroup>
             <col width="50">
             <col width="60">
-            <col width="180">
-            <col width="100">
-            <col width="80">
+            <col width="120">
+            <col width="300">
+            <col width="120"
 
             <col width="80">
-            <col width="180">
-            <col width="60">
-            <col width="60">
+            <col width="120">
             <col width="140">
         </colgroup>
         <thead>
         <tr>
             <th> </th>
             <th>序号</th>
-            <th>名称</th>
-            <th>说明</th>
-            <th>总房间数</th>
+            <th>标题</th>
+            <th>内容</th>
+            <th>评论时间</th>
 
-            <th>省份</th>
-            <th>地址</th>
-            <th>星级</th>
-            <th>评分</th>
+            <th>景点名称</th>
+            <th>评论者</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -76,25 +69,17 @@
         </div>
         <div style="float: left;width: 35%;">
             <!-- 首页 -->
-
             <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
             <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
-
             <!-- 上一页 -->
-
             <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
             <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
-
             <!-- 下一页 -->
-
             <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
             <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
-
             <!-- 尾页 -->
-
             <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
             <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
-
         </div>
         <div style="float: left">
             <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
@@ -107,82 +92,19 @@
 <script type="text/html" id="detailDialog">
     <div id="tit" style="width: 80px;height: 300px;float: left">
         <ul>
-            <li>酒店名称</li>
-            <li>酒店简介</li>
-            <li>酒店地址</li>
-            <li>酒店电话</li>
-            <li>酒店星级</li>
-            <li>酒店详情</li>
+            <li>景点名称</li>
+            <li>评论时间</li>
+            <li>评论者</li>
+            <li>标题</li>
+            <li>内容</li>
+
         </ul>
     </div>
     <div id="result" style="width: 600px;height: 300px;float: left;">
 
     </div>
 </script>
-<script type="text/html" id="editDialog">
-    <form class="layui-form" id="myForm" style="padding: 20px;" lay-filter="editDialogForm">
-        <!--
-<input type="hidden" action="addAttractions">
--->
-        <input type="hidden" id="hId" name="hId" value="">
-        <div class="layui-form-item">
-            <label class="layui-form-label">酒店名称：</label>
-            <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_name" name="hotel_name" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">酒店标签：</label>
-            <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_label" name="hotel_label" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <!--
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">门票价格：</label>
-                <div class="layui-input-inline" style="width: 100px;">
-                    <input type="text" id="price" name="price" placeholder="￥" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        -->
-        <div class="layui-form-item">
-            <label class="layui-form-label">酒店地址：</label>
-            <div class="layui-input-block" style="width: 400px;">
-                <input type="text" id="hotel_address" name="hotel_address" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
-            </div>
-        </div>
 
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">酒店电话：</label>
-                <div class="layui-input-inline">
-                    <!--lay-verify="required|phone"-->
-                    <input type="tel" id="hotel_phone" name="hotel_phone"  autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">酒店星级：</label>
-            <div class="layui-input-block" style="width: 100px;">
-                <input type="text" id="hotel_star" name="hotel_star"  autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">酒店简介：</label>
-            <div class="layui-input-block" style="width: 600px;">
-                <textarea id="content" name="content" style="height:400px;" class="layui-textarea"></textarea>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="button" id="goTo" class="layui-btn" lay-filter="go" lay-submit="" >修改</button>
-            </div>
-        </div>
-    </form>
-</script>
 <script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
 
 <script>
@@ -190,10 +112,10 @@
 
         /**查询所有信息*/
         $.ajax({
-            url: "../../AdminHotelServlet",
+            url: "../../AdminServlet",
             type: "POST",
             data: {
-                action:"findAllHotel",
+                action:"getAllComment",
             },
             success: function (data) {
                 console.log("所有"+data);
@@ -211,10 +133,10 @@
             let sv = $("#sValue").val();
             let sk = $("#sKey").val();
             $.ajax({
-                url: "../../AdminHotelServlet",
+                url: "../../AdminServlet",
                 type: "POST",
                 data: {
-                    action:"searchGo",
+                    action:"getAllComment",
                     sKey:sk,
                     sValue:sv,
                 },
@@ -235,12 +157,12 @@
             let sk = $("#sKey").val();
             let current = 1;
             $.ajax({
-                url: "../../AdminHotelServlet",
+                url: "../../AdminServlet",
                 type:"Get" ,
                 dataType:"text",
                 //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
                 data:{
-                    action:"findAllHotel",
+                    action:"getAllComment",
                     currentPage:current,
                     sKey:sk,
                     sValue:sv,
@@ -262,11 +184,11 @@
             let sv = $("#sValue").val();
             let sk = $("#sKey").val();
             $.ajax({
-                url: "../../AdminHotelServlet",
+                url: "../../AdminServlet",
                 type:"Get" ,
                 dataType:"text",
                 data:{
-                    action:"findAllHotel",
+                    action:"getAllComment",
                     currentPage:current,
                     sKey:sk,
                     sValue:sv,
@@ -288,11 +210,11 @@
             let sv = $("#sValue").val();
             let sk = $("#sKey").val();
             $.ajax({
-                url: "../../AdminHotelServlet",
+                url: "../../AdminServlet",
                 type:"Get" ,
                 dataType:"text",
                 data:{
-                    action:"findAllHotel",
+                    action:"getAllComment",
                     currentPage:current,
                     sKey:sk,
                     sValue:sv,
@@ -313,11 +235,11 @@
             let sv = $("#sValue").val();
             let sk = $("#sKey").val();
             $.ajax({
-                url: "../../AdminHotelServlet",
+                url: "../../AdminServlet",
                 type:"Get" ,
                 dataType:"text",
                 data:{
-                    action:"findAllHotel",
+                    action:"getAllComment",
                     currentPage:current,
                     sKey:sk,
                     sValue:sv,
@@ -338,11 +260,11 @@
             let sv = $("#sValue").val();
             let sk = $("#sKey").val();
             $.ajax({
-                url: "../../AdminHotelServlet",
+                url: "../../AdminServlet",
                 type:"Get" ,
                 dataType:"text",
                 data:{
-                    action:"findAllHotel",
+                    action:"getAllComment",
                     currentPage:current,
                     sKey:sk,
                     sValue:sv,
@@ -403,18 +325,17 @@
             let str = "";//定义用于拼接的字符串
             for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
                 const ls = j[i];
-                str += "<tr><td><input type='checkbox' name='number' value='"+ls.hId+"'}></td>" +
-                    "<td>"+ls.hId+"</td><td title='"+ls.hName+"'>"+ls.hName+"</td>" +
-                    "<td title='"+ls.hLabel+"'>"+ls.hLabel+"</td>" +
-                    "<td title='"+ls.provinceid+"'>"+ls.provinceid+"</td>" +
-                    "<td title='"+ls.province+"'>"+ls.province+"</td>" +
-                    "<td title='"+ls.hAddress+"'>"+ls.hAddress+"</td>" +
-                    "<td title='"+ls.hStar+"'>"+ls.hStar+"</td>" +
-                    "<td title='"+ls.hStar+"'>"+ls.hStar+"</td>" +
+                let timestamp = ls.comment_time;
+                let comment_time = timestampToTime(timestamp);
+                str += "<tr><td><input type='checkbox' name='number' value='"+ls.comment_id+"'}></td>" +
+                    "<td>"+ls.comment_id+"</td><td title='"+ls.comment_title+"'>"+ls.comment_title+"</td>" +
+                    "<td title='"+ls.comment_content+"'>"+ls.comment_content+"</td>" +
+                    "<td title='"+comment_time+"'>"+comment_time+"</td>" +
+                    "<td title='"+ls.spName+"'>"+ls.spName+"</td>" +
+                    "<td title='"+ls.customerName+"'>"+ls.customerName+"</td>" +
                     " <td><div id='op'>" +
-                    "<button class='layui-btn layui-btn-xs detail' value='"+ls.hId+"'>查看</button>" +
-                    "<button class='layui-btn layui-btn-xs edit' value='"+ls.hId+"'>编辑</button>" +
-                    "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.hId+"'>删除</button>" +
+                    "<button class='layui-btn layui-btn-xs detail' value='"+ls.comment_id+"'>查看</button>" +
+                    "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.comment_id+"'>删除</button>" +
                     "</div></td></tr>";
 
                 $("#result_list").html(str);
@@ -423,38 +344,46 @@
             };
 
         }
+        /**时间戳转换**/
+        function timestampToTime(timestamp) {
+            const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            const Y = date.getFullYear() + '-';
+            const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            const D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+            const h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':';
+            const m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+            const s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+            return Y + M + D + h + m + s;
+        }
         function detailData() {
             layui.use(['form'], function() {
                 const form = layui.form
                     , layer = layui.layer;
                 /**查看详情*/
                 $(".detail").click(function() {
-                    const id = $(this).val();
+                    const comment_id = $(this).val();
                     /**获取单条数据信息*/
                     $.ajax({
-                        url: "../../AdminHotelServlet",
+                        url: "../../AdminServlet",
                         type:"Get" ,
-                        dataType:"json",
+                        dataType:"text",
                         data:{
-                            action:"findOneH",
-                            hId:id,
+                            action:"getOneComment",
+                            comment_id:comment_id,
                         },
                         success:function (data) {
-                            //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
-                            const json = JSON.stringify(data);
-                            //alert("返回的数据："+json);
-                            console.log(data,'数组');
-                            const hName = JSON.stringify(data.hName).replace(/\"/g, "");  //这里去掉所有"
-                            const hLabel = JSON.stringify(data.hLabel).replace(/\"/g, "");
-                            const hAddress = JSON.stringify(data.hAddress).replace(/\"/g, "");
-                            const hPhone = JSON.stringify(data.hPhone).replace(/\"/g, "");
-                            const hStar = JSON.stringify(data.hStar).replace(/\"/g, "");
-                            const hFormation = JSON.stringify(data.hFormation).replace(/\"/g, "");
+                            const json = eval("(" + data + ")");
+
+                            let spName =  json.spName;
+                            let timestamp = json.comment_time;
+                            let comment_time = timestampToTime(timestamp);
+                            let customerName =  json.customerName;
+                            let comment_title =  json.comment_title;
+                            const comment_content =  json.comment_content;
 
                             let str = '';
-                            str = "<ul><li>" + hName + "</li><li>" + hLabel + "</li><li>" + hAddress + "</li>" +
-                                "<li>" + hPhone + "</li><li>" + hStar + "</li><li>" + hFormation + "</li></ul>";
-
+                            str = "<ul><li>" + spName + "</li><li>" + comment_time + "</li><li>" + customerName + "</li>" +
+                                "<li>" + comment_title + "</li><li>" + comment_content + "</li></ul>";
                             $("#result").html(str);
                             //showData(data);//我们仅做数据展示
                             //location.reload();
@@ -474,95 +403,20 @@
                         offset: '10px',//弹窗位置
                         //resize: false,
                         content: $('#detailDialog').html(), //这里content是一个普通的String
-
                     });
-
-                });
-                /**获取信息*/
-                $(".edit").click(function() {
-                    const id = $(this).val();
-                    /**获取单条数据信息*/
-                    $.ajax({
-                        url: "../../AdminHotelServlet",
-                        type:"Get" ,
-                        dataType:"json",
-                        data:{
-                            action:"findOneH",
-                            hId:id,
-                        },
-                        success:function (data) {
-                            //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
-                            const json = JSON.stringify(data);
-                            //alert("返回的数据："+json);
-                            console.log(json);
-                            const hId= JSON.stringify(data.hId).replace(/\"/g, "");
-                            const hName = JSON.stringify(data.hName).replace(/\"/g, "");  //这里去掉所有"
-                            const hLabel = JSON.stringify(data.hLabel).replace(/\"/g, "");
-                            const hAddress = JSON.stringify(data.hAddress).replace(/\"/g, "");
-                            const hPhone = JSON.stringify(data.hPhone).replace(/\"/g, "");
-                            const hStar = JSON.stringify(data.hStar).replace(/\"/g, "");
-                            const hFormation = JSON.stringify(data.hFormation).replace(/\"/g, "");
-                            $("#hId").val(hId);
-                            $("#hotel_name").val(hName);
-                            $("#hotel_label").val(hLabel);
-                            $("#hotel_address").val(hAddress);
-                            $("#hotel_phone").val(hPhone);
-                            $("#hotel_star").val(hStar);
-                            $("#content").html(hFormation);
-                            //showData(data);//我们仅做数据展示
-                            //location.reload();
-                        },//响应成功后的回调函数
-                        error:function () {
-                            alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
-                    });
-
-                    /**打开弹窗*/
-                    layer.open({
-                        type: 1,
-                        title: '修改信息',
-                        area: ['70%', '80%'],
-                        shade: 0.2,
-                        shadeClose: true, //点击遮罩关闭层    
-                        offset: '10px',//弹窗位置
-                        //resize: false,
-                        content: $('#editDialog').html(), //这里content是一个普通的String
-
-                    });
-
-                });
-                //监听提交
-                form.on('submit(go)', function(data){
-                    //使用$.ajax()发送异步请求
-                    $.ajax({
-                        //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                        url:"../../AdminHotelServlet?action=changeHInf" ,
-                        type:"POST" , //请求方式
-                        data:$('#myForm').serialize(),// 序列化表单值
-                        success:function (data) {
-                            alert("修改成功");
-                            //form.render();//菜单渲染 把内容加载进去
-                            location.reload();
-                        },//响应成功后的回调函数
-                        error:function () {
-                            alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
-                        dataType:"text"//设置接受到的响应数据的格式
-                    });
-                    return false;//不跳转
                 });
             });
             /**删除一条*/
             $(".del").click(function(){
-                const id = $(this).val();
+                const comment_id = $(this).val();
                 const msg = "确定要删除吗？\n请确认！";
                 if (confirm(msg)==true){
                     $.ajax({
+                        url: "../../AdminServlet",
                         type: "post",
-                        url: "../../AdminHotelServlet",
                         data:{
-                            action:"deleteH",
-                            hId:id,
+                            action:"deleteComment",
+                            comment_id:comment_id,
                         },
                         dataType: "json",
                         success: function(data){
@@ -603,9 +457,9 @@
                 //把ids传入后台调用servlet
                 $.ajax({
                     type: "post",
-                    url: "../../AdminHotelServlet",
+                    url: "../../AdminServlet",
                     data:{
-                        action:"delHMore",
+                        action:"delCommentMore",
                         ids:s,
                     },
                     dataType: "json",
@@ -621,16 +475,7 @@
 
     };
     function goAdd() {
-        layer.open({
-            type: 2,
-            title: '添加',
-            area: ['90%', '100%'],
-            shade: 0.2,
-            shadeClose: true, //点击遮罩关闭层    
-            //resize: false,
-            content: 'addHotel.html',
 
-        });
     };
 </script>
 

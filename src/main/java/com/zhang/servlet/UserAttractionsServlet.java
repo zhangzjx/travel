@@ -29,6 +29,7 @@ public class UserAttractionsServlet extends HttpServlet {
     public static final String GET_ONE_AT_IMG = "getOneAtImg";
     public static final String GET_ALL_HOT_INF = "getAllHotInf";
     public static final String GET_TICKET = "getTicket";
+    public static final String GET_ALL_COMMENT = "getAllComment";
 
     private UserAttractionsService userAtService = new UserAttractionsService();
     @Override
@@ -57,6 +58,8 @@ public class UserAttractionsServlet extends HttpServlet {
             getOneAtImg(request,response);
         } else if(GET_TICKET.equals(action)){
             getTicket(request,response);
+        } else if(GET_ALL_COMMENT.equals(action)){
+            getAllComment(request,response);
         }
 
     }
@@ -64,7 +67,6 @@ public class UserAttractionsServlet extends HttpServlet {
     private void getAllHotInf(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
         String current = request.getParameter("currentPage");
-
         int currentPage = 1;
         try{
             currentPage = Integer.parseInt(current);
@@ -137,6 +139,14 @@ public class UserAttractionsServlet extends HttpServlet {
         //System.out.println(spId);
 
         List<Map<String,Object>> result= userAtService.getTicket(ticket_id);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    /**获取景点评论信息**/
+    private void getAllComment(HttpServletRequest request,
+                           HttpServletResponse response) throws IOException {
+        int sc_id = Integer.parseInt(request.getParameter("spId"));
+        List<Map<String,Object>> result= userAtService.getAllComment(sc_id);
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
     }

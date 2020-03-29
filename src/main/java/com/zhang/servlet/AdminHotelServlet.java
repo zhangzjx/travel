@@ -209,7 +209,6 @@ public class AdminHotelServlet extends HttpServlet {
 
         hotel.setHotelPhone(phone);
         hotel.setHotelContent(content);
-        //goods.setBid(Integer.parseInt(bid));
         hotel.setEntryTime(DateUtils.StrTime());
         //4.调用Service中add方法添加一条新闻
         Boolean result = adminHotelService.addHotel(hotel);

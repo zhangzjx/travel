@@ -2,6 +2,7 @@ package com.zhang.dao;
 
 import com.zhang.domain.Attractions;
 import com.zhang.domain.Cart;
+import com.zhang.domain.Comment;
 import com.zhang.domain.User;
 import com.zhang.utils.JdbcUtils;
 import com.zhang.utils.MD5;
@@ -318,5 +319,23 @@ public class UserDao {
         List<Map<String, Object>> list = JdbcUtils.find(sql,orderId);
         return list.get(0);
     }
+    /*******撰写点评*******/
+    public void writeComment(Comment comment) {
+        String sql = "insert into t_scenicspot_comment values(null,?,?,?,?,?,null)";
+        Object[] params ={
+               comment.getUser_id(),
+                comment.getComment_title(),
+                comment.getComment_content(),
+                comment.getComment_time(),
+                comment.getScenicspot_id(),
+        };
+        JdbcUtils.insert(sql, params);
+    }
+    /**获得一条评论信息**/
+    public Map<String, Object> getOneComment(int comment_id) {
 
+        String sql = "select a.comment_content,a.space from t_scenicspot_comment a where a.comment_id=?";
+        List<Map<String, Object>> list=JdbcUtils.find(sql, comment_id);
+        return list.get(0);
+    }
 }

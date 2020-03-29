@@ -76,4 +76,9 @@ public class UserAttractionsDao {
         }
         return JdbcUtils.find(sql.toString());
     }
+    /**获取景点评论信息**/
+    public List<Map<String, Object>> getAllComment(int sc_id) {
+        String sql = "select a.*,b.customerName,b.jf from t_scenicspot_comment a,t_customer b where a.user_id=b.uid and a.scenicspot_id=?";
+        return JdbcUtils.find(sql,sc_id);
+    }
 }

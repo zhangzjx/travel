@@ -1,9 +1,11 @@
 package com.zhang.service;
 
+import com.zhang.dao.HotelDao;
 import com.zhang.dao.PageOther;
 import com.zhang.dao.UserDao;
 import com.zhang.domain.Attractions;
 import com.zhang.domain.Cart;
+import com.zhang.domain.Comment;
 import com.zhang.domain.User;
 import com.zhang.exception.UserException;
 import com.zhang.utils.DateUtils;
@@ -172,5 +174,13 @@ public class UserService {
     public Map<String,Object> getOneOrderAt(String orderId){
         return userDao.getOneOrderAt(orderId);
     }
-
+    /*******撰写点评*******/
+    public Boolean writeComment(Comment comment) {
+        userDao.writeComment(comment);
+        return true;
+    }
+    /**查看一条评论**/
+    public Map<String, Object> getOneComment(int comment_id) {
+        return userDao.getOneComment(comment_id);
+    }
 }

@@ -17,9 +17,9 @@
                 //if(userCookie!= null&&userCookie != ""){
                 const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
                 console.log("userCookie存在");
-                console.log(userCookie);
-                //console.log("userCookie===="+userCookie.uid);
                 $("#logout").show();
+                const user_id = userCookie.uid;
+                $("#user_id").val(user_id);
 
             } else {
                 console.log("userCookie不存在");
@@ -102,6 +102,8 @@
             background: #627BF6 url(img/hotel-check.png) ; /*复选框的背景图*/
             background-size: contain;
         }
+
+
     </style>
 </head>
 <body>
@@ -174,27 +176,9 @@
         <!--点评精选及图片-->
         <div class="review-evaluate">
             <div class="evaluate-left">
-                <h3><strong>点评精选</strong></h3>
-                <br>
-                <div class="evaluate-inf">
-                    <div class="evaluate-inf-top"><a href="#">“有好汉坡及长城，不要爬错地方，不然就要南北都爬ＸＤ”</a></div>
-                    <div><span class="inf-f">有好汉坡及长城，不要爬错地方，不然就要南北都爬ＸＤ
-                        一场历史与古蹟的洗礼，可以好好拍照，路上有人卖纪念品～</span><a href="#">查看更多</a>
-                    </div>
-
-                    <div class="evaluate-info">
-                        <img src="img/头像.jpg" class="img">
-                        <div class="sp">
-                            <span class="layui-badge-dot layui-bg-blue"></span>
-                            <span class="layui-badge-dot layui-bg-blue"></span>
-                            <span class="layui-badge-dot layui-bg-blue"></span>
-                            <span class="layui-badge-dot layui-bg-blue"></span>
-                            <span class="layui-badge-dot layui-bg-blue"></span>
-                            <span>2019年11月19日的点评</span>
-                        </div>
-                        <div class="sp">sxu99</div>
-                    </div>
-                </div>
+                <h3><strong>点评精选</strong></h3><br>
+                <div id="result_choice"></div>
+                <!--
                 <div class="evaluate-inf">
                     <div class="evaluate-inf-top"><a href="#">“八达岭”</a></div>
                     <div><span class="inf-f">人超多哦↗明明和男朋友起的很早，却赶了个晚集，嘿嘿😬,
@@ -214,6 +198,7 @@
                         <div class="sp">Flyer29164448125</div>
                     </div>
                 </div>
+                -->
             </div>
 
             <div class="evaluate-right">
@@ -257,6 +242,7 @@
                 <div style="margin-top: 10px"> +86 10 8500 7422</div>
             </div>
         </div>
+
         <!--门票，优待政策及注意事项-->
         <div class="book-tickets">
             <!--预定门票-->
@@ -306,12 +292,10 @@
                             <input type="text" value="1" class="sum" id="sum" name="sum" >
                             <a href="javascript:;" class="plus increment" style="margin-left: 10px">+</a>
                         </div>
-
                     </div>
                     <div class="list-item" style="width: 50px;margin: 0 50px;">
                         ￥<span class="sum_price" id="sum_price">0</span>
                     </div>
-
                     <button class="layui-btn layui-btn-sm" style="margin: 10px 0 0 10px" id="atCart" onclick="atCart()">购买</button>
                 </div>
             </div>
@@ -319,38 +303,40 @@
         <div style="width: 1200px;height: 400px;background-color: #fff;margin-top: 30px;">
             <div style="margin:30px 30px;">
                 <h2 style="color: #FFB800">优待政策</h2>
-
                 <p>老年人</p>
                 <p>* 70周岁(含)以上凭老年证或身份证免费； 60周岁（含）-69周岁（含）凭老年证身份证五折优惠</p>
-
                 <p>儿童</p>
                 <p>* 身高1.2米（含）以下免费； 身高1.2米（不含）-1.5米（不含）五折优惠</p>
-
                 <p>残疾人</p>
                 <p>* 凭残疾证免费</p>
-
                 <p>现役军人</p>
                 <p>* 凭军官证免费</p>
-
                 <p>离休干部</p>
                 <p>* 凭离休证免费</p>
-
                 <p>大中小学生</p>
                 <p>* 凭学生证和身份证五折优惠</p>
-
                 <p>其他</p>
                 <p>* 6周岁（不含）-18周岁（含）未成年人：凭身份证或者户口本五折优惠</p>
             </div>
         </div>
+        <!--点评-->
+        <div style="height:600px;width:1200px;margin-top: 30px; ">
+            <div class="content-main">
+                <div style="width: 690px;height: 30px;padding: 0 30px 10px 30px;border-bottom: #eeeeee solid 1px">
+                    <div style="float: left"><h2><b>点评</b></h2></div>
+                    <div style="float: left"><button class="layui-btn" style="margin: -10px 0 0 510px" id="write_comment" >撰写点评</button></div>
+                </div>
+                <div id="result_all"></div>
+            </div>
 
-
+        </div>
     </div>
 </div>
 <div id="viewName" style="display: none"></div>
 <div id="viewAddress" style="display: none" ></div>
 <input type="hidden" id="ticket_id"  value="">
 <!--底部内容-->
-<input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="user_id" name="user_id" value="">
 <input type="hidden" id="spId" name="spId">
 <div class="bottom-foot" >
     <h2>热门目的地</h2>
@@ -430,7 +416,7 @@
 <script type="text/javascript" src="js/echarts.js"></script>
 <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
 <script type="text/javascript" src="js/layer.js"></script>
-<script type="text/javascript" src="js/topFoot.js"></script>
+
 
 <script>
     //定义方法
@@ -477,9 +463,7 @@
             },
             success: function (data) {
                 console.log("dd"+data)
-
                 const json = eval("(" + data + ")");
-
                 let atImg = json[0].img_name;
                 let atImgTwo = json[1].img_name;
                 let atImgThree = json[2].img_name;
@@ -497,45 +481,24 @@
 
             dataType: "text"//设置接受到的响应数据的格式
         });
-        //展示数据
-        function showData(data) {
-            const json = eval("(" + data + ")");
-            let str = "";//定义用于拼接的字符串
-            for (const i in json) {//遍历
-                const ls = json[i];
-                $("#spId").val(ls.spId);
-                $(".province").append(ls.province);
-                $("#title").html(ls.spName);
-                $("#viewName").html(ls.spName);
-                $(".address").html(ls.spAddress);
-                $("#viewAddress").html(ls.spAddress);
-                $(".time").html(ls.spTimeStart+" - "+ls.spTimeEnd);
-                $("#label").html(ls.spLabel);
-                $("#item-inf").html(ls.spFormation);
-
-                $("#item-inf").each(function(){
-                    const len = $(this).text().length;   //当前HTML对象text的长度
-                    if(len>200){
-                        let str = "";
-                        str=$(this).text().substring(0,200)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
-                        $(this).html(str);                   //将替换的值赋值给当前对象
-                    }
-                });
-                $("#moreInf").click(function(){
-                    layer.open({
-                        type: 1
-                        ,title: false //不显示标题栏   title : false/标题
-                        , area: ['45%', '70%']
-                        ,shade: 0
-                        ,id: 'LAY_layui' //设定一个id，防止重复弹出
-                        ,resize: false
-                        ,content: '<div style="padding:50px">'+ls.spFormation+'</div>',
-
-                    });
-                    //alert(ls.spFormation)
-                });
-            }
-        };
+        /**获取景点评论信息*/
+        $.ajax({
+            url: "../UserAttractionsServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getAllComment",
+                spId:id
+            },
+            success: function (data) {
+                console.log("dd"+data)
+                showComment(data);
+            },
+            error: function () {
+                console.log("失败啦...")
+            },
+            dataType: "text"
+        });
         /**价格
         $(".tickets-list").each(function(k,v){
             $(v).click(function(){
@@ -554,6 +517,79 @@
             });
         });
          */
+        function showComment(data){
+            const json = eval("(" + data + ")");
+            let str = "";
+            for(let i = 0; i < 2; i++){
+                const ls = json[i];
+                let timestamp = ls.comment_time;
+                let comment_time = timestampToTime(timestamp);
+                str += "<div class='evaluate-inf'> <div class='evaluate-inf-top'><a>"+ls.comment_title+"</a></div>" +
+                    "<div><span class='inf-f'>"+ls.comment_content+"</span><a class='more_inf' value='"+ls.comment_id+"'>查看更多</a></div>" +
+                    "<div class='evaluate-info'><img src='img/头像.jpg' class='img'><div class='sp'><span>"+comment_time+"点评</span></div>" +
+                    "<div class='sp'><span>"+ls.customerName+"</span></div></div></div> ";
+                $("#result_choice").html(str);
+                showDetail();
+            };
+            let strAll ="";
+            for (const i in json) {
+                const ls = json[i];
+                let timestamp = ls.comment_time;
+                let comment_time = timestampToTime(timestamp);
+                strAll += "<div class='comment-inf'><div class='comment-inf-top'><a>"+ls.comment_title+"</a></div>" +
+                    "<div><span class='inf-f'>"+ls.comment_content+"</span><a  class='more_inf' value='"+ls.comment_id+"'>查看更多</a></div>" +
+                    "<div class='evaluate-info'><img src='img/头像.jpg' class='img'><div class='sp'><span>"+comment_time+"点评</span></div>" +
+                    "<div class='sp'><span>"+ls.customerName+"</span></div></div></div> ";
+                $("#result_all").html(strAll);
+                showDetail();
+            }
+        }
+        function showDetail() {
+            layui.use(['form'], function () {
+                const form = layui.form
+                    , layer = layui.layer;
+                /**用户评论展示*/
+                $(".inf-f").each(function () {
+                    const len = $(this).text().length;   //当前HTML对象text的长度
+                    if (len > 80) {
+                        let str = "";
+                        str = $(this).text().substring(0, 80) + "......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+                        $(this).html(str);                   //将替换的值赋值给当前对象
+                    }
+                });
+                $(".more_inf").click(function () {
+                    let comment_id = $(this).attr("value");
+                    $.ajax({
+                        url: "../UserServlet",
+                        type: "POST",
+                        data: {
+                            action: "getOneComment",
+                            comment_id: comment_id
+                        },
+                        success: function (data) {
+                            console.log("dd" + data)
+                            const json = eval("(" + data + ")");
+                            const comment_content = json.comment_content;
+                            layer.open({
+                                type: 1,
+                                area: ['45%', '70%'],
+                                shade: 0.2,
+                                shadeClose: true, //点击遮罩关闭层    
+                                offset: '10px',//弹窗位置
+                                resize: false,
+                                id:'thisIsOpen',
+                                content: '<div style="padding:50px">'+comment_content+'</div>', //这里content是一个普通的String
+                            });
+                        },
+                        error: function () {
+                            console.log("失败啦...")
+                        },
+                        dataType: "text"
+                    });
+                });
+            });
+        }
+
         /**展示数据*/
         function showData(data) {
             const json = eval("(" + data + ")");
@@ -583,16 +619,40 @@
                         type: 1
                         ,title: false //不显示标题栏   title : false/标题
                         , area: ['45%', '70%']
-                        ,shade: 0
+                        ,shade: 0.2
+                        ,shadeClose: true //点击遮罩关闭层  
                         ,id: 'LAY_layui' //设定一个id，防止重复弹出
                         ,resize: false
-                        ,content: '<div style="padding:50px">'+ls.spFormation+'</div>',
+                        ,content: '<div style="padding:50px">'+ls.spFormation+'</div>'
 
                     });
                     //alert(ls.spFormation)
                 });
             }
         };
+        /**时间戳转换**/
+        function timestampToTime(timestamp) {
+            const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            const Y = date.getFullYear() + '-';
+            const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            const D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+            const h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':';
+            const m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+            const s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+            return Y + M + D + h + m + s;
+        }
+        $("#write_comment").click(function () {
+            layer.open({
+                type: 2,
+                title: '撰写点评',
+                offset: '50px',//弹窗位置
+                shade: 0.2,
+                shadeClose: true, //点击遮罩关闭层    
+                area: ['60%', '70%'],
+                content:'writeComment.html',//弹框显示的url,对应的页面  
+                //btn: ['确定', '取消'],
+            });
+        });
 
         /**选中input*/
         /**const inp = $('input[name="ticketInf"]:checked').val();*/
@@ -642,7 +702,6 @@
 
     });
     function atCart() {
-
         //由于是一个新的技术，你可以通过下面的代码检测你的浏览器是否支持
         if (window.localStorage) {
             //存储变量的值
@@ -656,7 +715,6 @@
         } else {
             alert("NOT SUPPORT");
         }
-
     }
 </script>
 
@@ -667,7 +725,6 @@
 
     function re(){
         let viewN = $("#viewName").html();
-
         layer.open({
             type: 2,
             title: viewN,
@@ -715,15 +772,7 @@
         //layer.alert("周一 - 周五 上午7:30 - 下午5:00<br>周六 - 周日 上午7:30 - 下午6:00");
     };
 
-    /**用户评论展示*/
-    $(".inf-f").each(function(){
-        const len = $(this).text().length;   //当前HTML对象text的长度
-        if(len>80){
-            let str = "";
-            str=$(this).text().substring(0,80)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
-            $(this).html(str);                   //将替换的值赋值给当前对象
-        }
-    });
+
 
     //图表
     const dom = document.getElementById("container");

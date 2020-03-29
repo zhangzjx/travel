@@ -31,13 +31,18 @@ public class DateUtils {
     public static Date nowTime() throws ParseException {
         //获得系统时间.
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         String nowTime = sdf.format(date);
         Date time = sdf.parse(nowTime);
         return time;
     }
-
+    public static String nowDate() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd 23:59:59");
+        String d = sdf.format(date);
+        return d;
+    }
 
     public static String nowTimeName() throws ParseException {
         //获得系统时间.

@@ -255,7 +255,7 @@ public class PhotoServlet extends HttpServlet {
 
             PhotoService productService =  new PhotoService();
             productService.addHotelImg(photo);
-            //request.setAttribute("msg","添加成功");
+
             request.getSession().setAttribute("msg","添加成功");
 
         } catch (FileUploadException e) {

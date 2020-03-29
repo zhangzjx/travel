@@ -57,10 +57,21 @@ public class Photo {
         this.cTime = cTime;
     }
 
+    private int aId;
+
+    public int getHotel_id() {
+        return hotel_id;
+    }
+
+    public void setHotel_id(int hotel_id) {
+        this.hotel_id = hotel_id;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
                 "aId=" + aId +
+                ", hotel_id=" + hotel_id +
                 ", hName='" + hName + '\'' +
                 ", photoName='" + photoName + '\'' +
                 ", filePath='" + filePath + '\'' +
@@ -69,7 +80,7 @@ public class Photo {
                 '}';
     }
 
-    private int aId;
+    private int hotel_id;
     private String hName;
     private String photoName;
     private String filePath;

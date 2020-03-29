@@ -1,17 +1,16 @@
 package com.zhang.service;
 
 import com.zhang.dao.AdminDao;
-import com.zhang.dao.PageOther;
+import com.zhang.dao.Page;
 import com.zhang.dao.UserDao;
 import com.zhang.domain.Admin;
-import com.zhang.domain.Attractions;
-import com.zhang.domain.Cart;
 import com.zhang.domain.User;
 import com.zhang.exception.UserException;
 import com.zhang.utils.DateUtils;
+import com.zhang.utils.JdbcUtils;
 
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author prayers
@@ -84,5 +83,59 @@ public class AdminService {
             return false;
         }
     }
+    /**本日订单总数**/
+    public int dayCountOrderAt() {
+        return adminDao.dayCountOrderAt();
+    }
+    /**一周订单总数**/
+    public int weekCountOrderAt() {
+        return adminDao.weekCountOrderAt();
+    }
+    /**一个月订单总数**/
+    public int monthCountOrderAt() {
+        return adminDao.monthCountOrderAt();
+    }
+    /**echarts
+     * @return*/
+    public LinkedHashMap<String, Integer> echartsCountOrderAt(int days) {
+        return adminDao.echartsCountOrderAt(days);
+    }
+    /**订单总数
+     * @return**/
+    /**查询今天销售总额**/
+    public List<Map<String, Object>> dayCountMoneyAt() {
+        return adminDao.dayCountMoneyAt();
+    }
+    /**查询昨天销售总额**/
+    public List<Map<String, Object>> lastCountMoneyAt() {
+        return adminDao.lastCountMoneyAt();
+    }
+    /**近七天销售总额**/
+    public List<Map<String, Object>> weekCountMoneyAt() {
+        return adminDao.weekCountMoneyAt();
+    }
+    /**获取景点评论信息**/
 
+    public Page getAllComment(int currentPage, String skey, String svalue) {
+        int totalSize = adminDao.findCountComment(skey,svalue);
+        Page page = new Page(currentPage,totalSize);
+        List<Map<String,Object>> list = adminDao.getAllComment(page.getStartIndex(),page.getPageSize(),skey,svalue);
+        page.setList(list);
+        System.out.println("页码"+page.getCurrentPage());
+        return page;
+    }
+    /**查看一条评论**/
+    public Map<String, Object> getOneComment(int comment_id) {
+        return adminDao.getOneComment(comment_id);
+    }
+    /**删除酒店*/
+    public Boolean delete(int comment_id){
+        adminDao.delete(comment_id);
+        return true;
+    }
+    /**删除多条数据*/
+    public Boolean delMore(String[] ids){
+        adminDao.delMore(ids);
+        return true;
+    }
 }

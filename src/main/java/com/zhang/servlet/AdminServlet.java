@@ -2,6 +2,7 @@ package com.zhang.servlet;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zhang.dao.Page;
 import com.zhang.dao.PageOther;
 import com.zhang.domain.*;
 import com.zhang.exception.UserException;
@@ -16,6 +17,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -31,15 +34,23 @@ public class AdminServlet extends HttpServlet {
     public static final String REGIST = "register";
     public static final String VALIDATE_NAME = "validate";
     public static final String LOGIN = "login";
-
     public static final String GET_USER_INF = "getUserInf";
     public static final String CHANGE_PASSWORD = "changePassword";
     public static final String CHANGE_PT = "changePt";
     public static final String CHANGE_NC = "changeNc";
     public static final String CHANGE_MY_INF = "changeMyInf";
-
-    public static final String FIND_SEARCH = "findSearch";
-
+    public static final String CHARTS_COUNT_ORDER_AT = "chartsCountOrderAt";
+    public static final String MONTH_COUNT_ORDER_AT = "monthCountOrderAt";
+    public static final String WEEK_COUNT_ORDER_AT = "weekCountOrderAt";
+    public static final String DAY_COUNT_ORDER_AT = "dayCountOrderAt";
+    public static final String DAY_COUNT_MONEY_AT = "dayCountMoneyAt";
+    public static final String WEEK_COUNT_MONEY_AT = "weekCountMoneyAt";
+    public static final String LAST_COUNT_MONEY_AT = "lastCountMoneyAt";
+    public static final String GET_ALL_COMMENT = "getAllComment";
+    public static final String GET_ONE_COMMENT = "getOneComment";
+    public static final String DEL_COMMENT_MORE = "delCommentMore";
+    public static final String DELETE_COMMENT = "deleteComment";
+    public static final String ECHARTS_COUNT_ORDER_AT = "echartsCountOrderAt";
 
 
     private AdminService adminService = new AdminService();
@@ -68,22 +79,40 @@ public class AdminServlet extends HttpServlet {
             validateName(request, response);
         } else if(LOGIN.equals(action)){
             login(request, response);
-        }  else if(GET_USER_INF.equals(action)){
-            getUserInf(request, response);
-        } else if(CHANGE_MY_INF.equals(action)){
-            changeMyInf(request, response);
         } else if(CHANGE_PASSWORD.equals(action)){
             changePassword(request, response);
         } else if(CHANGE_NC.equals(action)){
             changeNc(request, response);
         } else if(CHANGE_PT.equals(action)){
             changePt(request, response);
+        } else if(ECHARTS_COUNT_ORDER_AT.equals(action)){
+            echartsCountOrderAt(request, response);
+        } else if(DAY_COUNT_ORDER_AT.equals(action)){
+            dayCountOrderAt(request, response);
+        } else if(WEEK_COUNT_ORDER_AT.equals(action)){
+            weekCountOrderAt(request, response);
+        } else if(MONTH_COUNT_ORDER_AT.equals(action)){
+            monthCountOrderAt(request, response);
+        } else if(DAY_COUNT_MONEY_AT.equals(action)){
+            dayCountMoneyAt(request, response);
+        } else if(LAST_COUNT_MONEY_AT.equals(action)){
+            lastCountMoneyAt(request, response);
+        } else if(WEEK_COUNT_MONEY_AT.equals(action)){
+            weekCountMoneyAt(request, response);
+        } else if(GET_ALL_COMMENT.equals(action)){
+            getAllComment(request,response);
+        } else if(GET_ONE_COMMENT.equals(action)){
+            getOneComment(request,response);
+        } else if(DELETE_COMMENT.equals(action)){
+            deleteComment(request,response);
+        } else if(DEL_COMMENT_MORE.equals(action)){
+            delCommentMore(request,response);
         }
     }
 
     /**注册*/
     private void regist(HttpServletRequest request,HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         /*
          * 1.获取前台用户输入的数据
          * 2.对数据进行验证
@@ -134,8 +163,8 @@ public class AdminServlet extends HttpServlet {
         response.getWriter().print(result);
     }
     /**登录*/
-    private void login(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    private void login(HttpServletRequest request,
+                       HttpServletResponse response) throws IOException {
         /**
          * 1.获取用户名和密码
          * 2.对数据进行验证
@@ -149,7 +178,6 @@ public class AdminServlet extends HttpServlet {
         password = MD5.md5(password);
         try {
             Admin admin = adminService.login(username,password);
-
                 adminService.updateLastLoginTime(admin);
                 //把用户信息保存到session中
                 HttpSession session = request.getSession();
@@ -165,42 +193,120 @@ public class AdminServlet extends HttpServlet {
             //response.sendRedirect(request.getContextPath()+"/Admin/login.html");
         }
     }
-
-
-    /**获得个人信息**/
-    private void getUserInf(HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
-        String uId = request.getParameter("uid");
-        //List<Map<String,Object>> result= userService.getUserInf(Integer.parseInt(uId));
-        Map<String,Object> result= userService.getUserInf(Integer.parseInt(uId));
-        //System.out.println(result);
+    /**一天订单总数**/
+    private void dayCountOrderAt(HttpServletRequest request,
+                                  HttpServletResponse response) throws IOException {
+        int result= adminService.dayCountOrderAt();
         String json= JSON.toJSONString(result);
-        //System.out.println("json"+json);
+        response.getWriter().print(json);
+    }
+    /**一周订单总数**/
+    private void weekCountOrderAt(HttpServletRequest request,
+                                  HttpServletResponse response) throws IOException {
+        int result= adminService.weekCountOrderAt( );
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    /**一个月订单总数**/
+    private void monthCountOrderAt(HttpServletRequest request,
+                                    HttpServletResponse response) throws IOException {
+        int result= adminService.monthCountOrderAt( );
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    /**查询今日销售总额**/
+    private void dayCountMoneyAt(HttpServletRequest request,
+                                   HttpServletResponse response) throws IOException {
+        List<Map<String, Object>> result= adminService.dayCountMoneyAt( );
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    /**查询昨天销售总额**/
+    private void lastCountMoneyAt(HttpServletRequest request,
+                                 HttpServletResponse response) throws IOException {
+        List<Map<String, Object>> result= adminService.lastCountMoneyAt( );
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    /**近七天销售总额**/
+    private void weekCountMoneyAt(HttpServletRequest request,
+                                 HttpServletResponse response) throws IOException {
+        List<Map<String, Object>> result= adminService.weekCountMoneyAt( );
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    /**echarts**/
+    private void echartsCountOrderAt(HttpServletRequest request,
+                            HttpServletResponse response) throws IOException {
+        String number = request.getParameter("days");
+        System.out.println("天数"+number);
+        int days = 7;
+        try{
+            days = Integer.parseInt(number);
+        }catch(Exception e){
+            days = 7;
+        }
+        LinkedHashMap<String, Integer> result= adminService.echartsCountOrderAt(days);
+       // System.out.println(result);
+        String json= JSON.toJSONString(result);
+      //  System.out.println("json"+json);
         response.getWriter().print(json);
 
     }
-    /**修改个人信息**/
-    private void changeMyInf(HttpServletRequest request,
+    /**获取景点评论信息**/
+    private void getAllComment(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        String skey = request.getParameter("sKey");
+        String svalue=request.getParameter("sValue");
+        String current = request.getParameter("currentPage");
+        System.out.println("关键字"+skey+"关键字"+svalue+"跳转的页数"+current);
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        Page page = adminService.getAllComment(currentPage,skey,svalue);
+        String json= JSON.toJSONString(page);
+        response.getWriter().print(json);
+    }
+ 
+ 
+    /**查看一条评论**/
+    private void getOneComment(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        String comment_id = request.getParameter("comment_id");
+        Map<String,Object> result= adminService.getOneComment(Integer.parseInt(comment_id));
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+    }
+    private void deleteComment(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        String uid = request.getParameter("uid");
-        String customerName = request.getParameter("customerName");
-        String sex = request.getParameter("sex");
-        String phone = request.getParameter("phone");
-        String email= request.getParameter("email");
-
-        //System.out.println("获得的内容"+uid+" "+customerName+" "+sex+" "+phone+" "+email);
-        System.out.println("获得的内容"+phone+"结尾");
-        User user=new User();
-        user.setUid(Integer.parseInt(uid));
-        user.setName(customerName);
-        user.setSex(sex);
-        user.setPhone(phone);
-        user.setEmail(email);
-
-        Boolean result = userService.changeMyInf(user);
+        /**1.获取id
+         * 2.调用Service进行删除
+         * 3.获取商品列表，直接调用findAll方法
+         */
+        //1.获取id
+        String comment_id = request.getParameter("comment_id");
+        System.out.println("删除的id为："+comment_id);
+        Boolean result = adminService.delete(Integer.parseInt(comment_id));
         //返回添加成功的信息
         response.getWriter().print(result);
+        //findAllAttractions(request,response);
+
     }
+    private void delCommentMore(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        //获取前台的ids
+        String[] ids = request.getParameter("ids").split(",");
+        Boolean result = adminService.delMore(ids);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+        // findAllAttractions(request,response);
+
+    }
+
+
     /**修改密码*/
     private void changePassword(HttpServletRequest request,
                                 HttpServletResponse response) throws IOException {
@@ -224,8 +330,6 @@ public class AdminServlet extends HttpServlet {
         }else {
             response.getWriter().print(1);
         }
-        //response.sendRedirect(request.getContextPath()+"/User/centerSettingAddress.jsp");
-
     }
     /**修改头像**/
     private void changePt(HttpServletRequest request,
