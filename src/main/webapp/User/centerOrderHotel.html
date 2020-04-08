@@ -6,27 +6,7 @@
     <link rel="stylesheet" href="css/order.css">
     <link rel="stylesheet" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
-    <script type="text/javascript" src="js/topFoot.js"></script>
-    <script type="text/javascript" src="js/order.js"></script>
 
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
-    <script>
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-                console.log("userCookie存在");
-                $("#logout").show();
-
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
-
-        });
-    </script>
     <style type="text/css" >
 
         body{background-color: #EEEEEE;}
@@ -34,8 +14,7 @@
     </style>
 </head>
 <body>
-<div id="ss"></div>
-<!--页面顶部-->
+ <!--页面顶部-->
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
@@ -137,7 +116,7 @@
     </div>
 </div>
 <!--底部内容-->
-<input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="user_id" name="user_id" value="">
 <input type="hidden" id="orderId" value="">
 <div class="bottom-foot" >
     <h2>热门目的地</h2>
@@ -214,22 +193,26 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+<script type="text/javascript" src="js/topFoot.js"></script>
+<script type="text/javascript" src="js/order.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script src="js/validate.js"></script>
 <script>
 
     $(document).ready(function(){
-        const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-        const uid = userCookie.uid;
-        $("#uI").val(uid);
+        const user_id =  $("#user_id").val();;
 
         /**获取所有订单数据信息*/
         //document.location = "../UserServlet?action=findAllOrder&uid="+uid;
         $.ajax({
-            url: "../UserServlet", // 请求路径
-            type:"Get" , //请求方式
-            dataType:"text",//设置接受到的响应数据的格式
+            url: "../UserServlet",
+            type:"Get" ,
+            dataType:"text",
             data:{
                 action:"findAllOrderHotel",
-                uid:uid,
+                user_id:user_id,
             },
             success:function (data) {
                 console.log("dd"+data);
@@ -244,12 +227,12 @@
         $("#firstPageClick").click(function () {
             let current = 1;
             $.ajax({
-                url: "../UserServlet", // 请求路径
-                type:"Get" , //请求方式
-                dataType:"text",//设置接受到的响应数据的格式
-                    //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
-                data:{action:"findAllOrder",
-                    uid:uid,
+                url: "../UserServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderHotel",
+                    user_id:user_id,
                     currentPage:current,
                 },
                 success:function (data) {
@@ -266,11 +249,12 @@
             let currentPage = $("#currentPage").html();
             let current = currentPage-1;
             $.ajax({
-                url: "../UserServlet", // 请求路径
-                type:"Get" , //请求方式
-                dataType:"text",//设置接受到的响应数据的格式
-                data:{action:"findAllOrder",
-                    uid:uid,
+                url: "../UserServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderHotel",
+                    user_id:user_id,
                     currentPage:current,
                 },
                 success:function (data) {
@@ -287,11 +271,12 @@
             let currentPage = $("#currentPage").html();
             let current = parseInt(currentPage)+1;
             $.ajax({
-                url: "../UserServlet", // 请求路径
-                type:"Get" , //请求方式
-                dataType:"text",//设置接受到的响应数据的格式
-                data:{action:"findAllOrder",
-                    uid:uid,
+                url: "../UserServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderHotel",
+                    user_id:user_id,
                     currentPage:current,
                 },
                 success:function (data) {
@@ -307,11 +292,12 @@
         $("#finalPageClick").click(function () {
             let current = $("#totalPage").html();
             $.ajax({
-                url: "../UserServlet", // 请求路径
-                type:"Get" , //请求方式
-                dataType:"text",//设置接受到的响应数据的格式
-                data:{action:"findAllOrder",
-                    uid:uid,
+                url: "../UserServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderHotel",
+                    user_id:user_id,
                     currentPage:current,
                 },
                 success:function (data) {
@@ -327,12 +313,12 @@
         $("#jump").click(function () {
             const current = $("#num").val();
             $.ajax({
-                url: "../UserServlet", // 请求路径
-                type:"Get" , //请求方式
-                dataType:"text",//设置接受到的响应数据的格式
-                //action=findAllOrder&uid=${user.uid }&currentPage=${order.currentPage != 1
-                data:{action:"findAllOrder",
-                    uid:uid,
+                url: "../UserServlet",
+                type:"Get" ,
+                dataType:"text",
+                data:{
+                    action:"findAllOrderHotel",
+                    user_id:user_id,
                     currentPage:current,
                 },
                 success:function (data) {

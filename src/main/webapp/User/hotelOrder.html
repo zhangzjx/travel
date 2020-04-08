@@ -5,10 +5,7 @@
     <title>确认订单信息</title>
     <link rel="stylesheet" href="css/orderTwo.css">
     <link rel="stylesheet" href="css/topFoot.css">
-    <script type="application/javascript" src="js/topFoot.js"></script>
-    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+
     <style type="text/css">
         a{color: #000000;}
         a:link {color: #000000;
@@ -106,19 +103,6 @@
     <script type="application/javascript">
 
         $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-
-                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-                console.log("userCookie===="+userCookie.uid);
-                $("#uid").val(userCookie.uid);
-                $("#logout").show();
-
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
 
             $("#xianshang").click(function(){
                 $(this).addClass('check-box')
@@ -137,7 +121,6 @@
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
-
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -154,9 +137,7 @@
                 </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
-
         </div>
-
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
@@ -172,9 +153,8 @@
 <div class="order">
     <div class="all-order">
         <h2 >核对订单信息</h2>
-
             <form id="myForm" action="../UserServlet?action=subHotelOrder" method="post" >
-                <input type="hidden" id="uid" name="uid" value=""}>
+                <input type="hidden" id="user_id" name="user_id" value=""}>
                 <input type="hidden" id="receiver" name="receiver" value="">
                 <input type="hidden" id="phone" name="phone" value="">
                 <input type="hidden" id="hid" name="hid" value="">
@@ -311,6 +291,11 @@
 </div>
 <!-- end-footer -->
 </body>
+<script type="application/javascript" src="js/topFoot.js"></script>
+<link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script src="js/validate.js"></script>
 <script>
     //定义方法
     $(document).ready(function() {
@@ -330,7 +315,7 @@
         console.log("价格"+price);
         console.log("数量"+quantity);
         console.log("总价"+ sumPrice);
-        const uid =  $("#uid").val();
+        const user_id =  $("#user_id").val();
         $("#startTime").val(startTime);
         $("#endTime").val(endTime);
         $("#bookDays").val(bookDays);
@@ -351,7 +336,7 @@
             //async:false,
             data: {
                 action:"getUserInf",
-                uid:uid
+                user_id:user_id
             },
             success: function (data) {
                 console.log("dd"+data)

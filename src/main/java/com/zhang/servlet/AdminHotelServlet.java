@@ -3,7 +3,6 @@ package com.zhang.servlet;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.dao.Page;
-import com.zhang.domain.Attractions;
 import com.zhang.domain.Hotel;
 import com.zhang.service.AdminHotelService;
 import com.zhang.utils.DateUtils;
@@ -128,14 +127,11 @@ public class AdminHotelServlet extends HttpServlet {
 
     /**根据id查看一条数据并传递到另一个页面**/
     private void findOneH(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         String id = request.getParameter("hId");
         Map<String, Object> result = adminHotelService.findOneH(Integer.parseInt(id));
-        //创建Jackson的核心对象  ObjectMapper
-        ObjectMapper mapper = new ObjectMapper();
-        //返回页面参数
-        mapper.writeValue(response.getWriter(),result);
-        System.out.println(result);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
 
         //request.setAttribute("map",map);
         //request.getRequestDispatcher("/Admin/goodsDes.jsp").forward(request, response);

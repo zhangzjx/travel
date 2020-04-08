@@ -17,7 +17,7 @@ public class UserHotelDao {
         return JdbcUtils.find(sql);
     }
 
-    /**获得所有景点信息**/
+    /**获得所有酒店信息**/
     /***分页开始****/
     public int findCountHt() {
         String sql = "select count(*) from t_hotel ";
@@ -41,12 +41,12 @@ public class UserHotelDao {
         //return list.get(0);
     }
 
-    /**获得一条景点图片信息**/
+    /**获得一条酒店图片信息**/
     public List<Map<String, Object>> getOneHtImg(int hId) {
         String sql = "select * from t_hotel_img where hotel_id=?";
         return JdbcUtils.find(sql,hId);
     }
-    /**获得一条景点门票信息**/
+    /**获得一条酒店门票信息**/
     public List<Map<String, Object>> getRoom(String room_id) {
         StringBuilder sql=new StringBuilder("select * from t_hotel_room");
         if(room_id!=null&&room_id!=""){

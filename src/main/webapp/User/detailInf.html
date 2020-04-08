@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
 
 </head>
 <body>
 <form class="layui-form" id="myForm" style="padding: 50px 0 0 150px;" >
-    <input type="hidden" id="uid" name="uid" value="">
+    <input type="hidden" id="user_id" name="user_id" value="">
     <div class="layui-form-item">
         <label class="layui-form-label">昵称：</label>
         <div class="layui-input-block" style="width: 240px;">
@@ -55,9 +53,11 @@
     </div>
 </form>
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript"  src="../res/layui/layui.all.js"></script>
 <script type="text/javascript">
-    const uid = parent.$("#uI").val();//访问父页面元素值
-    $("#uid").val(uid);
+    const user_id = parent.$("#user_id").val();//访问父页面元素值
+    $("#user_id").val(user_id);
 
     $(document).ready(function(){
         /**获取单条数据信息*/
@@ -65,15 +65,13 @@
             url: "../UserServlet", // 请求路径
             type:"Get" , //请求方式
             dataType:"text",//设置接受到的响应数据的格式
-            data:{action:"getUserInf",
-                uid:uid,
+            data:{
+                action:"getUserInf",
+                user_id:user_id,
             },
             success:function (data) {
                 console.log("dd"+data);
-                //alert(data);
                 const json = eval("(" + data + ")");
-
-//  $("#payPhone").html(json.phone);
                 $("#customerName").val(json.customerName);
                 $("#phone").val(json.phone);
                 $("#email").val(json.email);
@@ -81,10 +79,10 @@
                 let entryTime = timestampToTime(timestamp);//时间戳转换
                 $("#entryTime").val(entryTime);
                 //location.reload();
-            },//响应成功后的回调函数
+            },
             error:function () {
                 console.log("出错啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
+            },
         });
         /**时间戳转换**/
         function timestampToTime(timestamp) {

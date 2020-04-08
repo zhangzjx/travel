@@ -8,7 +8,5 @@ $(document).ready(function(){
     } else {
         console.log("adminCookie不存在");
         window.parent.location.href="login.html";
-        // $("#login").show()
-        //$("#account").show()
     }
 });

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="../../res/layui/css/layui.css">
+    <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
+
+</head>
+<body>
+<form class="layui-form" id="myForm" style="padding: 50px 0 0 80px;" lay-filter="editDialogForm">
+    <input type="hidden" id="admin_id" name="admin_id" value="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称：</label>
+        <div class="layui-input-block" style="width: 240px;">
+            <input type="text" id="admin_name" name="admin_name" lay-verify="required" lay-reqtext="不能为空" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" id="goTo" class="layui-btn" lay-filter="go" lay-submit="" >修改</button>
+        </div>
+    </div>
+</form>
+
+</body>
+<script type="text/javascript">
+    const admin_id = parent.$("#admin_id").val();//访问父页面元素值
+    const nickname= parent.$("#my_name").html();
+    $("#admin_id").val(admin_id);
+    $("#admin_name").val(nickname);
+
+    $(document).ready(function(){
+
+        layui.use(['form'], function() {
+            const form = layui.form ;
+            //监听提交
+            form.on('submit(go)', function(data){
+                //使用$.ajax()发送异步请求
+                $.ajax({
+                    url:"../AdminServlet?action=changeNc" , // 请求路径
+                    type:"POST" , //请求方式
+                    data:$('#myForm').serialize(),// 序列化表单值
+                    success:function (data) {
+                        console.log(typeof(data));
+                        if (data!=false){
+                            alert("修改成功");
+                            const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+
+                        }else {
+                            alert("修改失败");
+                            location.reload();
+                        }
+                        //form.render();//菜单渲染 把内容加载进去
+                    },//响应成功后的回调函数
+                    error:function () {
+                        alert("出错啦...")
+                    },//表示如果请求响应出现错误，会执行的回调函数
+                    dataType:"text"//设置接受到的响应数据的格式
+                });
+                return false;//不跳转
+            });
+        });
+
+    });
+
+
+</script>
+</html>
+

@@ -4,33 +4,31 @@ import com.zhang.dao.AdminDao;
 import com.zhang.dao.Page;
 import com.zhang.dao.UserDao;
 import com.zhang.domain.Admin;
-import com.zhang.domain.User;
 import com.zhang.exception.UserException;
 import com.zhang.utils.DateUtils;
-import com.zhang.utils.JdbcUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author prayers
  * @date 2020/2/20 21:53
  */
 public class AdminService {
-    UserDao userDao = new UserDao();
     AdminDao adminDao = new AdminDao();
     /**验证账号唯一性**/
     public boolean validateName(String name) {
-        User user = userDao.validateByName(name);
-        if(user!=null){
+        Admin admin = adminDao.validateByName(name);
+        if(admin!=null){
             return false;
         }else{
             return true;
         }
     }
     /**注册账号*/
-    public void regist(User user) {
-        UserDao.regist(user);
+    public void regist(Admin admin) {
+        AdminDao.regist(admin);
     }
     /**登录账号*/
     public Admin login(String username, String password) throws UserException {
@@ -46,16 +44,14 @@ public class AdminService {
         adminDao.updateLastLoginTime(admin);
     }
 
-
     /**获得个人信息**/
-    public Map<String,Object> getUserInf(int uId){
-        return userDao.getUserInf(uId);
+    public Map<String,Object> getUserInf(int admin_id){
+        return adminDao.getUserInf(admin_id);
     }
     /**修改个人信息**/
-    public Boolean changeMyInf(User user) {
-        userDao.changeMyInf(user);
-
-        if(user!=null){
+    public Boolean changeMyInf(Admin admin) {
+        adminDao.changeMyInf(admin);
+        if(admin!=null){
             return true;
         }else{
             return false;
@@ -75,9 +71,9 @@ public class AdminService {
         adminDao.changePw(m);
     }
     /**修改昵称**/
-    public Boolean changeNc(User user) {
-        userDao.changeNc(user);
-        if(user!=null){
+    public Boolean changeNc(Admin admin) {
+        adminDao.changeNc(admin);
+        if(admin!=null){
             return true;
         }else{
             return false;

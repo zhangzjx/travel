@@ -46,17 +46,17 @@
 
             //监听提交
             form.on('submit(go)', function(data){
-                //使用$.ajax()发送异步请求
                 $.ajax({
-                    url:"../UserServlet?action=writeComment" , // 请求路径
+                    url:"../UserServlet?action=writeComment" ,
                     type:"POST" , //请求方式
-                    data:$('#myForm').serialize(),// 序列化表单值
+                    data:$('#myForm').serialize(),
                     success:function (data) {
                         console.log(typeof(data));
                         if (data!=false){
-                            alert("已发布点评");
+                            alert('已发布点评');
                             const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                             parent.layer.close(index); //再执行关闭
+
                         }else {
                             alert("发布点评失败，请重试...");
                         }

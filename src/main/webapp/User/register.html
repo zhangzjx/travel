@@ -19,13 +19,13 @@
                     <li>手机号:</li>
                     <li><input type="text" id="phone" name="phone" placeholder="仅支持大陆手机号"  class="el-input"/></li>
                     <li>用户名:</li>
-                    <li><input type="text" id="username" name="username" placeholder="输入昵称"  class="el-input"/>
-                        <span id="msg">输入昵称</span>
+                    <li><input type="text" id="username" name="username" placeholder="输入用户名"  class="el-input"/>
+                        <span id="msg">输入用户名</span>
                     </li>
                     <li>邮箱:</li>
                     <li><input type="text" id="email" name="email" placeholder="输入邮箱" class="el-input"/></li>
                     <li>登录密码:</li>
-                    <li><input type="password" id="password" name="password" placeholder="不少于六位"  class="el-input"/></li>
+                    <li><input type="password" id="password" name="password" placeholder="不少于三位"  class="el-input"/></li>
                 </ul>
             </div>
 
@@ -85,12 +85,17 @@
          ***用ajax提交返回注册成功信息**************/
         // $("#myForm").submit();
         $.ajax({
-            url:"../UserServlet?action=register" , // 请求路径
+            url:"../UserServlet?action=register" ,
             type:"POST" , //请求方式
             data:$('#myForm').serialize(),// 序列化表单值
             success:function (data) {
-                alert("添加成功");
-                location.reload();
+                if(data=="true"){
+                    alert("注册成功");
+                    window.parent.location.href="index.html"
+                }else{
+                    alert("注册失败");
+                }
+
             },//响应成功后的回调函数
             error:function () {
                 alert("出错啦...")

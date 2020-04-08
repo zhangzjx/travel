@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="../../layui/css/layui.css">
     <link rel="stylesheet" href="../css/allList.css">
     <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
-
+<<style type="text/css">
+    #result ul li{height: auto;margin-top: 10px}
+</style>
 </head>
 <body style="margin: 0 20px 100px 0;">
 <div>
@@ -89,19 +91,18 @@
 
 </div>
 </body>
-<script type="text/html" id="detailDialog">
-    <div id="tit" style="width: 80px;height: 300px;float: left">
-        <ul>
-            <li>景点名称</li>
-            <li>评论时间</li>
-            <li>评论者</li>
-            <li>标题</li>
-            <li>内容</li>
-
-        </ul>
-    </div>
-    <div id="result" style="width: 600px;height: 300px;float: left;">
-
+<script type="text/html" id="detailDialog" >
+    <div style="padding: 5px 20px">
+        <div id="tit" style="width: 80px;height: 300px;float: left">
+            <ul>
+                <li>景点名称</li>
+                <li>评论时间</li>
+                <li>评论者</li>
+                <li>标题</li>
+                <li>内容</li>
+            </ul>
+        </div>
+        <div id="result" style="width: 600px;height: 300px;float: left;"></div>
     </div>
 </script>
 
@@ -374,16 +375,11 @@
                         success:function (data) {
                             const json = eval("(" + data + ")");
 
-                            let spName =  json.spName;
                             let timestamp = json.comment_time;
                             let comment_time = timestampToTime(timestamp);
-                            let customerName =  json.customerName;
-                            let comment_title =  json.comment_title;
-                            const comment_content =  json.comment_content;
-
                             let str = '';
-                            str = "<ul><li>" + spName + "</li><li>" + comment_time + "</li><li>" + customerName + "</li>" +
-                                "<li>" + comment_title + "</li><li>" + comment_content + "</li></ul>";
+                            str = "<ul><li>" + json.spName + "</li><li>" + comment_time + "</li><li>" + json.customerName + "</li>" +
+                                "<li>" + json.comment_title + "</li><li>" + json.comment_content + "</li></ul>";
                             $("#result").html(str);
                             //showData(data);//我们仅做数据展示
                             //location.reload();

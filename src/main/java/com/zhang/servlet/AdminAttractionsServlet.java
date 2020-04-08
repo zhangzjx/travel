@@ -135,11 +135,9 @@ public class AdminAttractionsServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("spId");
         Map<String, Object> result = adminAttractionsService.findOneAt(Integer.parseInt(id));
-        //创建Jackson的核心对象  ObjectMapper
-        ObjectMapper mapper = new ObjectMapper();
-        //返回页面参数
-        mapper.writeValue(response.getWriter(),result);
-        System.out.println(result);
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+        System.out.println(json);
 
         //request.setAttribute("map",map);
         //request.getRequestDispatcher("/Admin/goodsDes.jsp").forward(request, response);

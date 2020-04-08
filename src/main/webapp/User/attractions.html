@@ -3,28 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>旅游景点</title>
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="js/topFoot.js"></script>
-    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/attractions.css">
-    <script>
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-                console.log("userCookie存在");
-                $("#logout").show();
 
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
-
-        });
-    </script>
     <style type="text/css">
 
         /*********旅游景点***********/
@@ -266,11 +249,24 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/topFoot.js"></script>
+<script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+            console.log("userCookie存在");
+            $("#logout").show();
+        } else {
+            console.log("userCookie不存在");
+            $("#login").show()
+        }
+    });
+</script>
 <script>
     //定义方法
     $(document).ready(function() {
-
-
         /**获取热门景点信息，使用$.ajax()发送异步请求*/
         $.ajax({
             url: "../UserAttractionsServlet", // 请求路径

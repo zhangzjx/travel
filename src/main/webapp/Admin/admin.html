@@ -62,9 +62,12 @@
        </ul>
    -->
     <div class="loginNameDiv" style="cursor: pointer">
+        <!--
         <img class="loginIcon" src="/adminImg/bg_miaomiao.png">
+        -->
+        <div id="my_img" style="float: left"></div>
         <div class="loginUserInfo">
-            <span>ice</span><br>
+            <span id="my_name">ice</span><br>
             <span>管理员</span>
         </div>
     </div>
@@ -93,31 +96,44 @@
 <input type="hidden" id="admin_id" value="">
 </body>
 </html>
-
-
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="../layui/layui.all.js"></script>
 <script src="js/jquery.cookie.js" charset="utf-8"></script>
 <script src="js/common.js"></script>
 <script src="js/main.js"></script>
 <script>
+    $(document).ready(function(){
+        if($.cookie("adminCookie") != null&&$.cookie("adminCookie")!= ""){
+            console.log("adminCookie存在");
+            const userCookie = JSON.parse($.cookie("adminCookie"));    //读取cookie
+            const admin_id = userCookie.admin_id;
+            $("#admin_id").val(admin_id);
+            $.ajax({
+                url:"../AdminServlet" ,
+                type:"POST" ,
+                data:{
+                    action:"getUserInf",
+                    admin_id:admin_id
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    const json = eval("(" + data + ")");
+                    let img = '';
+                    img = "<img src='/adminImg/"+json.avatar+"' class='loginIcon'>";
+                    $("#my_img").html(img);
+                    $("#my_name").html(json.username);
+                },
+                error:function () {
+                    console.log("失败啦...")
+                },
+                dataType:"text"
+            });
+        } else {
+            console.log("adminCookie不存在");
+            window.parent.location.href="login.html";
+        }
+    });
 
-
-</script>
-<script type="application/javascript">
-    function changePic() {
-        $("#prompt").css("display", "none");
-        const reads = new FileReader();
-        const f = document.getElementById('photo').files[0];
-        reads.readAsDataURL(f);
-        reads.onload = function(e) {
-            document.getElementById('img').src = this.result;
-            $("#img").css("display", "block");
-        };
-    }
-
-</script>
-<script>
 
     layuiModules=['layer', 'form','element'];
 
@@ -154,12 +170,12 @@
                 id: 5,
                 pid: -1,
                 url: '#/table.html'
-            }, {
+            }, /**{
                 name: "多图上传",
                 id: 6,
                 pid: -1,
                 url: '#/multi_image_upload.html'
-            }, {
+            },*/ {
                 name: "新增景点信息",
                 id: 11,
                 pid: 1,
@@ -258,7 +274,10 @@
                 shadeClose: true, //点击遮罩关闭层    
                 area: ['50%', '60%'],
                 id:'change_avatar',
-                content:'html/avatar.html',//弹框显示的url,对应的页面  
+                content:'html/avatar.html',//弹框显示的url,对应的页面 
+                end: function(){
+                    location.reload();
+                }
             });
         });
         //显示修改昵称弹框
@@ -266,13 +285,13 @@
             $("#entry").hide(300);
             layer.open({
                 type: 2,
-                title: '修改头像',
+                title: '修改昵称',
                 offset: '150px',//弹窗位置
                 shade: 0.2,
-                shadeClose: true, //点击遮罩关闭层    
-                area: ['50%', '60%'],
-                id:'change_avatar',
-                content:'html/avatar.html',//弹框显示的url,对应的页面  
+                shadeClose: true, //点击遮罩关闭层      
+                area: ['40%', '50%'],
+                id:'change_nickname',
+                content:'html/nickname.html',//弹框显示的url,对应的页面  
             });
         });
         //显示修改密码弹框
@@ -286,12 +305,11 @@
                 shadeClose: true, //点击遮罩关闭层    
                 area: ['40%', '50%'],
                 id:'change_password',
-                content:'html/password.html',//弹框显示的url,对应的页面  
+                content:'html/password.html',//弹框显示的url,对应的页面 
+               // success:,  
             });
         });
     }
-
-
 
     /**
      *格式化菜单数据

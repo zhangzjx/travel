@@ -105,18 +105,19 @@
 </div>
 </body>
 <script type="text/html" id="detailDialog">
-    <div id="tit" style="width: 80px;height: 300px;float: left">
-        <ul>
-            <li>酒店名称</li>
-            <li>酒店简介</li>
-            <li>酒店地址</li>
-            <li>酒店电话</li>
-            <li>酒店星级</li>
-            <li>酒店详情</li>
-        </ul>
-    </div>
-    <div id="result" style="width: 600px;height: 300px;float: left;">
-
+    <div style="padding: 5px 20px">
+        <div style="width: 100%;float: left" id="hotel_img"> </div>
+        <div id="tit" style="width: 80px;height: 300px;float: left">
+            <ul>
+                <li>酒店名称</li>
+                <li>酒店简介</li>
+                <li>酒店地址</li>
+                <li>酒店电话</li>
+                <li>酒店星级</li>
+                <li>酒店详情</li>
+            </ul>
+        </div>
+        <div id="result" class="result"></div>
     </div>
 </script>
 <script type="text/html" id="editDialog">
@@ -440,30 +441,19 @@
                             hId:id,
                         },
                         success:function (data) {
-                            //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
-                            const json = JSON.stringify(data);
-                            //alert("返回的数据："+json);
-                            console.log(data,'数组');
-                            const hName = JSON.stringify(data.hName).replace(/\"/g, "");  //这里去掉所有"
-                            const hLabel = JSON.stringify(data.hLabel).replace(/\"/g, "");
-                            const hAddress = JSON.stringify(data.hAddress).replace(/\"/g, "");
-                            const hPhone = JSON.stringify(data.hPhone).replace(/\"/g, "");
-                            const hStar = JSON.stringify(data.hStar).replace(/\"/g, "");
-                            const hFormation = JSON.stringify(data.hFormation).replace(/\"/g, "");
-
                             let str = '';
-                            str = "<ul><li>" + hName + "</li><li>" + hLabel + "</li><li>" + hAddress + "</li>" +
-                                "<li>" + hPhone + "</li><li>" + hStar + "</li><li>" + hFormation + "</li></ul>";
-
+                            let img = '';
+                            str = "<ul><li>" + data.hName + "</li>" +
+                                "<li>" + data.hLabel + "</li><li>" + data.hAddress + "</li><li>" + data.hPhone + "</li><li>" + data.hStar + "</li>" +
+                                "<li>" + data.hFormation + "</li></ul>";
+                            img = "<img src='/hotelImg/"+data.img_name+"' class='hotel_img'>";
                             $("#result").html(str);
-                            //showData(data);//我们仅做数据展示
-                            //location.reload();
-                        },//响应成功后的回调函数
+                            $("#hotel_img").html(img);
+                        },
                         error:function () {
                             alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
+                        },
                     });
-
                     /**打开弹窗*/
                     layer.open({
                         type: 1,
@@ -491,6 +481,7 @@
                             hId:id,
                         },
                         success:function (data) {
+                            /**
                             //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
                             const json = JSON.stringify(data);
                             //alert("返回的数据："+json);
@@ -502,19 +493,18 @@
                             const hPhone = JSON.stringify(data.hPhone).replace(/\"/g, "");
                             const hStar = JSON.stringify(data.hStar).replace(/\"/g, "");
                             const hFormation = JSON.stringify(data.hFormation).replace(/\"/g, "");
-                            $("#hId").val(hId);
-                            $("#hotel_name").val(hName);
-                            $("#hotel_label").val(hLabel);
-                            $("#hotel_address").val(hAddress);
-                            $("#hotel_phone").val(hPhone);
-                            $("#hotel_star").val(hStar);
-                            $("#content").html(hFormation);
-                            //showData(data);//我们仅做数据展示
-                            //location.reload();
-                        },//响应成功后的回调函数
+                             */
+                            $("#hId").val(data.hId);
+                            $("#hotel_name").val(data.hName);
+                            $("#hotel_label").val(data.hLabel);
+                            $("#hotel_address").val(data.hAddress);
+                            $("#hotel_phone").val(data.hPhone);
+                            $("#hotel_star").val(data.hStar);
+                            $("#content").html(data.hFormation);
+                        },
                         error:function () {
                             alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
+                        },
                     });
 
                     /**打开弹窗*/

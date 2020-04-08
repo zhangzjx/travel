@@ -24,7 +24,7 @@ public class UserDao {
 
     /**注册*/
     public static void regist(User user){
-        String sql = "insert into t_customer values(null,?,?,null,null,?,?,null,null,null)";
+        String sql = "insert into t_customer values(null,?,?,null,null,?,?,null,null)";
         Object []params={
                 user.getName(),
                 user.getPassword(),
@@ -333,9 +333,17 @@ public class UserDao {
     }
     /**获得一条评论信息**/
     public Map<String, Object> getOneComment(int comment_id) {
-
         String sql = "select a.comment_content,a.space from t_scenicspot_comment a where a.comment_id=?";
         List<Map<String, Object>> list=JdbcUtils.find(sql, comment_id);
         return list.get(0);
+    }
+    /**获得所有评论信息并分页**/
+    public int findCountComment(int user_id) {
+        String sql = "select count(*) from t_scenicspot_comment where  user_id="+user_id;
+        return ((Number) JdbcUtils.selectScalar(sql, (Object[]) null)).intValue();
+    }
+    public List<Map<String, Object>> getAllComment(int user_id, int startIndex, int pageSize) {
+        String sql = "select a.*,b.customerName,b.jf from t_scenicspot_comment a,t_customer b where a.user_id=b.uid and a.user_id=? limit ?,?";
+        return JdbcUtils.find(sql, user_id, startIndex, pageSize);
     }
 }

@@ -6,26 +6,29 @@
     <link rel="stylesheet" href="css/topFoot.css">
     <link rel="stylesheet" href="css/myInf.css">
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="js/topFoot.js"></script>
-    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
-    <script>
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-                console.log("userCookie存在");
-                $("#logout").show();
 
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
+    <style type="text/css">
+        .comment-inf{width:690px;height: 150px;border-bottom: solid 1px #EEEEEE;margin: 5px 20px}
+        .comment-inf-top{width: 700px;height: 30px;overflow: hidden;line-height:30px;text-overflow:ellipsis;white-space: nowrap;}
+        .evaluate-info{width: 340px;height: 40px;padding:10px 0;font-size: 8pt}
+        .evaluate-info .img{width: 40px;height: 40px;border-radius: 50%;margin-right: 10px;float: left}
+        .evaluate-info .sp{width: 200px;height: 20px;float: left}
+        .evaluate-right .img{width: 600px;height: 400px;float: left;}
+        /***分页功能***/
 
-        });
-    </script>
-    <style type="text/css" >
+        .pagination{
+            width: 750px;
+            height: 40px;
+            line-height:40px;
+            text-align: center;
+            margin-top: 5px;
+            font-size: 9pt;
+            border-bottom: solid 1px #dddddd;
+            border-left: solid 1px #dddddd;
+            border-right: solid 1px #dddddd;
+            float: left;
+        }
+
 
     </style>
 </head>
@@ -34,13 +37,6 @@
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
-        <!--
-        <ul class="app-header">
-          <li class="app-header-menuicon">
-             <i class="layui-icon layui-icon-more-vertical"></i>
-          </li>
-        </ul>
-        -->
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -51,21 +47,13 @@
         <div class="login" id="logout" style="display:none;" >
             <div class="account" >
                 <a href="myInf.html">
-                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <img src="img/account.png" title="账户" style="width: 25px;height: 25px;">
                     <br>
                     <span style=" font-size: 9pt; ">账户</span>
                 </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
-
         </div>
-        <!--
-        <ul class="layui-nav header-down-nav">
-          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
-          <li class="layui-nav-item"><a href="case.html">案例</a></li>
-          <li class="layui-nav-item"><a href="service.html">服务</a></li>
-          <li class="layui-nav-item"><a href="about.html">关于</a></li>
-        </ul>-->
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
@@ -80,11 +68,9 @@
 
 <!--主要内容-->
 <div class="content">
-
     <div class="content-main">
         <!--左侧主内容-->
         <div class="content-left">
-
             <div class="content-left-main">
                 <div style="font-size: 12pt;text-align: center;margin-bottom: 15px;">账户设置</div>
                 <li class="content-left-list"><a id="getMyInf">账号信息</a></li>
@@ -92,7 +78,6 @@
                 <div style="font-size: 12pt;text-align: center;margin-bottom: 15px;">订单中心</div>
                 <li class="content-left-list"><a href="centerOrder.html">我的订单</a></li>
                 <li class="content-left-list"><a onclick="orderEvaluate()" href="">待评价</a></li>
-
             </div>
         </div>
         <!--右侧主内容-->
@@ -108,7 +93,6 @@
                         <div class="top-item-right">
                             <div class="inf">编辑</div>
                             <div class="inf-k"><img src="img/setting.png" class="img"></div>
-
                         </div>
                     </div>
                     <div style="width: 820px;height: 50px;float: left">
@@ -124,15 +108,40 @@
 
                 </div>
                 <div class="top-bottom">
-                    <div id="change-one" class="top-bottom-item">订单</div>
+                    <div id="change-one" class="top-bottom-item" >订单</div>
                     <div id="change-two" class="top-bottom-item">点评</div>
                 </div>
             </div>
             <!--右侧中部-->
             <div class="right-central">
                 <div id="one" class="central-main tab-pane active">
-                    写您的第一条点评！
-                    您的意见很重要！开始在 TripAdvisor 点评酒店、景点玩乐和更多内容。写点评
+                    <div id="my_comment" style="text-align: left;"></div>
+                    <!--分页 写您的第一条点评！ 您的意见很重要！ -->
+                    <div style="background-color: #fff; margin-top: 3px" class="pagination" >
+                        <div style="width: 35%;text-align: left;margin-left: 20px;float: left">
+                            共找到<span id="totalSize"></span>条记录，每页<span id="pageSize"></span>条，
+                            共<span id="totalPage"></span>页，当前第<span id="currentPage"></span>页
+                        </div>
+                        <div style="float: left;width: 35%;">
+                            <!-- 首页 -->
+                            <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
+                            <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
+                            <!-- 上一页 -->
+                            <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
+                            <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
+                            <!-- 下一页 -->
+                            <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
+                            <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
+                            <!-- 尾页 -->
+                            <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
+                            <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
+                        </div>
+                        <div style="float: left">
+                            <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
+                            <button id="jump" type="button" class="layui-btn layui-btn-sm">确定</button>
+                        </div>
+                    </div>
+
                 </div>
                 <div id="two" class="central-main tab-pane">
                     点评精选及图片
@@ -149,9 +158,9 @@
     </div>
 
 </div>
-
 <!--底部内容-->
-<input type="hidden" id="uI" name="uI" value="">
+
+<input type="hidden" id="user_id" name="user_id" value="">
 <div class="bottom-foot" >
     <h2>热门目的地</h2>
     SeeWorld 是全球领先的旅游网站，旨在帮助旅行者计划和预定完美旅行。
@@ -227,19 +236,22 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/topFoot.js"></script>
+<script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script src="js/validate.js"></script>
 <script>
     $(document).ready(function(){
-        const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-        const uid = userCookie.uid;
-        $("#uI").val(uid);
-
-        /**获取单条数据信息*/
+        let user_id = $("#user_id").val();
+        /**获取个人数据信息*/
         $.ajax({
-            url: "../UserServlet", // 请求路径
-            type:"Get" , //请求方式
-            dataType:"text",//设置接受到的响应数据的格式
-            data:{action:"getUserInf",
-                uid:uid,
+            url: "../UserServlet",
+            type:"Get" ,
+            dataType:"text",
+            data:{
+                action:"getUserInf",
+                user_id:user_id,
             },
             success:function (data) {
                 console.log("dd"+data);
@@ -249,6 +261,25 @@
             error:function () {
                 console.log("出错啦...")
             },
+        });
+        /**获取评论信息*/
+        /**获取景点评论信息*/
+        $.ajax({
+            url: "../UserServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getAllComment",
+                user_id:user_id
+            },
+            success: function (data) {
+                console.log("评论"+data)
+                show(data);
+            },
+            error: function () {
+                console.log("失败啦...")
+            },
+            dataType: "text"
         });
         /**获取信息*/
         $("#getMyInf").click(function() {
@@ -262,6 +293,9 @@
                 // id:'nfghK',
                 content:'detailInf.html',//弹框显示的url,对应的页面  
                 //btn: ['确定', '取消'],
+                end:function () {
+                    location.reload();
+                }
             });
         });
         /**修改密码*/
@@ -289,6 +323,9 @@
                 area: ['40%', '50%'],
                 // id:'nfghK',
                 content:'nickname.html',//弹框显示的url,对应的页面  
+                end:function () {
+                    location.reload();
+                }
                 //btn: ['确定', '取消'],
             });
         });
@@ -306,7 +343,237 @@
                 //btn: ['确定', '取消'],
             });
         });
+
+        /**首页*/
+        $("#firstPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+            let current = 1;
+            $.ajax({
+                url: "../UserServlet",
+                type: "POST",
+                //async:false,
+                data: {
+                    action:"getAllComment",
+                    currentPage:current,
+                    user_id:user_id
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**上一页*/
+        $("#lastPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+
+            let currentPage = $("#currentPage").html();
+            let current = currentPage-1;
+            $.ajax({
+                url: "../UserServlet",
+                type: "POST",
+                //async:false,
+                data: {
+                    action:"getAllComment",
+                    currentPage:current,
+                    user_id:user_id
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**下一页*/
+        $("#nextPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+            let skey = $('select[name=sKey] option:selected').val();
+            let currentPage = $("#currentPage").html();
+            let current = parseInt(currentPage)+1;
+            $.ajax({
+                url: "../UserServlet",
+                type: "POST",
+                //async:false,
+                data: {
+                    action:"getAllComment",
+                    currentPage:current,
+                    user_id:user_id
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**尾页*/
+        $("#finalPageClick").click(function () {
+            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+            let current = $("#totalPage").html();
+            $.ajax({
+                url: "../UserServlet",
+                type: "POST",
+                data: {
+                    action:"getAllComment",
+                    currentPage:current,
+                    user_id:user_id
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
+        /**跳页*/
+        $("#jump").click(function () {
+            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+            const current = $("#num").val();
+            $.ajax({
+                url: "../UserServlet",
+                type: "POST",
+                data: {
+                    action:"getAllComment",
+                    currentPage:current,
+                    user_id:user_id
+                },
+                success:function (data) {
+                    console.log("dd"+data);
+                    show(data);
+                },
+                error:function () {
+                    console.log("出错啦...")
+                },
+            });
+        });
     });
+    /*******8******/
+    function show(data){
+        const json = eval("(" + data + ")");
+        //将JSON对象转化为JSON字符
+        const list = JSON.stringify(json.list);
+        const j = eval("(" + list+ ")");
+
+        $("#totalSize").html(json.totalSize);
+        $("#pageSize").html(json.pageSize);
+        $("#totalPage").html(json.totalPage);
+        $("#currentPage").html(json.currentPage);
+        if (json.currentPage==1){
+
+            $("#firstPage").show();
+            $("#lastPage").show();
+            $("#nextPageClick").show();
+            $("#finalPageClick").show();
+
+            $("#firstPageClick").hide();
+            $("#lastPageClick").hide();
+            $("#nextPage").hide();
+            $("#finalPage").hide();
+
+        } else if (json.currentPage==json.totalPage ){
+            $("#firstPageClick").show();
+            $("#lastPageClick").show();
+            $("#nextPage").show();
+            $("#finalPage").show();
+
+            $("#firstPage").hide();
+            $("#lastPage").hide();
+            $("#nextPageClick").hide();
+            $("#finalPageClick").hide();
+
+        } else if (json.currentPage!=1||json.currentPage!=json.totalPage ){
+            $("#firstPage").hide();
+            $("#lastPage").hide();
+            $("#nextPage").hide();
+            $("#finalPage").hide();
+            $("#firstPageClick").show();
+            $("#lastPageClick").show();
+            $("#nextPageClick").show();
+            $("#finalPageClick").show();
+        }
+        let str = "";
+        for(let i = 0; i < 3; i++){
+            const ls = j[i];
+
+            let timestamp = ls.comment_time;
+            let comment_time = timestampToTime(timestamp);
+
+            str += "<div class='comment-inf'><div class='comment-inf-top'><h3><b><a>"+ls.comment_title+"</a></b></h3></div>" +
+                "<div><span class='inf-f'>"+ls.comment_content+"</span><a  class='more_inf' value='"+ls.comment_id+"'>查看更多</a></div>" +
+                "<div class='evaluate-info'><img src='img/头像.jpg' class='img'><div class='sp'><span>"+comment_time+"点评</span></div>" +
+                "<div class='sp'><span>"+ls.customerName+"</span></div></div></div> ";
+
+            $("#my_comment").html(str);
+            //showDetail();
+        }
+    };
+
+    function showDetail() {
+        layui.use(['form'], function () {
+            const form = layui.form
+                , layer = layui.layer;
+            /**用户评论展示*/
+            $(".inf-f").each(function () {
+                const len = $(this).text().length;   //当前HTML对象text的长度
+                if (len > 80) {
+                    let str = "";
+                    str = $(this).text().substring(0, 80) + "......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+                    $(this).html(str);                   //将替换的值赋值给当前对象
+                }
+            });
+            $(".more_inf").click(function () {
+                let comment_id = $(this).attr("value");
+                $.ajax({
+                    url: "../UserServlet",
+                    type: "POST",
+                    data: {
+                        action: "getOneComment",
+                        comment_id: comment_id
+                    },
+                    success: function (data) {
+                        console.log("dd" + data)
+                        const json = eval("(" + data + ")");
+                        const comment_content = json.comment_content;
+                        layer.open({
+                            type: 1,
+                            area: ['45%', '70%'],
+                            shade: 0.2,
+                            shadeClose: true, //点击遮罩关闭层    
+                            offset: '10px',//弹窗位置
+                            resize: false,
+                            id:'thisIsOpen',
+                            content: '<div style="padding:50px">'+comment_content+'</div>', //这里content是一个普通的String
+                        });
+                    },
+                    error: function () {
+                        console.log("失败啦...")
+                    },
+                    dataType: "text"
+                });
+            });
+        });
+    }
+    /**时间戳转换**/
+    function timestampToTime(timestamp) {
+        const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        const Y = date.getFullYear() + '-';
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        const D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+        const h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':';
+        const m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+        const s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+        return Y + M + D + h + m + s;
+    }
 </script>
 <script type="text/javascript">
 

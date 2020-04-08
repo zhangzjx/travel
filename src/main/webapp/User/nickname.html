@@ -10,7 +10,7 @@
 </head>
 <body>
 <form class="layui-form" id="myForm" style="padding: 50px 0 0 80px;" lay-filter="editDialogForm">
-    <input type="hidden" id="uid" name="uid" value="">
+    <input type="hidden" id="user_id" name="user_id" value="">
     <div class="layui-form-item">
         <label class="layui-form-label">昵称：</label>
         <div class="layui-input-block" style="width: 240px;">
@@ -27,16 +27,15 @@
 
 </body>
 <script type="text/javascript">
-    const uid = parent.$("#uI").val();//访问父页面元素值
+    const user_id = parent.$("#user_id").val();//访问父页面元素值
     const nickname= parent.$("#nickname").html();
-    $("#uid").val(uid);
+    $("#user_id").val(user_id);
     $("#customerName").val(nickname);
 
     $(document).ready(function(){
 
         layui.use(['form'], function() {
             const form = layui.form ;
-
             //监听提交
             form.on('submit(go)', function(data){
                 //使用$.ajax()发送异步请求
@@ -56,11 +55,11 @@
                             location.reload();
                         }
                         //form.render();//菜单渲染 把内容加载进去
-                    },//响应成功后的回调函数
+                    },
                     error:function () {
                         alert("出错啦...")
-                    },//表示如果请求响应出现错误，会执行的回调函数
-                    dataType:"text"//设置接受到的响应数据的格式
+                    },
+                    dataType:"text"
                 });
                 return false;//不跳转
             });

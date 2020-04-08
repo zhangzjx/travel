@@ -5,9 +5,6 @@
     <title>main</title>
     <link rel="stylesheet" href="../css/manageHome.css">
 
-    <style type="text/css">
-
-    </style>
 </head>
 <body >
 
@@ -18,22 +15,22 @@
 
             <img src="../image/home-1.png" class="item-img">
             <span class="item-inf">今日订单总数</span><br><br>
-            <strong class="item-num" id="count_day"></strong>
+            <strong class="item-num" id="count_day">0</strong>
         </div>
         <div class="top_item">
             <img src="../image/home-2.png" class="item-img">
             <span class="item-inf">今日销售总额</span><br><br>
-            <strong class="item-num">￥<span  id="count_money"></span></strong>
+            <strong class="item-num">￥<span  id="count_money">0</span></strong>
         </div>
         <div class="top_item">
             <img src="../image/home-3.png" class="item-img">
             <span class="item-inf">昨日销售总额</span><br><br>
-            <strong class="item-num">￥<span  id="last_money"></span></strong>
+            <strong class="item-num">￥<span  id="last_money">0</span></strong>
         </div>
         <div class="top_item">
             <img src="../image/home-4.png" class="item-img">
             <span class="item-inf">近7天销售总额</span><br><br>
-            <strong class="item-num">￥<span  id="week_money"></span></strong>
+            <strong class="item-num">￥<span  id="week_money">0</span></strong>
         </div>
     </div>
     <!--运营快捷入口-->
@@ -140,15 +137,15 @@
         </div>
 
             <div class="count-left">
-                <span style="font-size: 8pt">本月订单总数</span> <br>
-                <span style="font-size: 20pt" id="count_month"></span> <br>
+                <span style="font-size: 8pt">30天内订单总数</span> <br>
+                <span style="font-size: 20pt" id="count_month">0</span> <br>
                 <br> <br>
-                <span style="font-size: 8pt">本周订单数量</span> <br>
-                <span style="font-size: 20pt" id="count_week"></span> <br>
+                <span style="font-size: 8pt">7天内订单数量</span> <br>
+                <span style="font-size: 20pt" id="count_week">0</span> <br>
             </div>
             <div class="count-right">
                 <div class="count-right-top">
-                    <span style="float: left;">近一周订单统计</span>
+                    <span style="float: left;"><span id="count_title">7天内</span>订单统计</span>
                     <a><span style="margin-left: 680px;float: left; " id="this_week">本周</span></a>
                     <a><span style="margin-left: 20px;float: left; " id="this_month">本月</span></a>
                 </div>
@@ -166,7 +163,7 @@
 <script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
 <script src="../js/echarts.js"></script>
 <script type="text/javascript">
-    /**查询一天订单总数*/
+    /**查询今天订单总数*/
     $.ajax({
         url: "../../AdminServlet",
         type: "POST",
@@ -303,9 +300,10 @@
         },
         dataType: "text"
     });
-    /**echarts查询7天信息*/
+    /**echarts查询7天订单数*/
     $("#this_week").click(function () {
         let days = 7;
+        $("#count_title").html("7天内");
         $.ajax({
             url: "../../AdminServlet",
             type: "POST",
@@ -330,9 +328,10 @@
             dataType: "text"
         });
     });
-    /**echarts查询一个月信息*/
+    /**echarts查询一个月订单数*/
     $("#this_month").click(function () {
         let days = 30;
+        $("#count_title").html("30天内");
         $.ajax({
             url: "../../AdminServlet",
             type: "POST",

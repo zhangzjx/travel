@@ -1,15 +1,7 @@
 package com.zhang.dao;
 
-
-import com.alibaba.fastjson.JSON;
 import com.zhang.domain.Admin;
-import com.zhang.domain.User;
-import com.zhang.utils.DateUtils;
 import com.zhang.utils.JdbcUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -22,33 +14,30 @@ public class AdminDao {
 	public static final String 管理员 = "管理员";
 
 	/**注册*/
-	public static void regist(User user){
+	public static void regist(Admin admin){
 		String sql = "insert into t_customer values(null,?,?,null,null,?,?,null,null,null)";
 		Object []params={
-				user.getName(),
-				user.getPassword(),
-				user.getPhone(),
-				user.getEmail()
-
+				admin.getAdmin_name(),
+				admin.getAdmin_password(),
 		};
 		JdbcUtils.update(sql,params);
 	}
 	/** 验证账号唯一性**/
-	public User validateByName(String name){
+	public Admin validateByName(String name){
 		/**
 		 * 1.通过用户名查找用户是否存在
 		 * 2.存在的话，给user对象赋值
 		 * 3.不存在，user=null
 		 */
-		User user = null;
+		Admin admin = null;
 		String sql ="select * from t_customer where username=?";
 		List<Map<String,Object>> list = JdbcUtils.find(sql,name);
 		if(list.size()>0){
-			user = new User();
+			admin = new Admin();
 			Map<String,Object> record = list.get(0);
-			user.setName((String)record.get("username"));
+			admin.setAdmin_name((String)record.get("username"));
 		}
-		return user;
+		return admin;
 	}
 	/**登录**/
 	public Admin login(String username,String password){
@@ -100,42 +89,38 @@ public class AdminDao {
 	}
 	/**添加头像信息*/
 	public static void addAdminImg(Photo photo) {
-		String sql = "update t_admin set avatar=? where aId=?";
+		String sql = "update t_admin set avatar=? where admin_id=?";
 		Object[] params ={
-
 				photo.getPhotoName(),
-
+				photo.getaId(),
 		};
 		JdbcUtils.insert(sql, params);
 	}
 	/**获得个人信息**/
-	public Map<String,Object> getUserInf(int uId) {
-		String sql = "select * from t_customer where uId=?";
-		List<Map<String, Object>> list=JdbcUtils.find(sql, uId);
+	public Map<String,Object> getUserInf(int admin_id) {
+		String sql = "select * from t_admin where admin_id=?";
+		List<Map<String, Object>> list=JdbcUtils.find(sql, admin_id);
 		return list.get(0);
 	}
 	/**修改个人信息**/
-	public User changeMyInf(User user) {
+	public Admin changeMyInf(Admin admin) {
 		String sql="update t_customer set customerName=?,sex=?,phone=?,email=? where uid=?";
 		Object []params={
-				user.getName(),
-				user.getSex(),
-				user.getPhone(),
-				user.getEmail(),
-				user.getUid()
+				admin.getAdmin_name(),
+				admin.getAdmin_id()
 		};
 		JdbcUtils.update(sql, params);
-		return user;
+		return admin;
 	}
 	/**修改昵称**/
-	public User changeNc(User user) {
+	public Admin changeNc(Admin admin) {
 		String sql="update t_customer set customerName=? where uid=?";
 		Object []params={
-				user.getName(),
-				user.getUid()
+				admin.getAdmin_name(),
+				admin.getAdmin_id()
 		};
 		JdbcUtils.update(sql, params);
-		return user;
+		return admin;
 	}
 	/** 验证账号密码**/
 	public Admin validateByPw(String admin_id,String oldPassword) {

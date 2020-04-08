@@ -36,10 +36,11 @@
        // const orderId = $("#orderId").val();
         /**获取单条数据信息*/
         $.ajax({
-            url: "../UserServlet", // 请求路径
-            type:"Get" , //请求方式
-            dataType:"text",//设置接受到的响应数据的格式
-            data:{action:"getOneOrderHt",
+            url: "../UserServlet",
+            type:"Get" ,
+            dataType:"text",
+            data:{
+                action:"getOneOrderHt",
                 orderId:orderId,
             },
             success:function (data) {

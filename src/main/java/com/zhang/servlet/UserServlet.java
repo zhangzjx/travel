@@ -1,8 +1,8 @@
 package com.zhang.servlet;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.dao.PageOther;
+import com.zhang.dao.PageTwo;
 import com.zhang.domain.*;
 import com.zhang.exception.UserException;
 import com.zhang.service.AdminHotelService;
@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /**
  * @author prayers
@@ -27,10 +26,9 @@ import java.util.regex.Pattern;
 @WebServlet(name = "UserServlet", urlPatterns="/UserServlet")
 public class UserServlet extends HttpServlet {
 
-    public static final String REGIST = "register";
+    public static final String REGISTER = "register";
     public static final String VALIDATE_NAME = "validate";
     public static final String LOGIN = "login";
-
     public static final String GET_INDEX = "getIndex";
     public static final String GET_IMG = "getImg";
     public static final String ADD_AT_CART = "addAt";
@@ -53,6 +51,7 @@ public class UserServlet extends HttpServlet {
     public static final String GET_ONE_ORDER_AT = "getOneOrderAt";
     public static final String WRITE_COMMENT = "writeComment";
     public static final String GET_ONE_COMMENT = "getOneComment";
+    public static final String GET_ALL_COMMENT = "getAllComment";
 
 
     private AdminHotelService adminHotelService = new AdminHotelService();
@@ -76,13 +75,13 @@ public class UserServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if(GET_INDEX.equals(action)){
-            getIndex(request,response);
+            getIndex(response);
         }else if(GET_IMG.equals(action)){
             getImg(request,response);
         } else if(FIND_SEARCH.equals(action)){
             findSearch(request, response);
-        } else if(REGIST.equals(action)){
-            regist(request,response);
+        } else if(REGISTER.equals(action)){
+            register(request,response);
         } else if(VALIDATE_NAME.equals(action)){
             validateName(request, response);
         } else if(LOGIN.equals(action)){
@@ -121,6 +120,8 @@ public class UserServlet extends HttpServlet {
             getOneOrderAt(request, response);
         } else if(WRITE_COMMENT.equals(action)){
             writeComment(request, response);
+        } else if(GET_ALL_COMMENT.equals(action)){
+            getAllComment(request, response);
         } else if(GET_ONE_COMMENT.equals(action)){
             getOneComment(request, response);
         }
@@ -128,7 +129,7 @@ public class UserServlet extends HttpServlet {
 
 
     /**注册*/
-    private void regist(HttpServletRequest request,HttpServletResponse response)
+    private void register(HttpServletRequest request,HttpServletResponse response)
             throws ServletException, IOException {
         /*
          * 1.获取前台用户输入的数据
@@ -142,6 +143,7 @@ public class UserServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         System.out.println(name+email+password);
 
+        /**
         if(name==null||name.trim().isEmpty()){
             request.setAttribute("error", "用户名不可为空");
             System.out.println("用户名为空");
@@ -161,16 +163,16 @@ public class UserServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath()+"/User/register.html");
             return;
         }
-
+*/
         password = MD5.md5(password);
         User user=new User();
         user.setName(name);
         user.setPassword(password);
         user.setPhone(phone);
         user.setEmail(email);
-        userService.regist(user);
-        request.setAttribute("msg","<script>alert('注册成功')</script>");
-        response.sendRedirect(request.getContextPath()+"/User/login.html");
+
+        boolean result =  userService.regist(user);;
+        response.getWriter().print(result);
     }
     /**验证账号唯一性**/
     private void validateName(HttpServletRequest request,
@@ -244,19 +246,31 @@ public class UserServlet extends HttpServlet {
     }
 
     /**获得首页信息**/
-    private void getIndex(HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
-
+    private void getIndex(HttpServletResponse response) throws IOException {
         List<Map<String,Object>> result= userService.getIndex();
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
     }
 
-
+    /**获得所有评论信息**/
+    private void getAllComment(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+        String current = request.getParameter("currentPage");
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        PageTwo page = userService.getAllComment(user_id, currentPage);
+        String json= JSON.toJSONString(page);
+        response.getWriter().print(json);
+    }
     /**获得个人信息**/
     private void getUserInf(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        String uId = request.getParameter("uid");
+        String uId = request.getParameter("user_id");
         //List<Map<String,Object>> result= userService.getUserInf(Integer.parseInt(uId));
         Map<String,Object> result= userService.getUserInf(Integer.parseInt(uId));
         //System.out.println(result);
@@ -268,7 +282,7 @@ public class UserServlet extends HttpServlet {
     /**修改个人信息**/
     private void changeMyInf(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        String uid = request.getParameter("uid");
+        String uid = request.getParameter("user_id");
         String customerName = request.getParameter("customerName");
         String sex = request.getParameter("sex");
         String phone = request.getParameter("phone");
@@ -290,7 +304,7 @@ public class UserServlet extends HttpServlet {
     /**修改密码*/
     private void changePassword(HttpServletRequest request,
                                 HttpServletResponse response) throws IOException {
-        String uid = request.getParameter("uid");
+        String uid = request.getParameter("user_id");
         String oldPassword = request.getParameter("oldPassword");
         String newPassword = request.getParameter("newPassword");
 
@@ -306,13 +320,10 @@ public class UserServlet extends HttpServlet {
             m.setUid(Integer.parseInt(uid));
             m.setPassword(newPassword);
             userService.changePw(m);
-
             response.getWriter().print(0);
         }else {
             response.getWriter().print(1);
         }
-        //response.sendRedirect(request.getContextPath()+"/User/centerSettingAddress.jsp");
-
     }
     /**修改头像**/
     private void changePt(HttpServletRequest request,
@@ -321,7 +332,7 @@ public class UserServlet extends HttpServlet {
     /**修改昵称**/
     private void changeNc(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        String uid = request.getParameter("uid");
+        String uid = request.getParameter("user_id");
         String customerName = request.getParameter("customerName");
 
         User user = new User();
@@ -334,7 +345,7 @@ public class UserServlet extends HttpServlet {
     /*****添加订单第二步，提交商品信息，等待付款******/
     private void subOrder(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        int uid = Integer.parseInt(request.getParameter("uid"));
+        int uid = Integer.parseInt(request.getParameter("user_id"));
         String phone = request.getParameter("phone");
         String receiver = request.getParameter("receiver");
         int id = Integer.parseInt(request.getParameter("id"));
@@ -381,7 +392,6 @@ public class UserServlet extends HttpServlet {
         orderItem.setPrice(price);
         orderItem.setQuantity(quantity);
 
-
         userService.subOrder(order);
         userService.subOrderItem(orderItem);
         session.setAttribute("totalPrice", totalPrice);
@@ -411,7 +421,7 @@ public class UserServlet extends HttpServlet {
     /*****添加订单第二步，提交商品信息，等待付款******/
     private void subHotelOrder(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        int uid = Integer.parseInt(request.getParameter("uid"));
+        int uid = Integer.parseInt(request.getParameter("user_id"));
         String phone = request.getParameter("phone");
         String receiver = request.getParameter("receiver");
 
@@ -494,7 +504,7 @@ public class UserServlet extends HttpServlet {
     /*****查看所有订单******/
     private void findAllOrder(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
-        int uid = Integer.parseInt(request.getParameter("uid"));
+        int uid = Integer.parseInt(request.getParameter("user_id"));
         String current = request.getParameter("currentPage");
         int currentPage = 1;
         try{
@@ -510,7 +520,7 @@ public class UserServlet extends HttpServlet {
     /********查看订单状态**********/
     private void orderStatus(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
-        int uid = Integer.parseInt(request.getParameter("uid"));
+        int uid = Integer.parseInt(request.getParameter("user_id"));
         String status = request.getParameter("status");
         String current = request.getParameter("currentPage");
         int currentPage = 1;
@@ -532,7 +542,7 @@ public class UserServlet extends HttpServlet {
     /*****查看酒店所有订单******/
     private void findAllOrderHotel(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
-        int uid = Integer.parseInt(request.getParameter("uid"));
+        int uid = Integer.parseInt(request.getParameter("user_id"));
         String current = request.getParameter("currentPage");
         int currentPage = 1;
         try{
@@ -543,13 +553,12 @@ public class UserServlet extends HttpServlet {
         PageOther page = userService.findAllOrderHotel(uid, currentPage);
         String json= JSON.toJSONString(page);
         response.getWriter().print(json);
-
     }
 
     /********查看酒店订单状态**********/
     private void orderStatusHotel(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
-        int uid = Integer.parseInt(request.getParameter("uid"));
+        int uid = Integer.parseInt(request.getParameter("user_id"));
         String status = request.getParameter("status");
         String current = request.getParameter("currentPage");
         int currentPage = 1;

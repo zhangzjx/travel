@@ -4,30 +4,6 @@
     <title>支付</title>
     <link rel="stylesheet" href="css/pay.css">
     <link rel="stylesheet" href="css/topFoot.css">
-    <script type="application/javascript" src="js/topFoot.js"></script>
-    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
-    <script type="application/javascript">
-
-        $(document).ready(function() {
-                // 页面加载后任何需要执行的js特效
-                if ($.cookie("userCookie") != null && $.cookie("userCookie") != "") {
-                    const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-                    console.log("userCookie====" + userCookie.uid);
-                    $("#uid").val(userCookie.uid);
-                    $("#logout").show();
-
-                } else {
-                    console.log("userCookie不存在");
-                    $("#login").show()
-                    //$("#account").show()
-                };
-            let payPrice = $.cookie("totalPrice");
-            $("#payPrice").html(payPrice);
-
-            })
-    </script>
 
 </head>
 <body>
@@ -35,7 +11,6 @@
 <!--页面顶部-->
 <div class="header-box">
     <div class="header-top">
-
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -45,27 +20,24 @@
         </div>
         <div class="login" id="logout" style="display:none;" >
             <div class="account" >
-                <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
-                <br>
-                <span style=" font-size: 9pt; ">账户</span>
+                <a href="myInf.html">
+                    <img src="img/account.png" alt="账户" style="width: 25px;height: 25px;">
+                    <br>
+                    <span style=" font-size: 9pt; ">账户</span>
+                </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
 
         </div>
-
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
             <a href="hotels.html"><img src="img/index-1.png" class="foot-img"><span>住宿</span></a>
         </div>
         <div class="header-foot-item">
-            <a href=""><img src="img/index-2.png" class="foot-img"><span>机票</span></a>
-        </div>
-        <div class="header-foot-item">
             <a href="attractions.html"><img src="img/index-4.png" class="foot-img"><span>景点</span></a>
         </div>
     </div>
-
 </div>
 <div style="width: 1200px;margin:0 auto;">
     <!--主内容-->
@@ -77,7 +49,6 @@
                 <span class="fr"><em>应付金额：</em><em  class="orange money">￥<span id="payPrice"></span></em></span>
             </div>
         </div>
-
         <div class="check-info">
             <h4>重要说明：</h4>
             <ol>
@@ -184,6 +155,17 @@
 </div>
 <!-- end-footer -->
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="application/javascript" src="js/topFoot.js"></script>
+<link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script src="js/validate.js"></script>
+<script type="application/javascript">
+    $(document).ready(function() {
+        let payPrice = $.cookie("totalPrice");
+        $("#payPrice").html(payPrice);
+    })
+</script>
 <script type="application/javascript">
     function payOrder(){
         document.location = "../UserServlet?action=payOrderHotel&status=2&oid=${oid }";

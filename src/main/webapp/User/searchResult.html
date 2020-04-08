@@ -6,25 +6,7 @@
     <link rel="stylesheet" href="css/topFoot.css">
     <link rel="stylesheet" href="css/serachResult.css">
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="js/topFoot.js"></script>
-    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
-    <script>
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-                console.log("userCookie存在");
-                $("#logout").show();
 
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
-
-        });
-    </script>
     <style type="text/css" >
         /************main主要内容*******************/
         a{cursor: pointer}
@@ -79,13 +61,6 @@
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
-        <!--
-        <ul class="app-header">
-          <li class="app-header-menuicon">
-             <i class="layui-icon layui-icon-more-vertical"></i>
-          </li>
-        </ul>
-        -->
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -102,15 +77,7 @@
                 </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
-
         </div>
-        <!--
-        <ul class="layui-nav header-down-nav">
-          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
-          <li class="layui-nav-item"><a href="case.html">案例</a></li>
-          <li class="layui-nav-item"><a href="service.html">服务</a></li>
-          <li class="layui-nav-item"><a href="about.html">关于</a></li>
-        </ul>-->
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
@@ -137,11 +104,11 @@
             <a><span id="search-all">所有搜索结果</span></a>
             <div id="line-all" style="height: 3px;background-color: #0000FF"></div>
         </div>
-        <div class="header-foot-item" style="text-align: center;line-height: 37px">
+        <div class="header-foot-item" style="text-align: center;line-height: 40px">
             <a><span id="search-at">景点</span></a>
             <div id="line-at" style="height: 3px;display: none;background-color: #0000FF"></div>
         </div>
-        <div class="header-foot-item" style="text-align: center;line-height: 37px">
+        <div class="header-foot-item" style="text-align: center;line-height: 40px">
             <a><span id="search-ht">酒店</span></a>
             <div id="line-ht" style="height: 3px;display: none;background-color: #0000FF"></div>
         </div>
@@ -269,6 +236,11 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/topFoot.js"></script>
+<script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script src="js/validate.js"></script>
 <script>
     //定义方法
     $(document).ready(function() {

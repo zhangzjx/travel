@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/allList.css">
     <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 
-
 </head>
 <body style="margin: 0 20px 100px 0;">
 <div >
@@ -106,19 +105,20 @@
 </div>
 </body>
 <script type="text/html" id="detailDialog">
-    <div id="tit" style="width: 80px;height: 300px;float: left">
-        <ul>
-            <li>景点名称</li>
-            <li>景点简介</li>
-            <li>营业时间</li>
-            <li>景点地址</li>
-            <li>景点电话</li>
-            <li>景点星级</li>
-            <li>景点详情</li>
-        </ul>
-    </div>
-    <div id="result" style="width: 600px;height: 300px;float: left;">
-
+    <div style="padding: 5px 20px">
+        <div style="width: 100%;float: left" id="attraction_img"> </div>
+        <div id="tit" style="width: 80px;height: 300px;float: left">
+            <ul>
+                <li>景点名称</li>
+                <li>景点简介</li>
+                <li>营业时间</li>
+                <li>景点地址</li>
+                <li>景点电话</li>
+                <li>景点星级</li>
+                <li>景点详情</li>
+            </ul>
+        </div>
+        <div id="result" class="result"></div>
     </div>
 </script>
 <script type="text/html" id="editDialog">
@@ -217,7 +217,6 @@
 
                 dataType: "text"//设置接受到的响应数据的格式
             });
-
         /**搜索*/
         $("#searchGo").click(function () {
             let sv = $("#sValue").val();
@@ -440,38 +439,28 @@
                     const id = $(this).val();
                     /**获取单条数据信息*/
                     $.ajax({
-                        url: "../../AdminAttractionsServlet",  // 请求路径
-                        type:"Get" , //请求方式
-                        dataType:"json",//设置接受到的响应数据的格式
+                        url: "../../AdminAttractionsServlet",  
+                        type:"Get" ,  
+                        dataType:"json", 
                         data:{action:"findOneAt",
                             spId:id,
                         },
                         success:function (data) {
-                            //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
                             const json = JSON.stringify(data);
-                            //alert("返回的数据："+json);
-                            console.log(data,'数组');
-                            const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
-                            const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
-                            const spTimeStart = JSON.stringify(data.spTimeStart).replace(/\"/g, "");
-                            const spTimeEnd = JSON.stringify(data.spTimeEnd).replace(/\"/g, "");
-                            const spTime = spTimeStart+" - "+spTimeEnd
-                            const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
-                            const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
-                            const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
-                            const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
-
+                            console.log(json);
                             let str = '';
-                            str = "<ul><li>" + spName + "</li><li>" + spLabel + "</li><li>" + spTime + "</li>" +
-                                "<li>" + spAddress + "</li><li>" + spPhone + "</li><li>" + spStar + "</li><li>" + spFormation + "</li></ul>";
-                            //追加到table中
+                            let img = '';
+                            const spTime = data.spTimeStart+" - "+data.spTimeEnd
+                            img = "<img src='/atImg/"+data.img_name+"' class='hotel_img'>";
+                            str = "<ul><li>" +  data.spName + "</li><li>" +  data.spLabel + "</li><li>" + spTime + "</li>" +
+                                "<li>" +  data.spAddress + "</li><li>" +  data.spPhone + "</li><li>" +  data.spStar + "</li><li>" +  data.spFormation + "</li></ul>";
                             $("#result").html(str);
-                            //showData(data);//我们仅做数据展示
-                            //location.reload();
-                        },//响应成功后的回调函数
+                            $("#attraction_img").html(img);
+
+                        },
                         error:function () {
                             alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
+                        },
                     });
 
                     /**打开弹窗*/
@@ -500,34 +489,21 @@
                             spId:id,
                         },
                         success:function (data) {
-                            //JSON.stringify 将JavaScript 对象转换为 JSON 字符串
-                            const json = JSON.stringify(data);
-                            //alert("返回的数据："+json);
-                            console.log(json);
-                            const spId= JSON.stringify(data.spId).replace(/\"/g, "");
-                            const spName = JSON.stringify(data.spName).replace(/\"/g, "");  //这里去掉所有"
-                            const spLabel = JSON.stringify(data.spLabel).replace(/\"/g, "");
-                            const spTimeStart = JSON.stringify(data.spTimeStart).replace(/\"/g, "");
-                            const spTimeEnd = JSON.stringify(data.spTimeEnd).replace(/\"/g, "");
-                            const spAddress = JSON.stringify(data.spAddress).replace(/\"/g, "");
-                            const spPhone = JSON.stringify(data.spPhone).replace(/\"/g, "");
-                            const spStar = JSON.stringify(data.spStar).replace(/\"/g, "");
-                            const spFormation = JSON.stringify(data.spFormation).replace(/\"/g, "");
-                            $("#spId").val(spId);
-                            $("#attractions_name").val(spName);
-                            $("#attractions_label").val(spLabel);
-                            $("#time_min").val(spTimeStart);
-                            $("#time_max").val(spTimeEnd);
-                            $("#attractions_address").val(spAddress);
-                            $("#attractions_phone").val(spPhone);
-                            $("#attractions_star").val(spStar);
-                            $("#content").html(spFormation);
-                            //showData(data);//我们仅做数据展示
-                            //location.reload();
-                        },//响应成功后的回调函数
+                      
+                            $("#spId").val(data.spId);
+                            $("#attractions_name").val(data.spName);
+                            $("#attractions_label").val(data.spLabel);
+                            $("#time_min").val(data.spTimeStart);
+                            $("#time_max").val(data.spTimeEnd);
+                            $("#attractions_address").val(data.spAddress);
+                            $("#attractions_phone").val(data.spPhone);
+                            $("#attractions_star").val(data.spStar);
+                            $("#content").html(data.spFormation);
+
+                        },
                         error:function () {
                             alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
+                        },
                     });
 
                     /**打开弹窗*/
@@ -548,10 +524,10 @@
                 form.on('submit(go)', function(data){
                     //使用$.ajax()发送异步请求
                     $.ajax({
-                        //url:"${pageContext.request.contextPath}/AdminHotel" , // JSP页面使用 请求路径
-                        url:"../../AdminAttractionsServlet?action=changeAtInf" , // 请求路径
-                        type:"POST" , //请求方式
-                        data:$('#myForm').serialize(),// 序列化表单值
+                        //url:"${pageContext.request.contextPath}/AdminHotel" ,
+                        url:"../../AdminAttractionsServlet?action=changeAtInf" ,
+                        type:"POST" ,
+                        data:$('#myForm').serialize(),
                         success:function (data) {
                             alert("修改成功");
                             //form.render();//菜单渲染 把内容加载进去
@@ -559,8 +535,8 @@
                         },//响应成功后的回调函数
                         error:function () {
                             alert("出错啦...")
-                        },//表示如果请求响应出现错误，会执行的回调函数
-                        dataType:"text"//设置接受到的响应数据的格式
+                        },
+                        dataType:"text"
                     });
                     return false;//不跳转
                 });

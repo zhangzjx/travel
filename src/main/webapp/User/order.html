@@ -5,10 +5,7 @@
     <title>确认订单信息</title>
     <link rel="stylesheet" href="css/orderTwo.css">
     <link rel="stylesheet" href="css/topFoot.css">
-    <script type="application/javascript" src="js/topFoot.js"></script>
-    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+
     <style type="text/css">
         a{color: #000000;}
         a:link {color: #000000;
@@ -103,41 +100,13 @@
             line-height:80px;
         }
     </style>
-    <script type="application/javascript">
 
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-
-                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-                console.log("userCookie===="+userCookie.uid);
-                $("#uid").val(userCookie.uid);
-                $("#logout").show();
-
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
-
-            $("#xianshang").click(function(){
-                $(this).addClass('check-box')
-                $("#xianxia").removeClass('check-box');
-            });
-            $("#xianxia").click(function(){
-                $(this).addClass('check-box')
-                $("#xianshang").removeClass('check-box');
-            });
-
-        });
-    </script>
 </head>
 <body>
 <!-- 头部栏位 -->
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
-
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -154,9 +123,7 @@
                 </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
-
         </div>
-
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
@@ -172,10 +139,8 @@
 <div class="order">
     <div class="all-order">
         <h2 >核对订单信息</h2>
-
-
             <form id="myForm" action="../UserServlet?action=subOrder" method="post" >
-                <input type="hidden" id="uid" name="uid" value=""}>
+                <input type="hidden" id="user_id" name="user_id" value=""}>
                 <input type="hidden" id="receiver" name="receiver" value="">
                 <input type="hidden" id="phone" name="phone" value="">
                 <input type="hidden" id="id" name="id" value="">
@@ -211,7 +176,6 @@
                             <div class="t3-item">￥<span id="payPrice" ></span></div>
                             <div id="payQuantity" class="t3-item"></div>
                             <div class="t3-item">￥<span class="payTotalPrice" ></span></div>
-
                         </div>
                     </div>
                 </div>
@@ -222,7 +186,6 @@
                     <input type="submit" class="base-item-sub el-button" value="提交订单">
                 </div>
             </form>
-
     </div>
 </div>
 <!-- footer -->
@@ -302,6 +265,26 @@
 </div>
 <!-- end-footer -->
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="application/javascript" src="js/topFoot.js"></script>
+<link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script src="js/validate.js"></script>
+<script type="application/javascript">
+
+    $(document).ready(function(){
+
+        $("#xianshang").click(function(){
+            $(this).addClass('check-box')
+            $("#xianxia").removeClass('check-box');
+        });
+        $("#xianxia").click(function(){
+            $(this).addClass('check-box')
+            $("#xianshang").removeClass('check-box');
+        });
+
+    });
+</script>
 <script>
     //定义方法
     $(document).ready(function() {
@@ -324,7 +307,7 @@
         $(".payTotalPrice").html(sumPrice);
         $("#totalPrice").val(sumPrice);
 
-        const uid =  $("#uid").val();
+        const user_id =  $("#user_id").val();
         //获得用户信息
         $.ajax({
             url: "../UserServlet", // 请求路径
@@ -332,7 +315,7 @@
             //async:false,
             data: {
                 action:"getUserInf",
-                uid:uid
+                user_id:user_id
             },
             success: function (data) {
                 console.log("dd"+data)
@@ -341,18 +324,16 @@
                 $("#payPhone").html(json.phone);
                 $("#receiver").val(json.username);
                 $("#phone").val(json.phone);
-
-            },//响应成功后的回调函数
+            },
             error: function () {
                 console.log("失败啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-
-            dataType: "text"//设置接受到的响应数据的格式
+            },
+            dataType: "text"
         });
         //获得景点信息
         $.ajax({
-            url: "../UserAttractionsServlet", // 请求路径
-            type: "POST", //请求方式
+            url: "../UserAttractionsServlet",
+            type: "POST",
             data: {
                 action:"getOneAt",
                 spId:spId
@@ -367,14 +348,12 @@
                     $("#spName").val(ls.spName);
                     st = "<img src='/atImg/"+ls.img_name+"' style='width: 80px;height: 80px'>";
                     $("#main-img").html(st);
-
                 }
-            },//响应成功后的回调函数
+            },
             error: function () {
                 console.log("失败啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-
-            dataType: "text"//设置接受到的响应数据的格式
+            },
+            dataType: "text"
         });
 
         /**获取景点价格信息*/
@@ -396,11 +375,11 @@
                     $("#payTicket").html(ls.ticket_type);
                 }
 
-            },//响应成功后的回调函数
+            },
             error: function () {
                 console.log("失败啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-            dataType: "text"//设置接受到的响应数据的格式
+            },
+            dataType: "text"
         });
         //提交订单
         /**

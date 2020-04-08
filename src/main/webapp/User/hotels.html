@@ -2,29 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>t</title>
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="js/topFoot.js"></script>
-    <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
-    <script src="js/jquery.cookie.js" charset="utf-8"></script>
+    <title>酒店</title>
+
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/hotels.css">
-    <script>
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-                console.log("userCookie存在");
-                $("#logout").show();
 
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
-
-        });
-    </script>
     <style type="text/css">
 
         /*********旅游景点***********/
@@ -39,13 +22,6 @@
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
-        <!--
-        <ul class="app-header">
-          <li class="app-header-menuicon">
-             <i class="layui-icon layui-icon-more-vertical"></i>
-          </li>
-        </ul>
-        -->
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -62,15 +38,7 @@
                 </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
-
         </div>
-        <!--
-        <ul class="layui-nav header-down-nav">
-          <li class="layui-nav-item"><a href="index.html" class="active">首页</a></li>
-          <li class="layui-nav-item"><a href="case.html">案例</a></li>
-          <li class="layui-nav-item"><a href="service.html">服务</a></li>
-          <li class="layui-nav-item"><a href="about.html">关于</a></li>
-        </ul>-->
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
@@ -85,7 +53,6 @@
 <!-- top -->
 <div id="hotel-top" class="top">
     <div class="top-content">
-
         <div class="hotels-title">
             <h1><strong>酒店和住宿</strong></h1>
         </div>
@@ -97,7 +64,6 @@
             <div class="date-item">
                 <img src="img/hotel-calendar.png" class="img">
                 <input type="text" id="end" class="el-input" >
-
             </div>
             <div class="date-item">
                 <img src="img/hotel-people.png" class="img">
@@ -112,13 +78,11 @@
 <div class="content">
     <!--主要内容-->
     <div class="hotels-main">
-
         <div class="hotels-left">
             <div class="left-list-1">
                 <img src="img/view-1.png" class="left-img">
                 <input type="button" class="view-btn layui-btn layui-btn-primary" value="查看地图" title="查看地图"/>
             </div>
-
             <div class="left-list-2">
                 <p><h2>设施服务</h2></p>
                 <input type="checkbox">
@@ -141,7 +105,6 @@
                 <div class="circle-content">
                     <span class="span-left">免费停车</span><span class="span-right">54</span>
                 </div>
-
             </div>
             <div class="left-list-2">
                 <p><h2>您的预算</h2></p>
@@ -149,7 +112,6 @@
                 <div class="circle-content">
                     <span class="span-left">0元 - 388元</span><span class="span-right">54</span>
                 </div>
-
                 <input type="checkbox">
                 <div class="circle-content">
                     <span class="span-left">388元 - 776元</span><span class="span-right">226</span>
@@ -186,8 +148,6 @@
                     <span class="span-left">2 星级</span><span class="span-right">141</span>
                </div>
             </div>
-
-
         </div>
         <div class="hotels-right">
             <div class="right-top" >
@@ -233,25 +193,17 @@
                     </div>
                     <div style="float: left;width: 35%;">
                         <!-- 首页 -->
-
-                            <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
-                            <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
-
+                        <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
+                        <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
                         <!-- 上一页 -->
-
                         <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
                         <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
-
                         <!-- 下一页 -->
-
                         <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
                         <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
-
                         <!-- 尾页 -->
-
                         <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
                         <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
-
                     </div>
                     <div style="float: left">
                         <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
@@ -341,8 +293,21 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" src="../res/layui/layui.all.js"></script>
-
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/topFoot.js"></script>
+<script type="text/javascript"  src="../res/layui/layui.all.js"></script>
+<script src="js/jquery.cookie.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+            console.log("userCookie存在");
+            $("#logout").show();
+        } else {
+            console.log("userCookie不存在");
+            $("#login").show()
+        }
+    });
+</script>
 <script>
     //定义方法
     $(document).ready(function() {
@@ -479,6 +444,7 @@
     /**跳页*/
     $("#jump").click(function () {
         $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+        let skey = $('select[name=sKey] option:selected').val();
         const current = $("#num").val();
         $.ajax({
             url: "../UserHotelServlet",

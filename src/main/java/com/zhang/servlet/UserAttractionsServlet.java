@@ -136,8 +136,6 @@ public class UserAttractionsServlet extends HttpServlet {
     private void getTicket(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
          String ticket_id = request.getParameter("ticket_id");
-        //System.out.println(spId);
-
         List<Map<String,Object>> result= userAtService.getTicket(ticket_id);
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);

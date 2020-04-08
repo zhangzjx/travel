@@ -69,8 +69,9 @@ public class AttractionsDao {
     }
     /**查找一条数据*/
     public Map<String, Object> findOneAt(int id) {
-        String sql = "select s.spId,s.spName,s.spLabel,s.spTimeStart,s.spTimeEnd,s.spAddress,s.spPhone,s.spStar " +
-                " ,s.spFormation,s.spPlace from t_scenicspot s where spId=?";
+
+        String sql = "select a.*,b.img_id,b.img_name,b.space from t_scenicspot a,t_scenicspot_img b" +
+                " where a.spId=b.spId and b.img_priority=1 and a.spId=?";
         List<Map<String, Object>> list=JdbcUtils.find(sql, id);
         return list.get(0);
     }

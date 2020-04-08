@@ -121,8 +121,8 @@
             });
             //获取省份信息，使用$.ajax()发送异步请求
             $.ajax({
-                url:"../../AdminHotelServlet?action=getProvince" , // 请求路径
-                type:"POST" , //请求方式
+                url:"../../AdminHotelServlet?action=getProvince" ,
+                type:"POST" ,
                 data:{},
                 success:function (data) {
                     const json = eval("(" + data + ")");
@@ -134,12 +134,12 @@
                         $("#province").append(str);
                     }
                     form.render();//菜单渲染 把内容加载进去
-                },//响应成功后的回调函数
+                },
                 error:function () {
                     console.log("失败啦...")
-                },//表示如果请求响应出现错误，会执行的回调函数
+                },
 
-                dataType:"text"//设置接受到的响应数据的格式
+                dataType:"text"
             });
             //监听提交
             form.on('submit(go)', function(data){

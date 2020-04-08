@@ -3,31 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>旅游景点</title>
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/hotels.css">
-    <script type="application/javascript">
 
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-                //if(userCookie!= null&&userCookie != ""){
-                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-                console.log("userCookie存在");
-                console.log(userCookie);
-                //console.log("userCookie===="+userCookie.uid);
-                $("#logout").show();
-
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
-
-        });
-    </script>
     <style type="text/css">
         body{background-color:  #f0f0f0}
         p{margin: 10px 0}
@@ -117,7 +97,6 @@
 <!-- header -->
 <div class="header-box">
     <div class="header-top">
-
         <div class="logo">
             <a href="index.html"><img src="img/logo.png" class="logo-img"></a>
         </div>
@@ -134,9 +113,7 @@
                 </a>
             </div>
             <input type="button" onclick="logout()" class="login-btn layui-btn layui-btn-primary" value="退出" title="退出">
-
         </div>
-
     </div>
     <div class="header-foot">
         <div class="header-foot-item" >
@@ -167,9 +144,7 @@
                     <li id="label"></li>
                 </ul>
             </div>
-
         </div>
-
     </div>
 </div>
 
@@ -178,7 +153,6 @@
 <div class="content">
     <div class="hotel-main">
         <!--点评精选及图片-->
-
         <div class="hotel-review-evaluate">
             <div class="hotel-eva-left">
                 <h3><b>简介</b></h3>
@@ -188,7 +162,6 @@
             <div class="hotel-eva-right">
                 <div id="oneHtImg"></div>
             </div>
-
         </div>
         <!--印象，简介及联系方式-->
         <div style="height:400px;width:1200px;margin-top: 30px; ">
@@ -231,7 +204,6 @@
                 <h3><b>联系方式</b></h3>
                 <img id="position" src="" onclick="re()">
                 <div class="address" style="margin-top: 10px"></div>
-
                 <div style="margin-top: 10px"> +86 10 8500 7422</div>
             </div>
         </div>
@@ -310,7 +282,7 @@
                         ￥<span class="sum_price" id="sum_price">0</span>
                     </div>
 
-                    <button class="layui-btn layui-btn-sm layui-btn-disabled" style="margin: 10px 0 0 10px" id="atCart"  onclick="atCart()">预订</button>
+                    <button disabled class="layui-btn layui-btn-sm layui-btn-disabled" style="margin: 10px 0 0 10px" id="atCart"  onclick="atCart()">预订</button>
                 </div>
             </div>
         </div>
@@ -335,7 +307,7 @@
 <div id="viewAddress" style="display: none" ></div>
 <input type="hidden" id="ticket_id"  value="">
 <!--底部内容-->
-<input type="hidden" id="uI" name="uI" value="">
+<input type="hidden" id="user_id" name="user_id" value="">
 <input type="hidden" id="hId" name="hId">
 <div class="bottom-foot" >
     <h2>热门目的地</h2>
@@ -412,14 +384,27 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="application/javascript" src="js/topFoot.js"></script>
 <script type="text/javascript" src="../res/layui/layui.all.js"></script>
 <script src="js/jquery.cookie.js" charset="utf-8"></script>
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+            const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+            console.log("userCookie存在");
+            $("#logout").show();
+            const user_id = userCookie.uid;
+            $("#user_id").val(user_id);
+        } else {
+            console.log("userCookie不存在");
+            $("#login").show()
+        }
+    });
+</script>
 <script>
     //定义方法
     $(document).ready(function() {
-
         function getParams(key) {
             const reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
             const r = window.location.search.substr(1).match(reg);
@@ -431,7 +416,6 @@
         console.log("参数param:"+getParams("param"));//输出aa
         const id = getParams("param");
         $("#hId").val(id);
-
 
         /**获取景点信息*/
         $.ajax({
@@ -477,7 +461,6 @@
             dataType: "text"
         });
 
-
         /**展示数据*/
         function showData(data) {
             const json = eval("(" + data + ")");
@@ -507,7 +490,8 @@
                         type: 1
                         ,title: false //不显示标题栏   title : false/标题
                         , area: ['45%', '70%']
-                        ,shade: 0
+                        , shade: 0.2
+                        , shadeClose: true //点击遮罩关闭层   
                         ,id: 'LAY_layui' //设定一个id，防止重复弹出
                         ,resize: false
                         ,content: '<div style="padding:50px">'+ls.hFormation+'</div>',
@@ -520,7 +504,6 @@
 
     });
     function atCart() {
-
         //由于是一个新的技术，你可以通过下面的代码检测你的浏览器是否支持
         if (window.localStorage) {
             //存储变量的值
@@ -548,7 +531,6 @@
 
     function re(){
         let viewN = $("#viewName").html();
-
         layer.open({
             type: 2,
             title: viewN,
@@ -559,21 +541,6 @@
         });
 
     }
-    /**营业时间*/
-    function goTime() {
-        layer.open({
-            type: 1
-            ,title: "营业时间" //不显示标题栏   title : false/标题
-            ,area: '300px;'
-            ,shade: 0
-            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-            ,resize: false
-            ,content: '<div style="padding: 40px; line-height: 30px; font-weight: 300;">周一 - 周五 上午7:30 - 下午5:00<br>周六 - 周日 上午7:30 - 下午6:00</div>'
-
-        });
-
-        //layer.alert("周一 - 周五 上午7:30 - 下午5:00<br>周六 - 周日 上午7:30 - 下午6:00");
-    };
 
     /**用户评论展示*/
     $(".inf-f").each(function(){
@@ -749,6 +716,7 @@
         const r =  $("#sum_price").html();
         if (r!=null&&r!=""&&r!=0){
             $("#atCart").removeClass("layui-btn-disabled");
+            $('#atCart').removeAttr("disabled");
         }
     }
 </script>

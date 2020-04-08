@@ -2,6 +2,7 @@ package com.zhang.service;
 
 import com.zhang.dao.HotelDao;
 import com.zhang.dao.PageOther;
+import com.zhang.dao.PageTwo;
 import com.zhang.dao.UserDao;
 import com.zhang.domain.Attractions;
 import com.zhang.domain.Cart;
@@ -29,8 +30,9 @@ public class UserService {
         }
     }
     /**注册账号*/
-    public void regist(User user) {
+    public boolean regist(User user) {
         UserDao.regist(user);
+        return true;
     }
     /**登录账号*/
     public User login(String name,String password) throws UserException {
@@ -182,5 +184,13 @@ public class UserService {
     /**查看一条评论**/
     public Map<String, Object> getOneComment(int comment_id) {
         return userDao.getOneComment(comment_id);
+    }
+    /**获得所有评论信息**/
+    public PageTwo getAllComment(int user_id, int currentPage) {
+        int totalSize = userDao.findCountComment(user_id);
+        PageTwo page = new PageTwo(currentPage,totalSize);
+        List<Map<String,Object>> list = userDao.getAllComment(user_id,page.getStartIndex(),page.getPageSize());
+        page.setList(list);
+        return page;
     }
 }

@@ -73,11 +73,9 @@ public class UserHotelServlet extends HttpServlet {
             currentPage = 1;
         }
         PageOther page = userHtService.getAllHotelInf(currentPage,sort);
-
         String json= JSON.toJSONString(page);
         //System.out.println("json"+json);
         response.getWriter().print(json);
-
     }
 
     /**获得一条酒店信息**/
@@ -96,7 +94,6 @@ public class UserHotelServlet extends HttpServlet {
     private void getOneHtImg(HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
         String hId = request.getParameter("hId");
-
         List<Map<String,Object>> result= userHtService.getOneHtImg(Integer.parseInt(hId));
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
@@ -105,9 +102,7 @@ public class UserHotelServlet extends HttpServlet {
     /**获得本酒店价格信息**/
     private void getRoom(HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
-         String room_id = request.getParameter("room_id");
-        //System.out.println(spId);
-
+        String room_id = request.getParameter("room_id");
         List<Map<String,Object>> result= userHtService.getRoom(room_id);
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);

@@ -2,6 +2,8 @@ package com.zhang.dao;
 
 import com.zhang.domain.Attractions;
 import com.zhang.domain.Hotel;
+import com.zhang.dao.Photo;
+import com.zhang.domain.User;
 import com.zhang.utils.JdbcUtils;
 
 import java.util.List;
@@ -43,14 +45,43 @@ public class HotelDao {
         JdbcUtils.insert(sql, params);
         return hotel;
     }
+    /**查找一条酒店数据上传图片*/
+    public static Hotel findOneH(Photo photo) {
+        String hotel_id =  photo.gethName();
+        Hotel hotel = null;
+        String sql = "select * from t_hotel where hId=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql, hotel_id);
+        if(list.size()>0){
+            hotel = new Hotel();
+            Map<String,Object> record = list.get(0);
+            hotel.setHotelName((String)record.get("hName"));
+            hotel.setHotelId((int)record.get("hId"));
+        }
+        return hotel;
+    }
+    /**验证是否第一次上传图片*/
+    public static Hotel validateHotel(Photo photo) {
+        String hotel_id =  photo.gethName();
+        Hotel hotel_img = null;
+        String sql = "select * from t_hotel_img where hotel_id=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql, hotel_id);
+
+        if(list.size()>0){
+            hotel_img = new Hotel();
+            Map<String,Object> record = list.get(0);
+            hotel_img.setHotelName((String)record.get("hName"));
+        }
+        return hotel_img;
+    }
     /**上传酒店照片信息*/
-    public static void addHotelImg(Photo photo) {
-        String sql = "insert into t_hotel_img values(null,null,?,?,?,null,null)";
+    public static void addHotelImg(Photo photo,Hotel hotel,int img_priority) {
+        String sql = "insert into t_hotel_img values(null,?,?,?,?,?,null)";
         Object[] params ={
                 photo.gethName(),
+                hotel.getHotelName(),
                 photo.getPhotoName(),
                 photo.getFilePath(),
-
+                img_priority
         };
         JdbcUtils.insert(sql, params);
     }
@@ -96,7 +127,8 @@ public class HotelDao {
     }
     /**查找一条数据*/
     public static Map<String, Object> findOne(int id) {
-        String sql = "select * from t_hotel where hId=?";
+        String sql = "select a.*,b.img_id,b.img_name,b.space from t_hotel a,t_hotel_img b" +
+                " where a.hId=b.hotel_id and b.img_priority=1 and a.hId=?";
         List<Map<String, Object>> list=JdbcUtils.find(sql, id);
         return list.get(0);
     }
@@ -179,7 +211,7 @@ public class HotelDao {
     /**删除一条订单*/
     public void delOrderHt(String orderId){
         String sql = "DELETE a,b FROM t_order_hotel_inf AS a LEFT JOIN t_order_hotel_item AS b ON a.oid=b.order_id WHERE a.oid=?";
-        System.out.println("order      "+orderId);
+        System.out.println("order     "+orderId);
         JdbcUtils.update(sql,orderId);
         //return attractions;
     }
@@ -191,5 +223,6 @@ public class HotelDao {
             JdbcUtils.update(sql, ids[i]);
         }
     }
+
 
 }

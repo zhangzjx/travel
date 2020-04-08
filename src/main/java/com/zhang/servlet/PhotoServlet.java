@@ -139,9 +139,9 @@ public class PhotoServlet extends HttpServlet {
             FileItem fileItem = map.get("photo").get(0);
             String photoName = fileItem.getName();
             //获得字段名和字段值
-            int id = Integer.parseInt(map.get("id").get(0).getString("utf-8"));
+             int admin_id = Integer.parseInt(map.get("admin_id").get(0).getString("utf-8"));
 
-            System.out.println(photoName+id);
+            System.out.println(photoName+admin_id);
             InputStream inputStream = fileItem.getInputStream();
 
             /*在项目中需要对同个文件流进行两个操作，
@@ -159,8 +159,8 @@ public class PhotoServlet extends HttpServlet {
             InputStream inputStream2 = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
 
             //String path = request.getServletContext().getRealPath("/WEB-INF/img/"+photoName);
-            String path = "F:/IdeaProjects/eshop/web/WEB-INF/img/";
-            String dataPath = "F:/IdeaProjects/eshop/web/WEB-INF/img/"+photoName;
+            String path = "F:/IdeaProjects/travel/src/main/webapp/res/img/adminImg/";
+            String dataPath = "F:/IdeaProjects/travel/src/main/webapp/res/img/adminImg/"+photoName;
             File file = new File(path);
             if (!file.exists() || !file.isDirectory()) {
                 file.mkdirs();
@@ -177,22 +177,18 @@ public class PhotoServlet extends HttpServlet {
             fileOutputStream.close();
 
             //封装一下数据，存入数据库
-            photo.setaId(id);
+            photo.setaId(admin_id);
             photo.setPhotoName(photoName);
-            //photo.setFilePath(dataPath);
 
             System.out.println(inputStream2);
-            System.out.println(path);
+            System.out.println(dataPath);
 
             PhotoService productService =  new PhotoService();
             productService.addAdminImg(photo);
-            request.setAttribute("msg","添加成功");
-
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        AdminHotelServlet adminHotelServlet = new AdminHotelServlet();
-        adminHotelServlet.findAllHotel(request,response);
+        //response.sendRedirect(request.getContextPath()+"/Admin/html/main.html");
     }
     /**酒店添加照片*/
     private void addHotelImg(HttpServletRequest request,

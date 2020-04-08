@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <link rel="stylesheet" type="text/css" href="../../res/layui/css/layui.css">
     <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript"  src="../../res/layui/layui.all.js"></script>
 
-<style type="text/css">
+    <style type="text/css">
 
     /****上传图片******/
     #imgPreview {
@@ -40,12 +41,11 @@
 </style>
 </head>
 <body>
-<form class="layui-form" id="myForm" style="padding: 50px 0 0 80px;" lay-filter="editDialogForm">
 
-    <input type="hidden" id="uId" name="uId" value="">
+<form class="layui-form" id="myForm" style="padding: 50px 0 0 80px;" action="../../PhotoServlet?action=addAdminImg" method="post" enctype="multipart/form-data">
+    <input type="hidden" id="admin_id" name="admin_id" value="">
     注意：照片必须小于 14MB，仅支持上传JPG，JPEG，PNG格式图片
     <div class="layui-form-item">
-
         <div id="imgPreview">
             <div id="prompt">
                 <span id="imgSpan">点击上传</span>
@@ -59,13 +59,14 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="button" id="goTo" class="layui-btn" lay-filter="go" lay-submit="" style="margin-left: 100px">修改</button>
+            <button type="button" onclick="goTo()" class="layui-btn" lay-filter="go" lay-submit="" style="margin-left: 100px">修改</button>
         </div>
     </div>
 </form>
 
 </body>
-<script type="application/javascript">
+
+<script type="text/javascript">
     function changePic() {
         $("#prompt").css("display", "none");
         const reads = new FileReader();
@@ -78,46 +79,51 @@
     }
 </script>
 <script type="text/javascript">
-    const uId = parent.$("#uI").val();//访问父页面元素值
-    $("#uId").val(uId);
+    const admin_id= parent.$("#admin_id").val();//访问父页面元素值
+    $("#admin_id").val(admin_id);
+   function goTo(){
+       $("#myForm").submit();
+       alert("修改成功");
+       const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+       parent.layer.close(index); //再执行关闭
+    };
 
+/**
     $(document).ready(function(){
-
         layui.use(['form'], function() {
             const form = layui.form
                 , layer = layui.layer;
 
             //监听提交
             form.on('submit(go)', function(data){
-                //使用$.ajax()发送异步请求
                 $.ajax({
-                    url:"../UserServlet?action=changePassword" , // 请求路径
-                    type:"POST" , //请求方式
-                    data:$('#myForm').serialize(),// 序列化表单值
+                    url:"../../PhotoServlet?action=addAdminImg" ,
+                    type:"POST" ,
+                    data:$('#myForm').serialize(),
                     success:function (data) {
                         console.log(typeof(data));
                         if (data==0){
-                            alert("修改成功");
+                            alert("添加成功");
                             const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                             parent.layer.close(index); //再执行关闭
 
                         }else if(data==1){
-                            alert("原密码不正确，修改失败！");
+                            alert("添加失败！");
                             location.reload();
                         }
                         //form.render();//菜单渲染 把内容加载进去
-                    },//响应成功后的回调函数
+                    },
                     error:function () {
                         alert("出错啦...")
-                    },//表示如果请求响应出现错误，会执行的回调函数
-                    dataType:"text"//设置接受到的响应数据的格式
+                    },
+                    dataType:"text"
                 });
                 return false;//不跳转
             });
         });
 
     });
-
+ */
 
 </script>
 </html>

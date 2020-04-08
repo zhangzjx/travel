@@ -42,7 +42,7 @@
 <body>
 <form class="layui-form" id="myForm" style="padding: 50px 0 0 80px;" lay-filter="editDialogForm">
 
-    <input type="hidden" id="uId" name="uId" value="">
+    <input type="hidden" id="user_id" name="user_id" value="">
     注意：照片必须小于 14MB，仅支持上传JPG，JPEG，PNG格式图片
     <div class="layui-form-item">
 
@@ -78,8 +78,8 @@
     }
 </script>
 <script type="text/javascript">
-    const uId = parent.$("#uI").val();//访问父页面元素值
-    $("#uId").val(uId);
+    const user_id = parent.$("#user_id").val();//访问父页面元素值
+    $("#user_id").val(user_id);
 
     $(document).ready(function(){
 

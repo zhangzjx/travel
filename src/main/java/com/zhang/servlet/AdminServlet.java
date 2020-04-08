@@ -1,23 +1,17 @@
 package com.zhang.servlet;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.dao.Page;
-import com.zhang.dao.PageOther;
 import com.zhang.domain.*;
 import com.zhang.exception.UserException;
-import com.zhang.service.AdminHotelService;
 import com.zhang.service.AdminService;
 import com.zhang.service.UserService;
-import com.zhang.utils.DateUtils;
 import com.zhang.utils.MD5;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +92,7 @@ public class AdminServlet extends HttpServlet {
         } else if(LAST_COUNT_MONEY_AT.equals(action)){
             lastCountMoneyAt(request, response);
         } else if(WEEK_COUNT_MONEY_AT.equals(action)){
-            weekCountMoneyAt(request, response);
+            weekCountMoneyAt(response);
         } else if(GET_ALL_COMMENT.equals(action)){
             getAllComment(request,response);
         } else if(GET_ONE_COMMENT.equals(action)){
@@ -107,6 +101,8 @@ public class AdminServlet extends HttpServlet {
             deleteComment(request,response);
         } else if(DEL_COMMENT_MORE.equals(action)){
             delCommentMore(request,response);
+        } else if(GET_USER_INF.equals(action)){
+            getUserInf(request,response);
         }
     }
 
@@ -193,6 +189,15 @@ public class AdminServlet extends HttpServlet {
             //response.sendRedirect(request.getContextPath()+"/Admin/login.html");
         }
     }
+    /**获得个人信息**/
+    private void getUserInf(HttpServletRequest request,
+                            HttpServletResponse response) throws IOException {
+        String admin_id = request.getParameter("admin_id");
+        Map<String,Object> result = adminService.getUserInf(Integer.parseInt(admin_id));
+        String json= JSON.toJSONString(result);
+        response.getWriter().print(json);
+
+    }
     /**一天订单总数**/
     private void dayCountOrderAt(HttpServletRequest request,
                                   HttpServletResponse response) throws IOException {
@@ -229,8 +234,7 @@ public class AdminServlet extends HttpServlet {
         response.getWriter().print(json);
     }
     /**近七天销售总额**/
-    private void weekCountMoneyAt(HttpServletRequest request,
-                                 HttpServletResponse response) throws IOException {
+    private void weekCountMoneyAt(HttpServletResponse response) throws IOException {
         List<Map<String, Object>> result= adminService.weekCountMoneyAt( );
         String json= JSON.toJSONString(result);
         response.getWriter().print(json);
@@ -338,13 +342,13 @@ public class AdminServlet extends HttpServlet {
     /**修改昵称**/
     private void changeNc(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        String uid = request.getParameter("uid");
-        String customerName = request.getParameter("customerName");
+        String adminId = request.getParameter("admin_id");
+        String adminName = request.getParameter("admin_name");
 
-        User user = new User();
-        user.setUid(Integer.parseInt(uid));
-        user.setName(customerName);
-        Boolean result = userService.changeNc(user);
+        Admin admin = new Admin();
+        admin.setAdmin_id(Integer.parseInt(adminId));
+        admin.setAdmin_name(adminName);
+        Boolean result = adminService.changeNc(admin);
         //返回添加成功的信息
         response.getWriter().print(result);
     }

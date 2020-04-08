@@ -9,30 +9,8 @@
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/attractions.css">
-    <script type="application/javascript">
-
-        $(document).ready(function(){
-            // 页面加载后任何需要执行的js特效
-            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-                //if(userCookie!= null&&userCookie != ""){
-                const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
-                console.log("userCookie存在");
-                $("#logout").show();
-                const user_id = userCookie.uid;
-                $("#user_id").val(user_id);
-
-            } else {
-                console.log("userCookie不存在");
-                $("#login").show()
-                //$("#account").show()
-            }
-
-        });
-    </script>
     <style type="text/css">
-
         body{background-color:  #f0f0f0}
-
         p{margin: 5px 0}
 
         .increment{
@@ -416,8 +394,20 @@
 <script type="text/javascript" src="js/echarts.js"></script>
 <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
 <script type="text/javascript" src="js/layer.js"></script>
-
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+            const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+            console.log("userCookie存在");
+            $("#logout").show();
+            const user_id = userCookie.uid;
+            $("#user_id").val(user_id);
+        } else {
+            console.log("userCookie不存在");
+            $("#login").show()
+        }
+    });
+</script>
 <script>
     //定义方法
     $(document).ready(function() {
@@ -519,18 +509,6 @@
          */
         function showComment(data){
             const json = eval("(" + data + ")");
-            let str = "";
-            for(let i = 0; i < 2; i++){
-                const ls = json[i];
-                let timestamp = ls.comment_time;
-                let comment_time = timestampToTime(timestamp);
-                str += "<div class='evaluate-inf'> <div class='evaluate-inf-top'><a>"+ls.comment_title+"</a></div>" +
-                    "<div><span class='inf-f'>"+ls.comment_content+"</span><a class='more_inf' value='"+ls.comment_id+"'>查看更多</a></div>" +
-                    "<div class='evaluate-info'><img src='img/头像.jpg' class='img'><div class='sp'><span>"+comment_time+"点评</span></div>" +
-                    "<div class='sp'><span>"+ls.customerName+"</span></div></div></div> ";
-                $("#result_choice").html(str);
-                showDetail();
-            };
             let strAll ="";
             for (const i in json) {
                 const ls = json[i];
@@ -543,6 +521,19 @@
                 $("#result_all").html(strAll);
                 showDetail();
             }
+            let str = "";
+            for(let i = 0; i < 2; i++){
+                const ls = json[i];
+                let timestamp = ls.comment_time;
+                let comment_time = timestampToTime(timestamp);
+                str += "<div class='evaluate-inf'> <div class='evaluate-inf-top'><a>"+ls.comment_title+"</a></div>" +
+                    "<div><span class='inf-f'>"+ls.comment_content+"</span><a class='more_inf' value='"+ls.comment_id+"'>查看更多</a></div>" +
+                    "<div class='evaluate-info'><img src='img/头像.jpg' class='img'><div class='sp'><span>"+comment_time+"点评</span></div>" +
+                    "<div class='sp'><span>"+ls.customerName+"</span></div></div></div> ";
+                $("#result_choice").html(str);
+                showDetail();
+            };
+
         }
         function showDetail() {
             layui.use(['form'], function () {
@@ -642,16 +633,23 @@
             return Y + M + D + h + m + s;
         }
         $("#write_comment").click(function () {
-            layer.open({
-                type: 2,
-                title: '撰写点评',
-                offset: '50px',//弹窗位置
-                shade: 0.2,
-                shadeClose: true, //点击遮罩关闭层    
-                area: ['60%', '70%'],
-                content:'writeComment.html',//弹框显示的url,对应的页面  
-                //btn: ['确定', '取消'],
-            });
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                layer.open({
+                    type: 2,
+                    title: '撰写点评',
+                    offset: '50px',//弹窗位置
+                    shade: 0.2,
+                    shadeClose: true, //点击遮罩关闭层    
+                    area: ['60%', '70%'],
+                    content:'writeComment.html',//弹框显示的url,对应的页面  
+                    //btn: ['确定', '取消'],
+                    end: function () {
+                        location.reload();
+                    }
+                });
+            } else {
+                alert("请登录后评论");
+            }
         });
 
         /**选中input*/

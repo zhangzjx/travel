@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
 </head>
+
+<script type="text/javascript" src="../res/layui/layui.all.js"></script>
 <body>
 
 <script>
@@ -16,9 +20,7 @@
 
         const inp = $('input[name="fruit"]:checked').val();
 
-
         $("#test").oninput(function () {
-
             let startTime = $(this).val();
             alert(startTime);
             // $("#startTime").val(startTime);
@@ -27,14 +29,19 @@
 
     }
 
+    function go() {
+        alert("点击")
+    }
 </script>
 
 <form>
+    <!--
     <input type="radio" class="layu" name ="fruit" value="apple" checked>苹果
     <input type="radio" class="layu" name ="fruit" value="banana">香蕉
     <input type="radio" class="layu" name ="fruit" value="pear">梨
     <button id="go">迪阿尼</button>
-    <input type="text" id="test"   class="book-ep-input" >
+    <input type="text" id="test"   class="book-ep-input" >-->
+    <button disabled class="layui-btn layui-btn-sm layui-btn-disabled" style="margin: 10px 0 0 10px" id="atCart"  onclick="go()">预订</button>
 </form>
 </body>
 </html>
