@@ -15,6 +15,10 @@ import java.util.Map;
 public class AdminAttractionsService {
     AttractionsDao  attractionsDao = new  AttractionsDao();
 
+    /*******添加图片 获得景点信息*******/
+    public  List<Map<String,Object>> getAttractionInf(String province) {
+        return AttractionsDao.getAttractionInf(province);
+    }
     /**添加酒店
      * @param attractions
      * @return*/

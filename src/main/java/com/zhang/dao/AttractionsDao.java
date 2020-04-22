@@ -13,15 +13,21 @@ import java.util.Map;
  * @author Administrator
  */
 public class AttractionsDao {
+
+    /*******添加图片 获得景点信息*******/
+    public static List<Map<String, Object>> getAttractionInf(String province) {
+        String sql = "select spId,spName,spPlace from t_scenicspot where province=?";
+        return JdbcUtils.find(sql,province);
+    }
     /**添加景点信息
      * @return*/
     public Attractions addAttractions(Attractions attractions) {
-        String sql = "insert into t_scenicspot values(null,?,?,null,?,?,?,null,?,?,?,?,?,null)";
+        String sql = "insert into t_scenicspot values(null,?,?,?,?,?,?,null,?,?,?,?,?,null)";
         Object[] params ={
                 //占位
                 attractions.getAttractionsName(),
                 attractions.getAttractionsPrice(),
-                //占位
+                attractions.getProvince(),
                 attractions.getAttractionsAddress(),
 
                 attractions.getAttractionsLabel(),
@@ -37,6 +43,46 @@ public class AttractionsDao {
         };
         JdbcUtils.insert(sql, params);
         return attractions;
+    }
+    /**查找一条酒店数据上传图片*/
+    public static Attractions findOneAt(Photo photo) {
+        String attraction_id =  photo.gethName();
+        Attractions attractions = null;
+        String sql = "select * from t_scenicspot where spId=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql, attraction_id);
+        if(list.size()>0){
+            attractions = new Attractions();
+            Map<String,Object> record = list.get(0);
+            attractions.setAttractionsName((String)record.get("spName"));
+            attractions.setSpId((int)record.get("spId"));
+        }
+        return attractions;
+    }
+    /**验证是否第一次上传图片*/
+    public static Attractions validateAt(Photo photo) {
+        String attraction_id =  photo.gethName();
+        Attractions attractions_img = null;
+        String sql = "select * from t_scenicspot_img where spId=?";
+        List<Map<String, Object>> list = JdbcUtils.find(sql, attraction_id);
+
+        if(list.size()>0){
+            attractions_img = new Attractions();
+            Map<String,Object> record = list.get(0);
+            attractions_img.setAttractionsName((String)record.get("spName"));
+        }
+        return attractions_img;
+    }
+    /**上传景点照片信息*/
+    public static void addAttractionsImg(Photo photo,Attractions attractions,int img_priority) {
+        String sql = "insert into t_scenicspot_img values(null,?,?,?,?,?,null)";
+        Object[] params ={
+                photo.gethName(),
+                attractions.getAttractionsName(),
+                photo.getPhotoName(),
+                photo.getFilePath(),
+                img_priority
+        };
+        JdbcUtils.insert(sql, params);
     }
     /**查询所有酒店信息并分页*/
     /**搜索结果总记录数*/

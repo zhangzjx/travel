@@ -40,11 +40,13 @@
             <col width="50">
             <col width="60">
             <col width="180">
+            <!--
             <col width="100">
+            -->
             <col width="80">
 
             <col width="80">
-            <col width="180">
+            <col width="280">
             <col width="60">
             <col width="60">
             <col width="140">
@@ -55,8 +57,9 @@
             <th>序号</th>
             <th>名称</th>
             <th>说明</th>
+            <!--
             <th>总房间数</th>
-
+-->
             <th>省份</th>
             <th>地址</th>
             <th>星级</th>
@@ -76,25 +79,17 @@
         </div>
         <div style="float: left;width: 35%;">
             <!-- 首页 -->
-
             <button id="firstPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm ">首页</button>
             <button id="firstPageClick" type="button" class="layui-btn layui-btn-sm button-hide">首页</button>
-
             <!-- 上一页 -->
-
             <button id="lastPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">上一页</button>
             <button id="lastPageClick" type="button" class="layui-btn layui-btn-sm button-hide">上一页</button>
-
             <!-- 下一页 -->
-
             <button id="nextPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">下一页</button>
             <button id="nextPageClick" type="button" class="layui-btn layui-btn-sm button-hide">下一页</button>
-
             <!-- 尾页 -->
-
             <button id="finalPage" type="button" class="layui-btn layui-btn-primary layui-btn-sm">尾页</button>
             <button id="finalPageClick" type="button" class="layui-btn layui-btn-sm button-hide">尾页</button>
-
         </div>
         <div style="float: left">
             <div style="margin-right: 20px;float: left">跳至<input  type="text" id="num" name="currentPage" style="height: 20px;width: 30px;margin: 0 5px;">页</div>
@@ -407,7 +402,7 @@
                 str += "<tr><td><input type='checkbox' name='number' value='"+ls.hId+"'}></td>" +
                     "<td>"+ls.hId+"</td><td title='"+ls.hName+"'>"+ls.hName+"</td>" +
                     "<td title='"+ls.hLabel+"'>"+ls.hLabel+"</td>" +
-                    "<td title='"+ls.provinceid+"'>"+ls.provinceid+"</td>" +
+                    /**"<td title='"+ls.provinceid+"'>"+ls.provinceid+"</td>" + **/
                     "<td title='"+ls.province+"'>"+ls.province+"</td>" +
                     "<td title='"+ls.hAddress+"'>"+ls.hAddress+"</td>" +
                     "<td title='"+ls.hStar+"'>"+ls.hStar+"</td>" +

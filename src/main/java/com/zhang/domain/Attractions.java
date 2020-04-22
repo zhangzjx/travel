@@ -6,23 +6,6 @@ import java.sql.Time;
  * @author Administrator
  */
 public class Attractions {
-    private int spId;
-    private int uId;
-    private String attractionsName;
-    private String attractionsPrice;
-    private String attractionsLabel;
-    private String attractionsAddress;
-    private String attractionsPhone;
-    private String attractionsInf;
-    private String time;
-    private String status;
-    private String timeStart;
-    private String timeEnd;
-    private String attractionsStar;
-    private String entryTime;
-    private int quantity;
-    private double price;
-
     public int getSpId() {
         return spId;
     }
@@ -85,6 +68,14 @@ public class Attractions {
 
     public void setAttractionsInf(String attractionsInf) {
         this.attractionsInf = attractionsInf;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getTime() {
@@ -162,6 +153,7 @@ public class Attractions {
                 ", attractionsAddress='" + attractionsAddress + '\'' +
                 ", attractionsPhone='" + attractionsPhone + '\'' +
                 ", attractionsInf='" + attractionsInf + '\'' +
+                ", province='" + province + '\'' +
                 ", time='" + time + '\'' +
                 ", status='" + status + '\'' +
                 ", timeStart='" + timeStart + '\'' +
@@ -172,6 +164,25 @@ public class Attractions {
                 ", price=" + price +
                 '}';
     }
+
+    private int spId;
+    private int uId;
+    private String attractionsName;
+    private String attractionsPrice;
+    private String attractionsLabel;
+    private String attractionsAddress;
+    private String attractionsPhone;
+    private String attractionsInf;
+    private String province;
+    private String time;
+    private String status;
+    private String timeStart;
+    private String timeEnd;
+    private String attractionsStar;
+    private String entryTime;
+    private int quantity;
+    private double price;
+
 
 
 

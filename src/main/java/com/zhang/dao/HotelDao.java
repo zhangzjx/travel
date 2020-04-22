@@ -13,6 +13,16 @@ import java.util.Map;
  * @author Administrator
  */
 public class HotelDao {
+    /*******获得省份信息*******/
+    public static List<Map<String, Object>> findProvince() {
+        String sql = "select * from t_provinces";
+        return JdbcUtils.find(sql);
+    }
+    /*******获得酒店名称*******/
+    public static List<Map<String, Object>> getHotelInf(String province) {
+        String sql = "select hId,hName,hPlace from t_hotel where province=?";
+        return JdbcUtils.find(sql,province);
+    }
     /**添加酒店信息
      * @return*/
     public static Hotel addHotel(Hotel hotel) {
@@ -85,16 +95,7 @@ public class HotelDao {
         };
         JdbcUtils.insert(sql, params);
     }
-    /*******获得省份信息*******/
-    public static List<Map<String, Object>> findProvince() {
-        String sql = "select * from t_provinces";
-        return JdbcUtils.find(sql);
-    }
-    /*******获得酒店名称*******/
-    public static List<Map<String, Object>> getHotelInf(String province) {
-        String sql = "select hId,hName,hPlace from t_hotel where province=?";
-        return JdbcUtils.find(sql,province);
-    }
+
 
     /**查询所有酒店信息并分页*/
     /**搜索结果总记录数*/

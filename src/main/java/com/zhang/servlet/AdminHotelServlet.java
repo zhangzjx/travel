@@ -177,7 +177,6 @@ public class AdminHotelServlet extends HttpServlet {
     private void getHotel(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         String province = request.getParameter("pro");
-
         List<Map<String,Object>> result= adminHotelService.getHotelInf(province);
         //创建Jackson的核心对象  ObjectMapper
         ObjectMapper mapper = new ObjectMapper();

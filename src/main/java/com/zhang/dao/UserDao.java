@@ -24,10 +24,11 @@ public class UserDao {
 
     /**注册*/
     public static void regist(User user){
-        String sql = "insert into t_customer values(null,?,?,null,null,?,?,null,null)";
+        String sql = "insert into t_customer values(null,?,?,?,null,?,?,null,null)";
         Object []params={
                 user.getName(),
                 user.getPassword(),
+                user.getName(),
                 user.getPhone(),
                 user.getEmail()
 

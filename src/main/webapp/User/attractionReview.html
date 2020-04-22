@@ -7,6 +7,7 @@
     <script type="application/javascript" src="js/topFoot.js"></script>
     <script src="js/jquery.cookie.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.mobile.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/attractions.css">
     <style type="text/css">
@@ -132,15 +133,19 @@
         <!--标题-->
         <div class="review-title">
             <h1><strong id="title"> </strong></h1>
-            <div class="title-inf">
+            <div class="title-inf" style="width:1200px;">
                 <ul>
                     <li class="address"> </li>
                     <li><div style="width: 50px"><div class="line"></div></div></li>
                     <li class="time"> </li>
                     <li><div style="width: 50px"><div class="line"></div></div></li>
                     <li id="label"></li>
+                    <li id="collect" style="margin: 0 0 0 580px">
+                        <button type="button" class="layui-btn layui-btn-warm layui-btn-sm">收藏</button>
+                    </li>
                 </ul>
             </div>
+
 
         </div>
 
@@ -412,6 +417,7 @@
     //定义方法
     $(document).ready(function() {
 
+        /**解析url传参**/
         function getParams(key) {
             const reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
             const r = window.location.search.substr(1).match(reg);
@@ -423,6 +429,32 @@
         console.log("参数param:"+getParams("param"));//输出aa
         const id = getParams("param");
         $("#spId").val(id);
+        /**收藏*/
+        $("#collect").click(function () {
+            if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
+                let user_id = $("#user_id").val();
+                $.ajax({
+                    url: "../UserServlet",
+                    type: "POST",
+                    //async:false,
+                    data: {
+                        action:"collect",
+                        spId:id,
+                        user_id:user_id
+                    },
+                    success: function (data) {
+                        console.log("信息"+data)
+                        alert("已添加到收藏夹");
+                    },
+                    error: function () {
+                        console.log("失败啦...")
+                    },
+                    dataType: "text"
+                });
+            } else {
+                alert("请先登录");
+            }
+        });
         /**获取景点信息*/
         $.ajax({
             url: "../UserAttractionsServlet", // 请求路径

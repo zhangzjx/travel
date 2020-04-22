@@ -1,8 +1,10 @@
 package com.zhang.service;
 
 import com.zhang.dao.AdminDao;
+import com.zhang.dao.AttractionsDao;
 import com.zhang.dao.HotelDao;
 import com.zhang.dao.Photo;
+import com.zhang.domain.Attractions;
 import com.zhang.domain.Hotel;
 import com.zhang.domain.User;
 
@@ -11,6 +13,21 @@ import com.zhang.domain.User;
  * @date 2020/2/17 22:11
  */
 public class PhotoService {
+    /**添加景点图片*/
+    public void addAtImg(Photo photo) {
+        /**获取酒店信息*/
+        Attractions attractions = AttractionsDao.findOneAt(photo);
+        /**验证是否第一次上传图片*/
+        Attractions AtImg =  AttractionsDao.validateAt(photo);
+        if(AtImg!=null){
+            int img_priority = 2;
+            AttractionsDao.addAttractionsImg(photo,attractions,img_priority);
+        }else{
+            int img_priority = 1;
+            AttractionsDao.addAttractionsImg(photo,attractions,img_priority);
+        }
+
+    }
     /**添加酒店图片*/
     public void addHotelImg(Photo photo) {
         /**获取酒店信息*/

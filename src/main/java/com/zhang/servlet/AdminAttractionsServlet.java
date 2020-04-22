@@ -19,6 +19,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +40,7 @@ public class AdminAttractionsServlet extends HttpServlet {
     public static final String SEARCH_ORDER_GO = "searchOrderGo";
     public static final String DELETE_ORDER_AT = "deleteOrderAt";
     public static final String DELETE_ORDER_AT_MORE = "deleteOrderAtMore";
+    public static final String GET_ATTRACTION = "getAttraction";
 
     private AdminAttractionsService adminAttractionsService = new AdminAttractionsService();
     @Override
@@ -55,6 +57,8 @@ public class AdminAttractionsServlet extends HttpServlet {
 
         if(ADD_ATTRACTIONS.equals(action)){
             addAttractions(request,response);
+        } else if(GET_ATTRACTION.equals(action)){
+            getAttraction(request, response);
         } else if(FIND_ALL_ATTRACTIONS.equals(action)||SEARCH_GO.equals(action)){
             findAllAttractions(request, response);
         } else if(DELETE_AT.equals(action)){
@@ -77,6 +81,50 @@ public class AdminAttractionsServlet extends HttpServlet {
 
     }
 
+
+    /*******获得酒店信息*******/
+    private void getAttraction(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException {
+        String province = request.getParameter("pro");
+        List<Map<String,Object>> result= adminAttractionsService.getAttractionInf(province);
+        //创建Jackson的核心对象  ObjectMapper
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(response.getWriter(),result);
+    }
+    private void addAttractions(HttpServletRequest request,
+                                HttpServletResponse response) throws IOException {
+
+        String name = request.getParameter("attractions_name");
+        String price_min = request.getParameter("price_min");
+        String price_max = request.getParameter("price_max");
+        String time_start = request.getParameter("time_min");
+        String time_end = request.getParameter("time_max");
+        String time = time_start+"-"+time_end;
+        String label = request.getParameter("attractions_label");
+        String province = request.getParameter("province");
+        String address = request.getParameter("attractions_address");
+        String phone= request.getParameter("attractions_phone");
+        String star = request.getParameter("attractions_star");
+        String content = request.getParameter("content");
+
+        Attractions attractions = new Attractions();
+        attractions.setAttractionsName(name);
+        attractions.setAttractionsPrice(price_min);
+        attractions.setProvince(province);
+        attractions.setAttractionsAddress(address);
+        attractions.setAttractionsLabel(label);
+        attractions.setAttractionsPhone(phone);
+        attractions.setTimeStart(time_start);
+        attractions.setTimeEnd(time_end);
+        attractions.setAttractionsInf(content);
+        attractions.setAttractionsStar(star);
+        attractions.setEntryTime(DateUtils.StrTime());
+        //4.调用Service中add方法添加一条新闻
+        Boolean result = adminAttractionsService.addAttractions(attractions);
+        //返回添加成功的信息
+        response.getWriter().print(result);
+
+    }
     /*****查看所有订单******/
     private void  findAllOrderAt(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
@@ -229,38 +277,7 @@ public class AdminAttractionsServlet extends HttpServlet {
         response.getWriter().print(json);
     }
 
-    private void addAttractions(HttpServletRequest request,
-                                HttpServletResponse response) throws IOException {
 
-        String name = request.getParameter("attractions_name");
-        String price_min = request.getParameter("price_min");
-        String price_max = request.getParameter("price_max");
-        String time_start = request.getParameter("time_min");
-        String time_end = request.getParameter("time_max");
-        String time = time_start+"-"+time_end;
-        String label = request.getParameter("attractions_label");
-        String address = request.getParameter("attractions_address");
-        String phone= request.getParameter("attractions_phone");
-        String star = request.getParameter("attractions_star");
-        String content = request.getParameter("content");
-
-        Attractions attractions = new Attractions();
-        attractions.setAttractionsName(name);
-        attractions.setAttractionsPrice(price_min);
-        attractions.setAttractionsAddress(address);
-        attractions.setAttractionsLabel(label);
-        attractions.setAttractionsPhone(phone);
-        attractions.setTimeStart(time_start);
-        attractions.setTimeEnd(time_end);
-        attractions.setAttractionsInf(content);
-        attractions.setAttractionsStar(star);
-        attractions.setEntryTime(DateUtils.StrTime());
-        //4.调用Service中add方法添加一条新闻
-        Boolean result = adminAttractionsService.addAttractions(attractions);
-        //返回添加成功的信息
-        response.getWriter().print(result);
-
-    }
 
     @Override
     protected void doGet(HttpServletRequest request,
