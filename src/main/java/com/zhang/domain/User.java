@@ -125,15 +125,21 @@ public class User {
     private String sex;
     private String password;
 
-    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    private String oldPassword;
-    private String email;
-    private Date lasttime;
-    private String entryTime;
-    /**统计在线人数*/
-    private String sessionIdString;
-    private String ipString;
-    private String firsttTimeString;
+    public int getScenicspot_id() {
+        return scenicspot_id;
+    }
+
+    public void setScenicspot_id(int scenicspot_id) {
+        this.scenicspot_id = scenicspot_id;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
     @Override
     public String toString() {
@@ -144,6 +150,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
                 ", password='" + password + '\'' +
+                ", scenicspot_id=" + scenicspot_id +
+                ", sort='" + sort + '\'' +
                 ", oldPassword='" + oldPassword + '\'' +
                 ", email='" + email + '\'' +
                 ", lasttime=" + lasttime +
@@ -153,4 +161,19 @@ public class User {
                 ", firsttTimeString='" + firsttTimeString + '\'' +
                 '}';
     }
+
+    private int scenicspot_id;
+    private String sort;
+
+
+    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private String oldPassword;
+    private String email;
+    private Date lasttime;
+    private String entryTime;
+    /**统计在线人数*/
+    private String sessionIdString;
+    private String ipString;
+    private String firsttTimeString;
+
 }

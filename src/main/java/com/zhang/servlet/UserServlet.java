@@ -52,6 +52,8 @@ public class UserServlet extends HttpServlet {
     public static final String WRITE_COMMENT = "writeComment";
     public static final String GET_ONE_COMMENT = "getOneComment";
     public static final String GET_ALL_COMMENT = "getAllComment";
+    public static final String ADD_COLLECT = "addCollect";
+    public static final String GET_ALL_COLLECT = "getAllCollect";
 
 
     private AdminHotelService adminHotelService = new AdminHotelService();
@@ -124,10 +126,28 @@ public class UserServlet extends HttpServlet {
             getAllComment(request, response);
         } else if(GET_ONE_COMMENT.equals(action)){
             getOneComment(request, response);
+        } else if(ADD_COLLECT.equals(action)){
+            addCollect(request, response);
+        } else if(GET_ALL_COLLECT.equals(action)){
+            getAllCollect(request, response);
         }
     }
 
-
+    /**收藏**/
+    private void addCollect(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+        String scenicspot_id = request.getParameter("spId");
+        String user_id = request.getParameter("user_id");
+        String sort = request.getParameter("sort");
+        //System.out.println("获得的内容"+uid+" "+customerName+" "+sex+" "+phone+" "+email);
+      //  System.out.println("获得的内容"+phone+"结尾");
+        User collect = new User();
+        collect.setUid(Integer.parseInt(user_id));
+        collect.setScenicspot_id(Integer.parseInt(scenicspot_id));
+        collect.setSort(sort);
+        Boolean result = userService.addCollect(collect);
+        response.getWriter().print(result);
+    }
     /**注册*/
     private void register(HttpServletRequest request,HttpServletResponse response)
             throws ServletException, IOException {
@@ -265,6 +285,23 @@ public class UserServlet extends HttpServlet {
         }
         PageTwo page = userService.getAllComment(user_id, currentPage);
         String json= JSON.toJSONString(page);
+        response.getWriter().print(json);
+    }
+    /**获得收藏信息**/
+    private void getAllCollect(HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+        String current = request.getParameter("currentPage");
+        System.out.println("获得id"+user_id);
+        int currentPage = 1;
+        try{
+            currentPage = Integer.parseInt(current);
+        }catch(Exception e){
+            currentPage = 1;
+        }
+        PageOther page = userService.getAllCollect(user_id, currentPage);
+        String json= JSON.toJSONString(page);
+        System.out.println("返回的json"+json);
         response.getWriter().print(json);
     }
     /**获得个人信息**/

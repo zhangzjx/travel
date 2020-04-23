@@ -89,7 +89,8 @@ body{background-color: #EEEEEE;}
 
 /**右侧中部**/
 .right-central{width: 960px;height: 430px;margin: 5px 0;text-align: center;float: left;}
-.central-main{width: 750px;min-height: 400px;margin: 0  0;background-color: #fff;}
+.central-main{width: 750px;min-height: 273px;margin: 0  0;background-color: #fff;}
+.central-main-two{width: 750px;min-height: 400px;margin: 0  0;background-color: #fff;}
 
 /**三角形**/
 .entry{

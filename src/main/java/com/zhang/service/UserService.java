@@ -138,6 +138,8 @@ public class UserService {
             return false;
         }
     }
+
+
     /**验证密码**/
     public boolean validatePw(String uid,String oldPassword) {
         User user = userDao.validateByPw(uid,oldPassword);
@@ -190,6 +192,19 @@ public class UserService {
         int totalSize = userDao.findCountComment(user_id);
         PageTwo page = new PageTwo(currentPage,totalSize);
         List<Map<String,Object>> list = userDao.getAllComment(user_id,page.getStartIndex(),page.getPageSize());
+        page.setList(list);
+        return page;
+    }
+    /**收藏**/
+    public Boolean addCollect(User collect) {
+        userDao.addCollect(collect);
+        return true;
+    }
+    /**获得所有收藏信息**/
+    public PageOther getAllCollect(int user_id, int currentPage) {
+        int totalSize = userDao.findCountCollect(user_id);
+        PageOther page = new PageOther(currentPage,totalSize);
+        List<Map<String,Object>> list = userDao.getAllCollect(user_id,page.getStartIndex(),page.getPageSize());
         page.setList(list);
         return page;
     }

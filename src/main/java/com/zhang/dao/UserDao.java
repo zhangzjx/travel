@@ -81,7 +81,6 @@ public class UserDao {
                 user.getEntryTime(),
                 user.getName()
         };
-
         JdbcUtils.update(sql,params);
     }
     /**首页显示的轮播图*/
@@ -345,6 +344,28 @@ public class UserDao {
     }
     public List<Map<String, Object>> getAllComment(int user_id, int startIndex, int pageSize) {
         String sql = "select a.*,b.customerName,b.jf from t_scenicspot_comment a,t_customer b where a.user_id=b.uid and a.user_id=? limit ?,?";
+        return JdbcUtils.find(sql, user_id, startIndex, pageSize);
+    }
+
+    /**收藏**/
+    public void addCollect(User collect) {
+        String sql = "insert into t_collect values(null,?,?,?,null)";
+        Object []params={
+                collect.getUid(),
+                collect.getScenicspot_id(),
+                collect.getSort(),
+        };
+        JdbcUtils.update(sql, params);
+    }
+
+    /**获得所有收藏信息并分页**/
+    public int findCountCollect(int user_id) {
+        String sql = "select count(*) from t_collect where  user_id="+user_id;
+        return ((Number) JdbcUtils.selectScalar(sql, (Object[]) null)).intValue();
+    }
+    public List<Map<String, Object>> getAllCollect(int user_id, int startIndex, int pageSize) {
+        String sql = "select a.*,b.spId,b.spName,c.img_id,c.img_name,c.space from t_collect a,t_scenicspot b,t_scenicspot_img c " +
+                "where a.scenicspot_id=b.spId and b.spId=c.spId and c.img_priority=1 and a.user_id=? limit ?,?";
         return JdbcUtils.find(sql, user_id, startIndex, pageSize);
     }
 }

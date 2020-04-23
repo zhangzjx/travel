@@ -108,16 +108,19 @@
 
                 </div>
                 <div class="top-bottom">
-                    <div id="change-one" class="top-bottom-item" >订单</div>
+                    <div id="change-one" class="top-bottom-item">收藏</div>
                     <div id="change-two" class="top-bottom-item">点评</div>
                 </div>
             </div>
             <!--右侧中部-->
             <div class="right-central">
                 <div id="one" class="central-main tab-pane active">
-                    <div id="my_comment" style="text-align: left;"></div>
+                    <div id="my_collect" style="text-align: left;">收藏夹为空！</div>
+                </div>
+                <div id="two" class="central-main-two tab-pane">
+                    <div id="my_comment" style="text-align: left;">写您的第一条点评！ 您的意见很重要！</div>
                     <!--分页 写您的第一条点评！ 您的意见很重要！ -->
-                    <div style="background-color: #fff; margin-top: 3px" class="pagination" >
+                    <div style="background-color: #fff; margin-top: 3px" id="pagination" class="pagination tab-pane" >
                         <div style="width: 35%;text-align: left;margin-left: 20px;float: left">
                             共找到<span id="totalSize"></span>条记录，每页<span id="pageSize"></span>条，
                             共<span id="totalPage"></span>页，当前第<span id="currentPage"></span>页
@@ -141,10 +144,6 @@
                             <button id="jump" type="button" class="layui-btn layui-btn-sm">确定</button>
                         </div>
                     </div>
-
-                </div>
-                <div id="two" class="central-main tab-pane">
-                    点评精选及图片
                 </div>
             </div>
 
@@ -262,6 +261,24 @@
                 console.log("出错啦...")
             },
         });
+        /**获取收藏信息*/
+        $.ajax({
+            url: "../UserServlet", // 请求路径
+            type: "POST", //请求方式
+            //async:false,
+            data: {
+                action:"getAllCollect",
+                user_id:user_id
+            },
+            success: function (data) {
+                console.log("收藏"+data)
+                showCollect(data);
+            },
+            error: function () {
+                console.log("失败啦...")
+            },
+            dataType: "text"
+        });
         /**获取评论信息*/
         /**获取景点评论信息*/
         $.ajax({
@@ -274,7 +291,7 @@
             },
             success: function (data) {
                 console.log("评论"+data)
-                show(data);
+                showComment(data);
             },
             error: function () {
                 console.log("失败啦...")
@@ -346,7 +363,7 @@
 
         /**首页*/
         $("#firstPageClick").click(function () {
-            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
+           // $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
             let current = 1;
             $.ajax({
                 url: "../UserServlet",
@@ -359,7 +376,7 @@
                 },
                 success:function (data) {
                     console.log("dd"+data);
-                    show(data);
+                    showComment(data);
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -368,8 +385,6 @@
         });
         /**上一页*/
         $("#lastPageClick").click(function () {
-            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
-
             let currentPage = $("#currentPage").html();
             let current = currentPage-1;
             $.ajax({
@@ -383,7 +398,7 @@
                 },
                 success:function (data) {
                     console.log("dd"+data);
-                    show(data);
+                    showComment(data);
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -392,8 +407,6 @@
         });
         /**下一页*/
         $("#nextPageClick").click(function () {
-            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
-            let skey = $('select[name=sKey] option:selected').val();
             let currentPage = $("#currentPage").html();
             let current = parseInt(currentPage)+1;
             $.ajax({
@@ -407,7 +420,7 @@
                 },
                 success:function (data) {
                     console.log("dd"+data);
-                    show(data);
+                    showComment(data);
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -416,7 +429,6 @@
         });
         /**尾页*/
         $("#finalPageClick").click(function () {
-            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
             let current = $("#totalPage").html();
             $.ajax({
                 url: "../UserServlet",
@@ -428,7 +440,7 @@
                 },
                 success:function (data) {
                     console.log("dd"+data);
-                    show(data);
+                    showComment(data);
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -437,7 +449,6 @@
         });
         /**跳页*/
         $("#jump").click(function () {
-            $("html,body").animate({scrollTop: $("#hotel-top").offset().top}, 500);
             const current = $("#num").val();
             $.ajax({
                 url: "../UserServlet",
@@ -449,7 +460,7 @@
                 },
                 success:function (data) {
                     console.log("dd"+data);
-                    show(data);
+                    showComment(data);
                 },
                 error:function () {
                     console.log("出错啦...")
@@ -458,7 +469,7 @@
         });
     });
     /*******8******/
-    function show(data){
+    function showCollect(data){
         const json = eval("(" + data + ")");
         //将JSON对象转化为JSON字符
         const list = JSON.stringify(json.list);
@@ -501,21 +512,87 @@
             $("#nextPageClick").show();
             $("#finalPageClick").show();
         }
-        let str = "";
-        for(let i = 0; i < 3; i++){
-            const ls = j[i];
-
-            let timestamp = ls.comment_time;
-            let comment_time = timestampToTime(timestamp);
-
-            str += "<div class='comment-inf'><div class='comment-inf-top'><h3><b><a>"+ls.comment_title+"</a></b></h3></div>" +
-                "<div><span class='inf-f'>"+ls.comment_content+"</span><a  class='more_inf' value='"+ls.comment_id+"'>查看更多</a></div>" +
-                "<div class='evaluate-info'><img src='img/头像.jpg' class='img'><div class='sp'><span>"+comment_time+"点评</span></div>" +
-                "<div class='sp'><span>"+ls.customerName+"</span></div></div></div> ";
-
-            $("#my_comment").html(str);
-            //showDetail();
+        if (j.length === 0){
+            //alert("收藏夹为空！");
+        }else{
+            let str = "";
+            for(let i = 0; i < j.length; i++){
+                const ls = j[i];
+                str += "<div class='' style='float: left;width: 100px;height: 100px;margin: 5px 10px;'>" +
+                    "<img src='/atImg/"+ ls.img_name +"' style='width: 100px;height: 100px;'>" +
+                    "<div class='comment-inf-top'><h3><b><a href='attractionReview.html?param="+ls.spId+"'>"+ls.spName+"</a></b></h3></div>" +
+                    " </div> ";
+                $("#my_collect").html(str);
+                //showDetail();
+            }
         }
+
+    };
+    function showComment(data){
+        const json = eval("(" + data + ")");
+        //将JSON对象转化为JSON字符
+        const list = JSON.stringify(json.list);
+        const j = eval("(" + list+ ")");
+
+        $("#totalSize").html(json.totalSize);
+        $("#pageSize").html(json.pageSize);
+        $("#totalPage").html(json.totalPage);
+        $("#currentPage").html(json.currentPage);
+        if (json.currentPage==1){
+
+            $("#firstPage").show();
+            $("#lastPage").show();
+            $("#nextPageClick").show();
+            $("#finalPageClick").show();
+
+            $("#firstPageClick").hide();
+            $("#lastPageClick").hide();
+            $("#nextPage").hide();
+            $("#finalPage").hide();
+
+        } else if (json.currentPage==json.totalPage ){
+            $("#firstPageClick").show();
+            $("#lastPageClick").show();
+            $("#nextPage").show();
+            $("#finalPage").show();
+
+            $("#firstPage").hide();
+            $("#lastPage").hide();
+            $("#nextPageClick").hide();
+            $("#finalPageClick").hide();
+
+        } else if (json.currentPage!=1||json.currentPage!=json.totalPage ){
+            $("#firstPage").hide();
+            $("#lastPage").hide();
+            $("#nextPage").hide();
+            $("#finalPage").hide();
+            $("#firstPageClick").show();
+            $("#lastPageClick").show();
+            $("#nextPageClick").show();
+            $("#finalPageClick").show();
+        }
+        if (j.length === 0){
+            //alert("收藏夹为空！");
+        }else{
+            document.getElementById('pagination').classList.remove("tab-pane");
+            document.getElementById('pagination').classList.add("active");
+            let str = "";
+            for(let i = 0; i < 3; i++){
+                const ls = j[i];
+
+                let timestamp = ls.comment_time;
+                let comment_time = timestampToTime(timestamp);
+
+                str += "<div class='comment-inf'><div class='comment-inf-top'><h3><b><a>"+ls.comment_title+"</a></b></h3></div>" +
+                    "<div><span class='inf-f'>"+ls.comment_content+"</span><a  class='more_inf' value='"+ls.comment_id+"'>查看更多</a></div>" +
+                    "<div class='evaluate-info'><img src='img/头像.jpg' class='img'><div class='sp'><span>"+comment_time+"点评</span></div>" +
+                    "<div class='sp'><span>"+ls.customerName+"</span></div></div></div> ";
+
+                $("#my_comment").html(str);
+                //showDetail();
+            }
+        }
+
     };
 
     function showDetail() {

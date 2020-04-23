@@ -7,7 +7,6 @@
     <script type="application/javascript" src="js/topFoot.js"></script>
     <script src="js/jquery.cookie.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.mobile.css">
     <link rel="stylesheet" type="text/css" href="css/topFoot.css">
     <link rel="stylesheet" type="text/css" href="css/attractions.css">
     <style type="text/css">
@@ -127,26 +126,27 @@
         <div class="title">
             <a href="#">中国 </a><span>&nbsp;></span>
             <a href="#" class="province"> </a><span>&nbsp;></span>
-
             <a href="#"><span class="province"></span>景点</a>
         </div>
         <!--标题-->
-        <div class="review-title">
-            <h1><strong id="title"> </strong></h1>
-            <div class="title-inf" style="width:1200px;">
-                <ul>
-                    <li class="address"> </li>
-                    <li><div style="width: 50px"><div class="line"></div></div></li>
-                    <li class="time"> </li>
-                    <li><div style="width: 50px"><div class="line"></div></div></li>
-                    <li id="label"></li>
-                    <li id="collect" style="margin: 0 0 0 580px">
-                        <button type="button" class="layui-btn layui-btn-warm layui-btn-sm">收藏</button>
-                    </li>
-                </ul>
+        <div class="review-title" style="height: 70px;">
+            <div style="float: left">
+                <h1><strong id="title"> </strong></h1>
+                <div class="title-inf">
+                    <ul>
+                        <li class="address"> </li>
+                        <li><div style="width: 50px"><div class="line"></div></div></li>
+                        <li class="time"> </li>
+                        <li><div style="width: 50px"><div class="line"></div></div></li>
+                        <li id="label"></li>
+                    </ul>
+                </div>
             </div>
-
-
+            <div style="width:296px;float: left">
+                <li id="collect" style="margin:35px 0 0 255px">
+                    <button type="button" class="layui-btn layui-btn-warm layui-btn-sm">收藏</button>
+                </li>
+            </div>
         </div>
 
     </div>
@@ -402,7 +402,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
-            const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
+            const userCookie = JSON.parse($.cookie("userCookie"));    //读取cookie
             console.log("userCookie存在");
             $("#logout").show();
             const user_id = userCookie.uid;
@@ -417,7 +417,6 @@
     //定义方法
     $(document).ready(function() {
 
-        /**解析url传参**/
         function getParams(key) {
             const reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
             const r = window.location.search.substr(1).match(reg);
@@ -429,21 +428,25 @@
         console.log("参数param:"+getParams("param"));//输出aa
         const id = getParams("param");
         $("#spId").val(id);
+
         /**收藏*/
         $("#collect").click(function () {
             if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
                 let user_id = $("#user_id").val();
+                let sort = "景点";
                 $.ajax({
                     url: "../UserServlet",
                     type: "POST",
                     //async:false,
                     data: {
-                        action:"collect",
+                        action:"addCollect",
                         spId:id,
-                        user_id:user_id
+                        user_id:user_id,
+                        sort:sort
                     },
                     success: function (data) {
-                        console.log("信息"+data)
+                        console.log("收藏"+data);
+                        //if (data=true){}
                         alert("已添加到收藏夹");
                     },
                     error: function () {
@@ -522,7 +525,7 @@
             dataType: "text"
         });
         /**价格
-        $(".tickets-list").each(function(k,v){
+         $(".tickets-list").each(function(k,v){
             $(v).click(function(){
                 if(!$(v).is(".selected")){
                     $(".tickets-list").removeClass("selected");
@@ -597,7 +600,7 @@
                                 type: 1,
                                 area: ['45%', '70%'],
                                 shade: 0.2,
-                                shadeClose: true, //点击遮罩关闭层    
+                                shadeClose: true, //点击遮罩关闭层
                                 offset: '10px',//弹窗位置
                                 resize: false,
                                 id:'thisIsOpen',
@@ -643,7 +646,7 @@
                         ,title: false //不显示标题栏   title : false/标题
                         , area: ['45%', '70%']
                         ,shade: 0.2
-                        ,shadeClose: true //点击遮罩关闭层  
+                        ,shadeClose: true //点击遮罩关闭层
                         ,id: 'LAY_layui' //设定一个id，防止重复弹出
                         ,resize: false
                         ,content: '<div style="padding:50px">'+ls.spFormation+'</div>'
@@ -667,13 +670,13 @@
         $("#write_comment").click(function () {
             if($.cookie("userCookie") != null&&$.cookie("userCookie")!= ""){
                 layer.open({
-                    type: 2,
+                    type: 2,
                     title: '撰写点评',
                     offset: '50px',//弹窗位置
                     shade: 0.2,
-                    shadeClose: true, //点击遮罩关闭层    
+                    shadeClose: true, //点击遮罩关闭层
                     area: ['60%', '70%'],
-                    content:'writeComment.html',//弹框显示的url,对应的页面  
+                    content:'writeComment.html',//弹框显示的url,对应的页面
                     //btn: ['确定', '取消'],
                     end: function () {
                         location.reload();
