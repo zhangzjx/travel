@@ -446,8 +446,12 @@
                     },
                     success: function (data) {
                         console.log("收藏"+data);
-                        //if (data=true){}
-                        alert("已添加到收藏夹");
+                        console.log(typeof(data));
+                        if (data==0){
+                            alert("已添加到收藏夹");
+                        }else if(data==1){
+                            alert("请勿重复添加");
+                        }
                     },
                     error: function () {
                         console.log("失败啦...")

@@ -257,7 +257,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -282,7 +281,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -307,7 +305,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -331,7 +328,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -355,7 +351,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -407,28 +402,31 @@
                 $("#nextPageClick").show();
                 $("#finalPageClick").show();
             }
-            let str = "";//定义用于拼接的字符串
-            for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
-                const ls = j[i];
-                str += "<tr><td><input type='checkbox' name='number' value='"+ls.spId+"'}></td>" +
-                    "<td>"+ls.spId+"</td><td title='"+ls.spName+"'>"+ls.spName+"</td>" +
-                    "<td title='"+ls.spLabel+"'>"+ls.spLabel+"</td>" +
-                    " <td title='"+ls.spTimeEnd+"'>"+ls.spTimeStart+" - "+ls.spTimeEnd+"</td>" +
-                    "<td title='"+ls.spPrice+"'>"+ls.spPrice+"</td>" +
-                    "<td title='"+ls.spAddress+"'>"+ls.spAddress+"</td>" +
-                    "<td title='"+ls.spStar+"'>"+ls.spStar+"</td>" +
-                    "<td title='"+ls.spStar+"'>"+ls.spStar+"</td>" +
-                    " <td><div id='op'>" +
-                    "<button class='layui-btn layui-btn-xs detail' value='"+ls.spId+"'>查看</button>" +
-                    "<button class='layui-btn layui-btn-xs edit' value='"+ls.spId+"'>编辑</button>" +
-                    "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.spId+"'>删除</button>" +
-                    "</div></td></tr>";
+            if (j.length === 0){
+                alert("查询的信息不存在，可能已被删除！");
+            }else{
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
+                    const ls = j[i];
+                    str += "<tr><td><input type='checkbox' name='number' value='"+ls.spId+"'}></td>" +
+                        "<td>"+ls.spId+"</td><td title='"+ls.spName+"'>"+ls.spName+"</td>" +
+                        "<td title='"+ls.spLabel+"'>"+ls.spLabel+"</td>" +
+                        " <td title='"+ls.spTimeEnd+"'>"+ls.spTimeStart+" - "+ls.spTimeEnd+"</td>" +
+                        "<td title='"+ls.spPrice+"'>"+ls.spPrice+"</td>" +
+                        "<td title='"+ls.spAddress+"'>"+ls.spAddress+"</td>" +
+                        "<td title='"+ls.spStar+"'>"+ls.spStar+"</td>" +
+                        "<td title='"+ls.spStar+"'>"+ls.spStar+"</td>" +
+                        " <td><div id='op'>" +
+                        "<button class='layui-btn layui-btn-xs detail' value='"+ls.spId+"'>查看</button>" +
+                        "<button class='layui-btn layui-btn-xs edit' value='"+ls.spId+"'>编辑</button>" +
+                        "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.spId+"'>删除</button>" +
+                        "</div></td></tr>";
 
-                $("#result_list").html(str);
-                detailData();
+                    $("#result_list").html(str);
+                    detailData();
 
-            };
-
+                };
+            }
         }
         function detailData() {
             layui.use(['form'], function() {

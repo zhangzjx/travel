@@ -126,7 +126,6 @@ public class UserDao {
     }
     /** 验证账号密码**/
     public User validateByPw(String uid,String oldPassword) {
-
         User user = null;
         String sql ="select * from t_customer where uid=? and password=?";
         List<Map<String,Object>> list = JdbcUtils.find(sql,uid,oldPassword);
@@ -345,6 +344,18 @@ public class UserDao {
     public List<Map<String, Object>> getAllComment(int user_id, int startIndex, int pageSize) {
         String sql = "select a.*,b.customerName,b.jf from t_scenicspot_comment a,t_customer b where a.user_id=b.uid and a.user_id=? limit ?,?";
         return JdbcUtils.find(sql, user_id, startIndex, pageSize);
+    }
+    /** 验证账号密码**/
+    public User validateByCollect(int user_id,int scenicspot_id) {
+        User inf = null;
+        String sql ="select * from t_collect where user_id=? and scenicspot_id=?";
+        List<Map<String,Object>> list = JdbcUtils.find(sql,user_id,scenicspot_id);
+        if(list.size()>0){
+            inf = new User();
+            Map<String,Object> record = list.get(0);
+            inf.setUid((Integer)record.get("user_id"));
+        }
+        return inf;
     }
 
     /**收藏**/

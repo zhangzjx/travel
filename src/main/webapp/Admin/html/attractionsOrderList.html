@@ -176,7 +176,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -202,7 +201,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -228,7 +226,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -253,7 +250,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -278,7 +274,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -330,28 +325,31 @@
                 $("#nextPageClick").show();
                 $("#finalPageClick").show();
             }
-            let str = "";//定义用于拼接的字符串
-            for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
-                const ls = j[i];
-                let timestamp = ls.ordertime;
-                let ordertime = timestampToTime(timestamp);//时间戳转换
-                str += "<tr><td><input type='checkbox' name='number' value='"+ls.oid+"'></td>" +
-                    "<td>"+ls.oid+"</td><td title='"+ordertime+"'>"+ordertime+"</td>" +
-                    "<td title='"+ls.name+"'>"+ls.name+"</td>" +
-                    "<td title='"+ls.price+"'>"+ls.price+"</td>" +
-                    "<td title='"+ls.buycount+"'>"+ls.buycount+"</td>" +
-                    "<td title='"+ls.totalprice+"'>"+ls.totalprice+"</td>" +
-                    "<td title='"+ls.totalprice+"'>"+ls.totalprice+"</td>" +
-                    "<td><div id='op'>" +
-                    "<button class='layui-btn layui-btn-xs detail' value='"+ls.oid+"'>查看</button>" +
-                    "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.oid+"'>删除</button>" +
-                    "</div></td></tr>";
+            if (j.length === 0){
+                alert("查询的信息不存在，可能已被删除！");
+            }else{
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
+                    const ls = j[i];
+                    let timestamp = ls.ordertime;
+                    let ordertime = timestampToTime(timestamp);//时间戳转换
+                    str += "<tr><td><input type='checkbox' name='number' value='"+ls.oid+"'></td>" +
+                        "<td>"+ls.oid+"</td><td title='"+ordertime+"'>"+ordertime+"</td>" +
+                        "<td title='"+ls.name+"'>"+ls.name+"</td>" +
+                        "<td title='"+ls.price+"'>"+ls.price+"</td>" +
+                        "<td title='"+ls.buycount+"'>"+ls.buycount+"</td>" +
+                        "<td title='"+ls.totalprice+"'>"+ls.totalprice+"</td>" +
+                        "<td title='"+ls.totalprice+"'>"+ls.totalprice+"</td>" +
+                        "<td><div id='op'>" +
+                        "<button class='layui-btn layui-btn-xs detail' value='"+ls.oid+"'>查看</button>" +
+                        "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.oid+"'>删除</button>" +
+                        "</div></td></tr>";
 
-                $("#result_list").html(str);
-                detailData();
+                    $("#result_list").html(str);
+                    detailData();
 
-            };
-
+                };
+            }
         }
         function detailData() {
             layui.use(['form'], function() {

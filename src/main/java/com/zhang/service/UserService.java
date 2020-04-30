@@ -131,7 +131,6 @@ public class UserService {
     /**修改个人信息**/
     public Boolean changeMyInf(User user) {
         userDao.changeMyInf(user);
-
         if(user!=null){
             return true;
         }else{
@@ -195,11 +194,21 @@ public class UserService {
         page.setList(list);
         return page;
     }
-    /**收藏**/
-    public Boolean addCollect(User collect) {
-        userDao.addCollect(collect);
-        return true;
+
+    /**验证是否已经收藏**/
+    public boolean validateCollect(int user_id,int scenicspot_id) {
+        User inf = userDao.validateByCollect(user_id,scenicspot_id);
+        if(inf!=null){
+            return false;
+        }else{
+            return true;
+        }
     }
+    /**收藏**/
+    public void addCollect(User collect) {
+        userDao.addCollect(collect);
+    }
+
     /**获得所有收藏信息**/
     public PageOther getAllCollect(int user_id, int currentPage) {
         int totalSize = userDao.findCountCollect(user_id);

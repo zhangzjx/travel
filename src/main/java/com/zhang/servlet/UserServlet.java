@@ -139,14 +139,18 @@ public class UserServlet extends HttpServlet {
         String scenicspot_id = request.getParameter("spId");
         String user_id = request.getParameter("user_id");
         String sort = request.getParameter("sort");
-        //System.out.println("获得的内容"+uid+" "+customerName+" "+sex+" "+phone+" "+email);
-      //  System.out.println("获得的内容"+phone+"结尾");
-        User collect = new User();
-        collect.setUid(Integer.parseInt(user_id));
-        collect.setScenicspot_id(Integer.parseInt(scenicspot_id));
-        collect.setSort(sort);
-        Boolean result = userService.addCollect(collect);
-        response.getWriter().print(result);
+        boolean result = userService.validateCollect(Integer.parseInt(user_id),Integer.parseInt(scenicspot_id));
+
+        if (result == true){
+            User collect = new User();
+            collect.setUid(Integer.parseInt(user_id));
+            collect.setScenicspot_id(Integer.parseInt(scenicspot_id));
+            collect.setSort(sort);
+            userService.addCollect(collect);
+            response.getWriter().print(0);
+        }else {
+            response.getWriter().print(1);
+        }
     }
     /**注册*/
     private void register(HttpServletRequest request,HttpServletResponse response)

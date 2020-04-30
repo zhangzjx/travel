@@ -121,12 +121,11 @@
             success: function (data) {
                 console.log("所有"+data);
                 show(data);
-            },//响应成功后的回调函数
+            },
             error: function () {
                 console.log("失败啦...")
-            },//表示如果请求响应出现错误，会执行的回调函数
-
-            dataType: "text"//设置接受到的响应数据的格式
+            },
+            dataType: "text"
         });
 
         /**搜索*/
@@ -169,7 +168,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -195,7 +193,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -221,7 +218,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -246,7 +242,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -271,7 +266,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -323,27 +317,30 @@
                 $("#nextPageClick").show();
                 $("#finalPageClick").show();
             }
-            let str = "";//定义用于拼接的字符串
-            for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
-                const ls = j[i];
-                let timestamp = ls.comment_time;
-                let comment_time = timestampToTime(timestamp);
-                str += "<tr><td><input type='checkbox' name='number' value='"+ls.comment_id+"'}></td>" +
-                    "<td>"+ls.comment_id+"</td><td title='"+ls.comment_title+"'>"+ls.comment_title+"</td>" +
-                    "<td title='"+ls.comment_content+"'>"+ls.comment_content+"</td>" +
-                    "<td title='"+comment_time+"'>"+comment_time+"</td>" +
-                    "<td title='"+ls.spName+"'>"+ls.spName+"</td>" +
-                    "<td title='"+ls.customerName+"'>"+ls.customerName+"</td>" +
-                    " <td><div id='op'>" +
-                    "<button class='layui-btn layui-btn-xs detail' value='"+ls.comment_id+"'>查看</button>" +
-                    "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.comment_id+"'>删除</button>" +
-                    "</div></td></tr>";
+            if (j.length === 0){
+                alert("查询的信息不存在，可能已被删除！");
+            }else{
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
+                    const ls = j[i];
+                    let timestamp = ls.comment_time;
+                    let comment_time = timestampToTime(timestamp);
+                    str += "<tr><td><input type='checkbox' name='number' value='"+ls.comment_id+"'}></td>" +
+                        "<td>"+ls.comment_id+"</td><td title='"+ls.comment_title+"'>"+ls.comment_title+"</td>" +
+                        "<td title='"+ls.comment_content+"'>"+ls.comment_content+"</td>" +
+                        "<td title='"+comment_time+"'>"+comment_time+"</td>" +
+                        "<td title='"+ls.spName+"'>"+ls.spName+"</td>" +
+                        "<td title='"+ls.customerName+"'>"+ls.customerName+"</td>" +
+                        " <td><div id='op'>" +
+                        "<button class='layui-btn layui-btn-xs detail' value='"+ls.comment_id+"'>查看</button>" +
+                        "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.comment_id+"'>删除</button>" +
+                        "</div></td></tr>";
 
-                $("#result_list").html(str);
-                detailData();
+                    $("#result_list").html(str);
+                    detailData();
 
-            };
-
+                };
+            }
         }
         /**时间戳转换**/
         function timestampToTime(timestamp) {

@@ -242,7 +242,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -268,7 +267,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -294,7 +292,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -319,7 +316,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -344,7 +340,6 @@
                     sValue:sv,
                 },
                 success:function (data) {
-                    console.log("dd"+data);
                     show(data);
                 },
                 error:function () {
@@ -396,27 +391,32 @@
                 $("#nextPageClick").show();
                 $("#finalPageClick").show();
             }
-            let str = "";//定义用于拼接的字符串
-            for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
-                const ls = j[i];
-                str += "<tr><td><input type='checkbox' name='number' value='"+ls.hId+"'}></td>" +
-                    "<td>"+ls.hId+"</td><td title='"+ls.hName+"'>"+ls.hName+"</td>" +
-                    "<td title='"+ls.hLabel+"'>"+ls.hLabel+"</td>" +
-                    /**"<td title='"+ls.provinceid+"'>"+ls.provinceid+"</td>" + **/
-                    "<td title='"+ls.province+"'>"+ls.province+"</td>" +
-                    "<td title='"+ls.hAddress+"'>"+ls.hAddress+"</td>" +
-                    "<td title='"+ls.hStar+"'>"+ls.hStar+"</td>" +
-                    "<td title='"+ls.hStar+"'>"+ls.hStar+"</td>" +
-                    " <td><div id='op'>" +
-                    "<button class='layui-btn layui-btn-xs detail' value='"+ls.hId+"'>查看</button>" +
-                    "<button class='layui-btn layui-btn-xs edit' value='"+ls.hId+"'>编辑</button>" +
-                    "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.hId+"'>删除</button>" +
-                    "</div></td></tr>";
+            if (j.length === 0){
+                alert("查询的信息不存在，可能已被删除！");
+            }else{
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < 10; i++){    //遍历 数组//拼接表格的行和列
+                    const ls = j[i];
+                    str += "<tr><td><input type='checkbox' name='number' value='"+ls.hId+"'}></td>" +
+                        "<td>"+ls.hId+"</td><td title='"+ls.hName+"'>"+ls.hName+"</td>" +
+                        "<td title='"+ls.hLabel+"'>"+ls.hLabel+"</td>" +
+                        /**"<td title='"+ls.provinceid+"'>"+ls.provinceid+"</td>" + **/
+                        "<td title='"+ls.province+"'>"+ls.province+"</td>" +
+                        "<td title='"+ls.hAddress+"'>"+ls.hAddress+"</td>" +
+                        "<td title='"+ls.hStar+"'>"+ls.hStar+"</td>" +
+                        "<td title='"+ls.hStar+"'>"+ls.hStar+"</td>" +
+                        " <td><div id='op'>" +
+                        "<button class='layui-btn layui-btn-xs detail' value='"+ls.hId+"'>查看</button>" +
+                        "<button class='layui-btn layui-btn-xs edit' value='"+ls.hId+"'>编辑</button>" +
+                        "<button class='layui-btn layui-btn-xs layui-btn-danger del' value='"+ls.hId+"'>删除</button>" +
+                        "</div></td></tr>";
 
-                $("#result_list").html(str);
-                detailData();
+                    $("#result_list").html(str);
+                    detailData();
 
-            };
+                };
+            }
+
 
         }
         function detailData() {

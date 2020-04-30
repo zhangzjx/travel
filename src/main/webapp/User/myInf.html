@@ -253,7 +253,7 @@
                 user_id:user_id,
             },
             success:function (data) {
-                console.log("dd"+data);
+                //console.log("dd"+data);
                 const json = eval("(" + data + ")");
                 $("#nickname").html(json.customerName);
             },
@@ -290,7 +290,6 @@
                 user_id:user_id
             },
             success: function (data) {
-                console.log("评论"+data)
                 showComment(data);
             },
             error: function () {

@@ -240,7 +240,9 @@
 <script type="text/javascript" src="js/topFoot.js"></script>
 <script type="text/javascript"  src="../res/layui/layui.all.js"></script>
 <script src="js/jquery.cookie.js" charset="utf-8"></script>
+<!--
 <script src="js/validate.js"></script>
+-->
 <script>
     //定义方法
     $(document).ready(function() {
@@ -447,15 +449,19 @@
                 $("#nextPageClick").show();
                 $("#finalPageClick").show();
             }
-            let str = "";//定义用于拼接的字符串
-            for(let i = 0; i < 5; i++){    //遍历 数组//拼接表格的行和列
-                const ls = j[i];
-                str += "<div class='right-list-content'><img src='/atImg/"+ls.img_name+"' class='right-list-img'>" +
-                    "<div class='right-list-top'><h2><b>"+ls.spName+"</b></h2><p>"+ls.spLabel+"</p></div>" +
-                    "<div class='right-list'><a href='attractionReview.html?param="+ls.spId+"'>" +
-                    "<input type='button' class='el-button layui-btn layui-btn-warm' value='查看详情'></a></div></div>";
-                $("#result_list").html(str);
-            };
+            if (j.length === 0){
+                alert("查询的信息还没上架，请联系管理员！");
+            }else{
+                let str = "";//定义用于拼接的字符串
+                for(let i = 0; i < 5; i++){    //遍历 数组//拼接表格的行和列
+                    const ls = j[i];
+                    str += "<div class='right-list-content'><img src='/atImg/"+ls.img_name+"' class='right-list-img'>" +
+                        "<div class='right-list-top'><h2><b>"+ls.spName+"</b></h2><p>"+ls.spLabel+"</p></div>" +
+                        "<div class='right-list'><a href='attractionReview.html?param="+ls.spId+"'>" +
+                        "<input type='button' class='el-button layui-btn layui-btn-warm' value='查看详情'></a></div></div>";
+                    $("#result_list").html(str);
+                };
+            }
 
         }
 
